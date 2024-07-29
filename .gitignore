@@ -44,6 +44,7 @@ x64/
 *.svclog
 *.scc
 
+
 # Visual C++ cache files
 ipch/
 *.aps
