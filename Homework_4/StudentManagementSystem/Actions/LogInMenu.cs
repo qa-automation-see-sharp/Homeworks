@@ -4,8 +4,8 @@ namespace StudentManagementSystem.Actions;
 
 public class LogInMenu
 {
-    private List<User> _users;
-    private MainMenu _mainMenu;
+    private readonly List<User> _users;
+    private readonly MainMenu _mainMenu;
 
     public LogInMenu(List<User> users, List<SchoolClass> classes)
     {
@@ -43,7 +43,7 @@ public class LogInMenu
         }
     }
 
-    public void SignIn()
+    private void SignIn()
     {
         Console.Write("Enter username: ");
         var username = Console.ReadLine();
@@ -61,7 +61,7 @@ public class LogInMenu
         }
     }
 
-    public void LogIn()
+    private void LogIn()
     {
         Console.Write("Enter username: ");
         var username = Console.ReadLine();

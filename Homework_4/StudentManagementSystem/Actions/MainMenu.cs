@@ -4,11 +4,11 @@ namespace StudentManagementSystem.Actions;
 
 public class MainMenu
 {
-    private List<SchoolClass> _classes;
-    private ClassesMenu _classesMenu;
-    private StudentsMenu _studentsMenu;
-    private MarksMenu _marksMenu;
-    private ViewInformationMenu _viewInformationMenu;
+    private readonly List<SchoolClass> _classes;
+    private readonly ClassesMenu _classesMenu;
+    private readonly StudentsMenu _studentsMenu;
+    private readonly MarksMenu _marksMenu;
+    private readonly ViewInformationMenu _viewInformationMenu;
 
     public MainMenu(List<SchoolClass> classes)
     {
