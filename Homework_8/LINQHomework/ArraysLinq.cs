@@ -84,7 +84,7 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query
-        string[] newSortedArray = ["name", "name"];
+        string[] newSortedArray = employees.Where(x=>x.Skills.Contains("Programming")).OrderByDescending(x=>x.Salary).Select(x=>x.Name).ToArray();
         
         // Assert your query
         Assert.Multiple(() =>
