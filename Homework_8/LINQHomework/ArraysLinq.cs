@@ -112,7 +112,7 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Finish query
-        string[] newSortedArray = null;
+        string[] newSortedArray = orders.Where(x=>x.Items.Contains("Laptop")).OrderBy(x=>x.TotalAmount).Select(x=>x.CustomerName).ToArray();
         
         // Assert your query
         Assert.Multiple(() =>
