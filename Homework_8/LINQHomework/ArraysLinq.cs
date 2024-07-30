@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.LINQ;
 using LINQHomework.Models;
 
 namespace LINQHomework;
@@ -24,8 +25,8 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query
-        var newSortedArray = students.ToArray();
-        
+        var newSortedArray = studentList.Where(x=>x.Subjects.Contains("Math")).OrderByDescending(x=>x.Grade).Select(x=>x.Name).ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
