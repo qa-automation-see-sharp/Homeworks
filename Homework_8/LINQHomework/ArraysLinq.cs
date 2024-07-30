@@ -55,7 +55,7 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query: 
-        var newSortedArray = products.ToArray();
+        var newSortedArray = products.Where(x=>x.Categories.Contains("Computers")).OrderBy(x=>x.Price).Select(x=>x.Name).ToArray();
         
         // Assert your query
         Assert.Multiple(() =>
