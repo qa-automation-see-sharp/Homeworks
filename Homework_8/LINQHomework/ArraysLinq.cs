@@ -140,8 +140,12 @@ public class ArraysLinq : StartUpFixture
             new Book { Id = 5, Title = "Design Patterns", Author = "Robert C. Martin", Price = 70, Reviews = new List<Review> { new Review { Reviewer = "Eve", Rating = 4.9 } }}
         };
         
-        // Finish query:
-        (string Title, string Author)[] newSortedArray = null;
+        // Finish query: TODO
+        (string Title, string Author)[] newSortedArray = books
+                    .Where(x => x.Reviews.Average(y => y.Rating) > 4.5)
+                    .OrderByDescending(x=> x.Price)
+                    .Select(x => x.Titlem x.Author)
+                    .ToArray();
         
         // Assert your query
         Assert.Multiple(() =>
