@@ -26,7 +26,12 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = new List<string>();
+        var result = teachers
+                    .Where(t => t.Value.Subject.Equals("Math") && t.Value.Experience > 10)
+                    .OrderByDescending(t => t.Value.Name)
+                    .Select(t => t.Value.Name)
+                    .ToList();
+
       
             
         // Assert your query
@@ -55,7 +60,11 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = new Dictionary<int,Course>();
+        var result = courses
+                    .Where(c => c.Value.Credits > 3 && c.Value.Students.Count > 0)
+                    .OrderBy(c => c.Value.Title)
+                    .Select(c => (c.Value.Title, c.Value.Id))
+                    .ToList();
             
         // Assert your query
         Assert.Multiple(() =>
@@ -84,7 +93,11 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-         var result = new List<string>();
+         var result = books
+                    .Where(b => b.Value.Pages > 200)
+                    .OrderByDescending(b => b.Value.Pages)
+                    .Select(b => b.Value.Title)
+                    .ToList();
             
         // Assert your query
         Assert.Multiple(() =>
@@ -114,8 +127,9 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = string.Empty;
-            
+        var result = movies
+                    .FirstOrDefault(m => m.Value.Duration > 150).Value.Title;
+                                
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
     }
@@ -137,7 +151,8 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = false;
+        var result = employees
+                    .Any(e => e.Value.Salary > 60000);
             
         // Assert your query
         Assert.That(result, Is.True);
