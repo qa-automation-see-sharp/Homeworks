@@ -26,10 +26,10 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = teachers
-			.Where(y=>y.Value.Subject.Contains("Math") && y.Value.Experience > 10)
-			.OrderByDescending(x=>x.Value.Experience)
-            .ToDictionary(x=>x.Value.Name);
+        var result = teachers.Values
+			.Where(y=>y.Subject.Contains("Math") && y.Experience > 10)
+			.OrderByDescending(x=>x.Experience)
+            .ToList();
       
             
         // Assert your query
@@ -58,10 +58,10 @@ public class DictionariesLinq : StartUpFixture
         };
 
         // Query
-        var result = courses
-                    .Where(x => x.Value.Credits > 3 && x.Value.Students.Count > 0)
-                    .OrderByDescending(x => x.Value.Title)
-                    .ToDictionary(x => x.Value.Title);
+        var result = courses.Values
+                    .Where(x => x.Credits > 3 && x.Students.Count > 0)
+                    .OrderBy(x => x.Title)
+                    .ToList();
 
         // Assert your query
         Assert.Multiple(() =>
@@ -90,10 +90,11 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-         var result = books
-                    .Where(x=>x.Value.Pages>200)
-                    .OrderByDescending(x=>x.Value.Pages)
-                    .ToDictionary(x=>x.Value.Title);
+         var result = books.Values
+                    .Where(x=>x.Pages>200)
+                    .OrderByDescending(x=>x.Pages)
+                    .Select(x=>x.Title)
+                    .ToList();
             
         // Assert your query
         Assert.Multiple(() =>

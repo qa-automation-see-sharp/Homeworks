@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.LINQ;
 using LINQHomework.Models;
 
 namespace LINQHomework;
@@ -25,7 +24,7 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query
-        var newSortedArray = studentList.Where(x=>x.Subjects.Contains("Math")).OrderByDescending(x=>x.Grade).Select(x=>x.Name).ToArray();
+        var newSortedArray = students.Where(x=>x.Subjects.Contains("Math")).OrderByDescending(x=>x.Grade).ToArray();
 
         // Assert your query
         Assert.Multiple(() =>
@@ -61,9 +60,9 @@ public class ArraysLinq : StartUpFixture
         Assert.Multiple(() =>
         {
             Assert.That(newSortedArray, Has.Length.EqualTo(3));
-            Assert.That(newSortedArray[0].Name, Is.EqualTo("Keyboard"));
-            Assert.That(newSortedArray[1].Name, Is.EqualTo("Monitor"));
-            Assert.That(newSortedArray[2].Name, Is.EqualTo("Laptop"));
+            Assert.That(newSortedArray[0], Is.EqualTo("Keyboard"));
+            Assert.That(newSortedArray[1], Is.EqualTo("Monitor"));
+            Assert.That(newSortedArray[2], Is.EqualTo("Laptop"));
         });
     }
 
@@ -144,7 +143,7 @@ public class ArraysLinq : StartUpFixture
         (string Title, string Author)[] newSortedArray = books
                     .Where(x => x.Reviews.Average(y => y.Rating) > 4.5)
                     .OrderByDescending(x=> x.Price)
-                    .Select(x => x.Titlem x.Author)
+                    .Select(x => (x.Title, x.Author))
                     .ToArray();
         
         // Assert your query
@@ -156,10 +155,10 @@ public class ArraysLinq : StartUpFixture
             Assert.That(newSortedArray[0].Author, Is.EqualTo("Robert C. Martin"));
             
             Assert.That(newSortedArray[1].Title, Is.EqualTo("Entity Framework"));
-            Assert.That(newSortedArray[0].Author, Is.EqualTo("Patricia Johnson"));
+            Assert.That(newSortedArray[1].Author, Is.EqualTo("Patricia Johnson"));
             
             Assert.That(newSortedArray[2].Title, Is.EqualTo("LINQ in Action"));
-            Assert.That(newSortedArray[0].Author, Is.EqualTo("James Brown"));
+            Assert.That(newSortedArray[2].Author, Is.EqualTo("James Brown"));
         });
     }
 }
