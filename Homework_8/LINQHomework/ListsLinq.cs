@@ -24,10 +24,14 @@ public class ListsLinq : StartUpFixture
             new Teacher { Id = 4, Name = "Ms. Davis", Age = 29, Subject = "English", Experience = 7 },
             new Teacher { Id = 5, Name = "Mr. Wilson", Age = 45, Subject = "Math", Experience = 20 }
         };
-            
+
         // Query
-        List<string> result = new List<string>();
-            
+        List<string> result = teachers
+                            .Where(t => t.Subject.Equals("Math") && t.Experience > 10)
+                            .OrderByDescending(t => t.Name)
+                            .Select(t => t.Name)
+                            .ToList();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -36,7 +40,7 @@ public class ListsLinq : StartUpFixture
             Assert.That(result[1], Is.EqualTo("Mr. Smith"));
         });
     }
-        
+
     /* Task 2:
      * Get the titles of courses that have more than 3 credits and at least one student.
      */
@@ -52,10 +56,14 @@ public class ListsLinq : StartUpFixture
             new Course { Id = 4, Title = "Literature", Instructor = "Ms. Davis", Credits = 2, Students = new List<string> { "Frank" } },
             new Course { Id = 5, Title = "Calculus", Instructor = "Mr. Wilson", Credits = 3, Students = new List<string> { "Alice", "George" } }
         };
-            
+
         // Query
-        List<string> result = new List<string>();
-            
+        List<string> result = courses
+                            .Where(c => c.Credits > 3 && c.Students.Count() > 0)
+                            .OrderBy(c => c.Title)
+                            .Select(c => c.Title)
+                            .ToList();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -80,17 +88,18 @@ public class ListsLinq : StartUpFixture
             new Book { Id = 4, Title = "Moby-Dick", Author = "Herman Melville", Pages = 585 },
             new Book { Id = 5, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", Pages = 180 }
         };
-            
+
         // Query
-        bool result = true;
-            
+        bool result = books
+                    .All(b => b.Pages > 200);
+
         // Assert your query
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.False);
         });
     }
-        
+
     /* Task 4:
      * Get the title of the first movie that has a duration longer than 150 minutes.
      */
@@ -106,14 +115,14 @@ public class ListsLinq : StartUpFixture
             new Movie { Id = 4, Title = "Pulp Fiction", Genre = "Crime", Duration = 154 },
             new Movie { Id = 5, Title = "Forrest Gump", Genre = "Drama", Duration = 142 }
         };
-            
+
         // Query
-        string result = "?";
-            
+        string result = movies.FirstOrDefault(m => m.Duration > 150).Title;                        
+
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
     }
-        
+
     /* Task 5:
      * Check if there are any employees in the "Finance" department with a salary less than 60000.
      */
@@ -129,10 +138,10 @@ public class ListsLinq : StartUpFixture
             new Employee { Id = 4, Name = "Smith", Department = "IT", Salary = 70000, Skills = new List<string> { "Programming", "Security" }},
             new Employee { Id = 5, Name = "Emily", Department = "HR", Salary = 48000, Skills = new List<string> { "Communication", "Training" }}
         };
-            
+
         // Query
-        var result = false;
-            
+        var result = employees.Any(e => e.Department.Equals("Finance") && e.Salary < 60000);
+
         // Assert your query
         Assert.That(result, Is.True);
     }
