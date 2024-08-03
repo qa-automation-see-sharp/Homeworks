@@ -22,10 +22,13 @@ public class ArraysLinq : StartUpFixture
             new Student { Id = 4, Name = "David", Age = 21, Grade = 88, Subjects = new List<string> { "Math", "Science" }},
             new Student { Id = 5, Name = "Eve", Age = 22, Grade = 92, Subjects = new List<string> { "History", "Science" }}
         };
-        
+
         // Query
-        var newSortedArray = students.ToArray();
-        
+        var newSortedArray = students
+        .Where(s => s.Subjects.Contains("Math"))
+        .OrderByDescending(s => s.Grade)
+        .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
