@@ -27,15 +27,16 @@ public class ArraysLinq : StartUpFixture
         var newSortedArray = students
         .Where(s => s.Subjects.Contains("Math"))
         .OrderByDescending(s => s.Grade)
+        .Select(s => s.Name)
         .ToArray();
 
         // Assert your query
         Assert.Multiple(() =>
         {
             Assert.That(newSortedArray, Has.Length.EqualTo(3));
-            Assert.That(newSortedArray[0].Name, Is.EqualTo("Bob"));
-            Assert.That(newSortedArray[1].Name, Is.EqualTo("David"));
-            Assert.That(newSortedArray[2].Name, Is.EqualTo("Alice"));
+            Assert.That(newSortedArray[0], Is.EqualTo("Bob"));
+            Assert.That(newSortedArray[1], Is.EqualTo("David"));
+            Assert.That(newSortedArray[2], Is.EqualTo("Alice"));
         });
     }
     
@@ -57,15 +58,19 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query: 
-        var newSortedArray = products.ToArray();
-        
+        var newSortedArray = products
+        .Where(p => p.Categories.Contains("Computers"))
+        .OrderBy(p => p.Price)
+        .Select(p => p.Name)
+        .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
             Assert.That(newSortedArray, Has.Length.EqualTo(3));
-            Assert.That(newSortedArray[0].Name, Is.EqualTo("Keyboard"));
-            Assert.That(newSortedArray[1].Name, Is.EqualTo("Monitor"));
-            Assert.That(newSortedArray[2].Name, Is.EqualTo("Laptop"));
+            Assert.That(newSortedArray[0], Is.EqualTo("Keyboard"));
+            Assert.That(newSortedArray[1], Is.EqualTo("Monitor"));
+            Assert.That(newSortedArray[2], Is.EqualTo("Laptop"));
         });
     }
 
@@ -86,8 +91,12 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query
-        string[] newSortedArray = ["name", "name"];
-        
+        var newSortedArray = employees
+        .Where(e => e.Skills.Contains("Programming"))
+        .OrderByDescending(e => e.Salary)
+        .Select(e => e.Name)
+        .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -112,10 +121,14 @@ public class ArraysLinq : StartUpFixture
             new Order { Id = 4, CustomerName = "David", TotalAmount = 90, Items = new List<string> { "Monitor", "Keyboard" }},
             new Order { Id = 5, CustomerName = "Eve", TotalAmount = 110, Items = new List<string> { "Laptop", "Bag" }}
         };
-        
+
         // Finish query
-        string[] newSortedArray = null;
-        
+        var newSortedArray = orders
+        .Where(o => o.Items.Contains("Laptop"))
+        .OrderBy(o => o.TotalAmount)
+        .Select(o => o.CustomerName)
+        .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -144,7 +157,12 @@ public class ArraysLinq : StartUpFixture
         
         // Finish query:
         (string Title, string Author)[] newSortedArray = null;
-        
+        newSortedArray = books
+        .Where(b => b.Reviews.Average(r => r.Rating) > 4.5)
+        .OrderByDescending(b => b.Price)
+        .Select(b => (b.Title, b.Author))
+        .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
