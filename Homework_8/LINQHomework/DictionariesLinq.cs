@@ -29,6 +29,7 @@ public class DictionariesLinq : StartUpFixture
         var result = teachers.Values
 			.Where(y=>y.Subject.Contains("Math") && y.Experience > 10)
 			.OrderByDescending(x=>x.Experience)
+            .Select(x=>x.Name)
             .ToList();
       
             
