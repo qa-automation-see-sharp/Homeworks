@@ -1,5 +1,6 @@
 using WeatherApp.Models;
 using WeatherApp.Tests.Api.Clients;
+using static System.Net.WebRequestMethods;
 
 namespace WeatherApp.Tests.Api;
 
@@ -10,7 +11,7 @@ public class Tests
     public void Setup()
     {
         _client = new MyHttpClient();
-        _client.ConfigureClient("http://localhost:5119/");
+        _client.ConfigureClient("http://localhost:5008/");
     }
 
     [Test]
@@ -18,9 +19,9 @@ public class Tests
     {
         // Get weather for London, GB
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        WeatherInfo? response = await _client.GetWeather("London", "GB");
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -33,11 +34,12 @@ public class Tests
     [Test]
     public async Task GetWeatherForParis()
     {
-        // Get weather for Paris, GB
+        // Get weather for Paris, FR
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+
+        WeatherInfo? response = await _client.GetWeather("Paris", "FR");
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -52,9 +54,9 @@ public class Tests
     {
         // Get weather for Odesa, UA
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        WeatherInfo? response = await _client.GetWeather("Odesa", "UA");
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -69,9 +71,9 @@ public class Tests
     {
         // Get weather for Odessa, US
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        WeatherInfo? response = await _client.GetWeather("Odessa", "US");
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
