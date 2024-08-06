@@ -7,7 +7,7 @@ public class WeatherService
 {
     private readonly HttpClient _httpClient;
     //TODO: Replace with your own API key
-    private const string ApiKey = "85d77956baca547d1a34188b7e564e22";
+    private const string ApiKey = "11011c1a2f4ff4c3d7239fc249fc6b91";
     private const string WeatherEndpoint = "/data/2.5/weather";
 
     public WeatherService(HttpClient httpClient)
