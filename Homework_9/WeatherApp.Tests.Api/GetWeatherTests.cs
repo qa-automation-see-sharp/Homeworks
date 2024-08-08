@@ -10,7 +10,7 @@ public class Tests
     public void Setup()
     {
         _client = new MyHttpClient();
-        _client.ConfigureClient("http://localhost:5119/");
+        _client.ConfigureClient("http://127.0.0.1:5119/");
     }
 
     [Test]
@@ -18,26 +18,40 @@ public class Tests
     {
         // Get weather for London, GB
         // use method GetWeather from MyHttpClient
+<<<<<<< HEAD
         WeatherInfo? response = await _client.GetWeather("London", "GB");
         
         
+=======
+        //WeatherInfo? response = null;
+
+        var cityLondon = "London";
+        var CountryCodeGB = "GB";
+        var myHttpClient = new MyHttpClient();
+        WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
+
+
+>>>>>>> 7390969 (HT 9)
         //Asserts should pass
         Assert.Multiple(() =>
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response.Name, Is.EqualTo("London"));
+            Assert.That(response!.Name, Is.EqualTo("London"));
             Assert.That(response.Sys.Country, Is.EqualTo("GB"));
         });
     }
-    
+
     [Test]
     public async Task GetWeatherForParis()
     {
         // Get weather for Paris, GB
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        var cityLondon = "Paris";
+        var CountryCodeGB = "GB";
+        var myHttpClient = new MyHttpClient();
+        WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -46,15 +60,17 @@ public class Tests
             Assert.That(response.Sys.Country, Is.EqualTo("FR"));
         });
     }
-    
+
     [Test]
     public async Task GetWeatherForOdesaUkraine()
     {
         // Get weather for Odesa, UA
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        var cityLondon = "Odesa";
+        var CountryCodeGB = "UA";
+        var myHttpClient = new MyHttpClient();
+        WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -63,15 +79,17 @@ public class Tests
             Assert.That(response.Sys.Country, Is.EqualTo("UA"));
         });
     }
-    
+
     [Test]
     public async Task GetWeatherForOdessaAmerica()
     {
         // Get weather for Odessa, US
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        var client = new MyHttpClient();
+        client.ConfigureClient("http://localhost:5119/");
+        WeatherInfo? response = await client.GetWeather("Odessa", "US");
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {

@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\ganna\\source\\repos\\Homeworks\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{204A67BC-2EA1-4827-BF31-738753E97064}|Homework_8\\LINQHomework\\LINQHomework.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_8\\linqhomework\\dictionarieslinq.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{204A67BC-2EA1-4827-BF31-738753E97064}|Homework_8\\LINQHomework\\LINQHomework.csproj|solutionrelative:homework_8\\linqhomework\\dictionarieslinq.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp.tests.api\\getweathertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|solutionrelative:homework_9\\weatherapp.tests.api\\getweathertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{204A67BC-2EA1-4827-BF31-738753E97064}|Homework_8\\LINQHomework\\LINQHomework.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_8\\linqhomework\\arrayslinq.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{204A67BC-2EA1-4827-BF31-738753E97064}|Homework_8\\LINQHomework\\LINQHomework.csproj|solutionrelative:homework_8\\linqhomework\\arrayslinq.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp\\service\\weatherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|solutionrelative:homework_9\\weatherapp\\service\\weatherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{204A67BC-2EA1-4827-BF31-738753E97064}|Homework_8\\LINQHomework\\LINQHomework.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_8\\linqhomework\\linqhomework.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{204A67BC-2EA1-4827-BF31-738753E97064}|Homework_8\\LINQHomework\\LINQHomework.csproj|solutionrelative:homework_8\\linqhomework\\linqhomework.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp.tests.api\\clients\\myhttpclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|solutionrelative:homework_9\\weatherapp.tests.api\\clients\\myhttpclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp.tests.api\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|solutionrelative:homework_9\\weatherapp.tests.api\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|solutionrelative:homework_9\\weatherapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|solutionrelative:homework_9\\weatherapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,48 +34,107 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Homework_9\\WeatherApp\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Homework_9\\WeatherApp\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-07T17:08:17.481Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
+              "RelativeToolTip": "Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-07T17:07:39.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MyHttpClient.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
+              "RelativeDocumentMoniker": "Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
+              "RelativeToolTip": "Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABsAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-06T06:56:07.501Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DictionariesLinq.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_8\\LINQHomework\\DictionariesLinq.cs",
-              "RelativeDocumentMoniker": "Homework_8\\LINQHomework\\DictionariesLinq.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_8\\LINQHomework\\DictionariesLinq.cs",
-              "RelativeToolTip": "Homework_8\\LINQHomework\\DictionariesLinq.cs",
-              "ViewState": "AQIAAIgAAAAAAAAAAAAkwJ0AAAAAAAAA",
+              "Title": "GetWeatherTests.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
+              "RelativeDocumentMoniker": "Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
+              "RelativeToolTip": "Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAkwGAAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-04T12:20:48.544Z",
+              "WhenOpened": "2024-08-06T06:43:43.256Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ArraysLinq.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_8\\LINQHomework\\ArraysLinq.cs",
-              "RelativeDocumentMoniker": "Homework_8\\LINQHomework\\ArraysLinq.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_8\\LINQHomework\\ArraysLinq.cs",
-              "RelativeToolTip": "Homework_8\\LINQHomework\\ArraysLinq.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAKMAAAATAAAA",
+              "Title": "WeatherService.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Service\\WeatherService.cs",
+              "RelativeDocumentMoniker": "Homework_9\\WeatherApp\\Service\\WeatherService.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Service\\WeatherService.cs",
+              "RelativeToolTip": "Homework_9\\WeatherApp\\Service\\WeatherService.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwAwAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-04T12:16:52.952Z"
+              "WhenOpened": "2024-08-06T06:43:05.366Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LINQHomework.csproj",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_8\\LINQHomework\\LINQHomework.csproj",
-              "RelativeDocumentMoniker": "Homework_8\\LINQHomework\\LINQHomework.csproj",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_8\\LINQHomework\\LINQHomework.csproj",
-              "RelativeToolTip": "Homework_8\\LINQHomework\\LINQHomework.csproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-08-04T12:16:48.755Z"
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Program.cs",
+              "RelativeDocumentMoniker": "Homework_9\\WeatherApp\\Program.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Program.cs",
+              "RelativeToolTip": "Homework_9\\WeatherApp\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-06T06:42:07.369Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 49,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
             }
           ]
         }
