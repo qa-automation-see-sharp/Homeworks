@@ -26,7 +26,11 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = new List<string>();
+        var result = teachers
+            .Where(s => s.Value.Subject=="Math" && s.Value.Experience >10 )
+            .OrderByDescending(s => s.Value.Experience)
+            .Select(s => s.Value.Name)
+            .ToList();
       
             
         // Assert your query
@@ -53,16 +57,20 @@ public class DictionariesLinq : StartUpFixture
             { 4, new Course { Id = 4, Title = "Literature", Instructor = "Ms. Davis", Credits = 2, Students = new List<string> { "Frank" }}},
             { 5, new Course { Id = 5, Title = "Calculus", Instructor = "Mr. Wilson", Credits = 3, Students = new List<string> { "Alice", "George" }}}
         };
-            
+
         // Query
-        var result = new Dictionary<int,Course>();
-            
+        var result = courses
+            .Where(c => c.Value.Credits > 3 && c.Value.Students.Count > 0)
+            .OrderBy(c => c.Value.Title)
+            .Select(c => c.Value.Title)
+            .ToList();
+
         // Assert your query
         Assert.Multiple(() =>
         {
             Assert.That(result, Has.Count.EqualTo(2));
-            Assert.That(result[0].Title, Is.EqualTo("Physics"));
-            Assert.That(result[1].Title, Is.EqualTo("World History"));
+            Assert.That(result[0], Is.EqualTo("Physics"));
+            Assert.That(result[1], Is.EqualTo("World History"));
         });
     }
 
@@ -84,7 +92,11 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-         var result = new List<string>();
+         var result = books
+            .Where(b =>b.Value.Pages>200)
+            .OrderByDescending(b => b.Value.Pages)
+            .Select(b=>b.Value.Title)
+            .ToList();
             
         // Assert your query
         Assert.Multiple(() =>
@@ -114,7 +126,11 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = string.Empty;
+        var result = movies
+            .Where(m => m.Value.Duration>150)
+            .Select(m => m.Value.Title)
+            .FirstOrDefault()
+            .ToList();
             
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
@@ -135,10 +151,10 @@ public class DictionariesLinq : StartUpFixture
             { 4, new Employee { Id = 4, Name = "Smith", Department = "IT", Salary = 70000, Skills = new List<string> { "Programming", "Security" }}},
             { 5, new Employee { Id = 5, Name = "Emily", Department = "HR", Salary = 48000, Skills = new List<string> { "Communication", "Training" }}}
         };
-            
+
         // Query
-        var result = false;
-            
+        var result = employees.Values.Any(e => e.Department == "IT" && e.Salary > 60000);
+
         // Assert your query
         Assert.That(result, Is.True);
     }

@@ -26,7 +26,11 @@ public class ListsLinq : StartUpFixture
         };
             
         // Query
-        List<string> result = new List<string>();
+        List<string> result = teachers
+            .Where(s => s.Subject == "Math" && s.Experience>10)
+            .OrderByDescending(s => s.Name)
+            .Select(s => s.Name)
+            .ToList();
             
         // Assert your query
         Assert.Multiple(() =>
@@ -54,7 +58,11 @@ public class ListsLinq : StartUpFixture
         };
             
         // Query
-        List<string> result = new List<string>();
+        List<string> result = courses
+            .Where(s => s.Credits>3 && s.Students.Count>0)
+            .OrderBy(s => s.Title)
+            .Select(s => s.Title)
+            .ToList();
             
         // Assert your query
         Assert.Multiple(() =>
@@ -82,7 +90,8 @@ public class ListsLinq : StartUpFixture
         };
             
         // Query
-        bool result = true;
+        bool result = books
+            .All(s => s.Pages>200);
             
         // Assert your query
         Assert.Multiple(() =>
@@ -108,7 +117,11 @@ public class ListsLinq : StartUpFixture
         };
             
         // Query
-        string result = "?";
+        string result = movies
+            .Where(s => s.Duration>150)
+            .Select(s => s.Title)
+            .FirstOrDefault()
+            .ToString();
             
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
@@ -131,7 +144,8 @@ public class ListsLinq : StartUpFixture
         };
             
         // Query
-        var result = false;
+        var result = employees
+            .Any(s => s.Department == "Finance" && s.Salary<60000);
             
         // Assert your query
         Assert.That(result, Is.True);
