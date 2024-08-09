@@ -1,3 +1,5 @@
+namespace Library;
+
 public class Library
 {
     private List<Book> books = new List<Book>();
