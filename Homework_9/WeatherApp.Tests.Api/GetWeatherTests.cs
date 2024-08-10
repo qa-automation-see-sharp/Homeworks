@@ -19,9 +19,9 @@ public class Tests
     {
         // Get weather for London, GB
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
-        
-        
+        WeatherInfo? response = await _client.GetWeather("London", "GB");
+
+
         //Asserts should pass
         Assert.Multiple(() =>
         {
