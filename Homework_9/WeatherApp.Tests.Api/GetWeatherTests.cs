@@ -18,10 +18,10 @@ public class Tests
     {
         // Get weather for London, GB
         // use method GetWeather from MyHttpClient
+
         var cityLondon = "London";
         var codeLondon = "GB";
         WeatherInfo? response = await _client.GetWeather(cityLondon, codeLondon);
-        
         
         //Asserts should pass
         Assert.Multiple(() =>
