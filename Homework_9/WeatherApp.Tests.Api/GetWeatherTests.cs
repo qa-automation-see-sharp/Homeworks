@@ -33,9 +33,9 @@ public class Tests
     [Test]
     public async Task GetWeatherForParis()
     {
-        // Get weather for Paris, GB
+        // Get weather for Paris, FR
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
+        WeatherInfo? response = await _client.GetWeather("Paris", "FR");;
         
         
         //Asserts should pass
@@ -52,7 +52,7 @@ public class Tests
     {
         // Get weather for Odesa, UA
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
+        WeatherInfo? response = await _client.GetWeather("Odesa", "UA");
         
         
         //Asserts should pass
@@ -69,7 +69,7 @@ public class Tests
     {
         // Get weather for Odessa, US
         // use method GetWeather from MyHttpClient
-        WeatherInfo? response = null;
+        WeatherInfo? response = await _client.GetWeather("Odessa", "US");;
         
         
         //Asserts should pass
