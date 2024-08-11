@@ -56,7 +56,7 @@ public class LibraryHttpService
     
     public async Task<List<Book>> GetBooksByTitle(string title)
     {
-        var url = ApiEndpoints.Books.GetBooksByTitle.Replace("{title}", title);
+        var url = ApiEndpoints.Books.GetBooksByTitle + $"{title}";
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         var jsonString = await response.Content.ReadAsStringAsync();
@@ -66,7 +66,7 @@ public class LibraryHttpService
     
     public async Task<List<Book>> GetBooksByAuthor(string author)
     {
-        var url = ApiEndpoints.Books.GetBooksByAuthor.Replace("{author}", author);;
+        var url = ApiEndpoints.Books.GetBooksByAuthor + $"{author}";
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         var json = await response.Content.ReadAsStringAsync();
