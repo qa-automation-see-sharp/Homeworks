@@ -11,5 +11,46 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "users": {
+    "regular": {
+      "FullName": "Robert Finch",
+      "Password": "Qwerty",
+      "NickName": "Finch007"
+    },
+    "invalidPassword": "RegularPassw0rd!555"
+  },
+  "books" : {
+    "Potter1": {
+      "Title": "Philosopher's Stone",
+      "Author": "Joanne Rowling",
+      "YearOfRelease": 1997
+    },
+    "Potter2": {
+      "Title": "Harry Potter Chamber of Secrets",
+      "Author": "Joanne Rowling",
+      "YearOfRelease": 1998
+    },
+    "Potter3": {
+      "Title": "Prisoner of Azkaban",
+      "Author": "Joanne Rowling",
+      "YearOfRelease": 1999
+    },
+    "Potter4": {
+      "Title": "Goblet of Fire",
+      "Author": "Joanne Rowling",
+      "YearOfRelease": 2000
+    },
+    "Potter5": {
+      "Title": "Order of the Phoenix",
+      "Author": "Joanne Rowling",
+      "YearOfRelease": 2003
+    },
+    "Potter6": {
+      "Title":"Half-Blood Prince",
+      "Author": "Joanne Rowling",
+      "YearOfRelease": 2005
+    }
   }
+
 }
