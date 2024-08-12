@@ -17,14 +17,14 @@ public class LibraryHttpService
     {
         _httpClient.BaseAddress = new Uri(baseUrl);
     }
-    
+
 
     public async Task<User> CreateUser(User user)
     {
         var url = ApiEndpoints.Users.Register;
         var json = JsonConvert.SerializeObject(user);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-         var response = await _httpClient.PostAsync(url, content);
+        var response = await _httpClient.PostAsync(url, content);
         response.EnsureSuccessStatusCode();
         var jsonString = await response.Content.ReadAsStringAsync();
 
@@ -40,9 +40,9 @@ public class LibraryHttpService
 
         return new AuthorizationToken { Token = jsonString };
     }
-    
 
-     public async Task<Book?> CreateBook(string token, Book book)
+
+    public async Task<Book?> CreateBook(string token, Book book)
     {
         var url = ApiEndpoints.Books.Create + $"?token={token}";
         var json = JsonConvert.SerializeObject(book);
@@ -53,27 +53,27 @@ public class LibraryHttpService
 
         return JsonConvert.DeserializeObject<Book>(jsonString);
     }
-    
+
     public async Task<List<Book>> GetBooksByTitle(string title)
     {
-        var url = ApiEndpoints.Books.GetBooksByTitle + $"{title}";
+        var url = ApiEndpoints.Books.GetBooksByTitle + $"?title={title}";
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         var jsonString = await response.Content.ReadAsStringAsync();
 
         return JsonConvert.DeserializeObject<List<Book>>(jsonString);
     }
-    
+
     public async Task<List<Book>> GetBooksByAuthor(string author)
     {
-        var url = ApiEndpoints.Books.GetBooksByAuthor + $"{author}";
+        var url = ApiEndpoints.Books.GetBooksByAuthor + $"?author={author}";
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         var json = await response.Content.ReadAsStringAsync();
 
         return JsonConvert.DeserializeObject<List<Book>>(json);
     }
-    
+
     public async Task<string> DeleteBook(string token, string title, string author)
     {
         var url = ApiEndpoints.Books.Delete + $"?title={title}&author={author}&token={token}";
