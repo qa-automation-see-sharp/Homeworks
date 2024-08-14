@@ -1,3 +1,4 @@
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Services;
 
 namespace LibraryV2.Tests.Api.Fixtures;
@@ -5,10 +6,21 @@ namespace LibraryV2.Tests.Api.Fixtures;
 [TestFixture]
 public class LibraryV2TestFixture : GlobalSetUpFixture
 {
-    protected LibraryHttpService LibraryHttpService2;
+    protected List<string> _bookTitles;
+    
     [OneTimeSetUp]
-    public void SetUp()
+    public async Task SetUp()
     {
+        for (var i = 0; i < 3; i++)
+        {
+            var book = new Book
+            {
+                Title = "BookTitle" + i,
+                Author = "Author" + i,
+                YearOfRelease = 199 + i
+            };
+            await _libraryHttpService.CreateBook(_users.First().Value, book);
+        }
     }
 
     [OneTimeTearDown]
