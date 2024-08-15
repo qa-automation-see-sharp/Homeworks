@@ -1,7 +1,5 @@
 using System.Net;
-using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
 
 namespace LibraryV2.Tests.Api.Tests;
 
