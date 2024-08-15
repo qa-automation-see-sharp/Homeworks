@@ -28,7 +28,7 @@ public static class DeleteBookEnpoidnts
                 return Results.Ok($"{title} by {author} deleted");
             })
             .WithName(Name)
-            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
 
         return app;
