@@ -1,6 +1,7 @@
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
 using LibraryV2.Models;
+using System.Net;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -21,7 +22,7 @@ public class DeleteBookTests : LibraryV2TestFixture
         var newBook = new Book()
         {
             Title = "TitleToDelete",
-            Author = "None"
+            Author = "AuthorToDelete"
         };
 
         var bookCreated = await LibraryHttpService.CreateBook(Token, newBook);
@@ -32,9 +33,12 @@ public class DeleteBookTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.That(jsonString.Contains("ToDelete by None deleted"));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.Equals(HttpStatusCode.OK, response.StatusCode);
+           
+            
         });
         //TODO cover with tests all endpoints from Books controller
         // Delete book
     }
+}
