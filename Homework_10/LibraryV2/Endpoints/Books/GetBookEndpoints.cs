@@ -22,6 +22,7 @@ public static class GetBookEndpoints
             })
             .WithName(Name)
             .Produces<List<Book>>()
+            .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
 
@@ -41,6 +42,7 @@ public static class GetBookEndpoints
             })
             .WithName(GetAllBooksByAuthor)
             .Produces<List<Book>>()
+            .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
 
