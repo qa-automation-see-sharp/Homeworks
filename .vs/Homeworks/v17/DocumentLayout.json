@@ -3,28 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\ganna\\source\\repos\\Homeworks\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp.tests.api\\getweathertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|solutionrelative:homework_9\\weatherapp.tests.api\\getweathertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2.tests.api\\tests\\deletebooktests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|solutionrelative:homework_10\\libraryv2.tests.api\\tests\\deletebooktests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp\\service\\weatherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|solutionrelative:homework_9\\weatherapp\\service\\weatherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2.tests.api\\tests\\getbookstests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|solutionrelative:homework_10\\libraryv2.tests.api\\tests\\getbookstests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp.tests.api\\clients\\myhttpclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|solutionrelative:homework_9\\weatherapp.tests.api\\clients\\myhttpclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CEC354-8EEF-4509-B49D-37D5CC0AD5BD}|Homework_10\\LibraryV2\\LibraryV2.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2\\endpoints\\books\\deletebookenpoidnts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CEC354-8EEF-4509-B49D-37D5CC0AD5BD}|Homework_10\\LibraryV2\\LibraryV2.csproj|solutionrelative:homework_10\\libraryv2\\endpoints\\books\\deletebookenpoidnts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp.tests.api\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0D4589B3-82E1-4C5B-804A-FEE1F9D07495}|Homework_9\\WeatherApp.Tests.Api\\WeatherApp.Tests.Api.csproj|solutionrelative:homework_9\\weatherapp.tests.api\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2.tests.api\\tests\\createbooktests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|solutionrelative:homework_10\\libraryv2.tests.api\\tests\\createbooktests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|solutionrelative:homework_9\\weatherapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{B4CEC354-8EEF-4509-B49D-37D5CC0AD5BD}|Homework_10\\LibraryV2\\LibraryV2.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2\\endpoints\\books\\getbookendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CEC354-8EEF-4509-B49D-37D5CC0AD5BD}|Homework_10\\LibraryV2\\LibraryV2.csproj|solutionrelative:homework_10\\libraryv2\\endpoints\\books\\getbookendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_9\\weatherapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{317E333E-4AED-4A47-98CD-03EEFF7294FD}|Homework_9\\WeatherApp\\WeatherApp.csproj|solutionrelative:homework_9\\weatherapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2.tests.api\\services\\libraryhttpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|solutionrelative:homework_10\\libraryv2.tests.api\\services\\libraryhttpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|c:\\users\\ganna\\source\\repos\\homeworks\\homework_10\\libraryv2.tests.api\\tests\\usertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68E74C3B-5DDE-476C-B42E-D7F9FFD4E9A7}|Homework_10\\LibraryV2.Tests.Api\\LibraryV2.Tests.Api.csproj|solutionrelative:homework_10\\libraryv2.tests.api\\tests\\usertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,8 +38,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GetBooksTests.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\GetBooksTests.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2.Tests.Api\\Tests\\GetBooksTests.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\GetBooksTests.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2.Tests.Api\\Tests\\GetBooksTests.cs",
+              "ViewState": "AQIAAHcAAAAAAAAAAAAqwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-15T15:21:40.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GetBookEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2\\Endpoints\\Books\\GetBookEndpoints.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2\\Endpoints\\Books\\GetBookEndpoints.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2\\Endpoints\\Books\\GetBookEndpoints.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2\\Endpoints\\Books\\GetBookEndpoints.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAAuwDsAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T20:16:34.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DeleteBookEnpoidnts.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2\\Endpoints\\Books\\DeleteBookEnpoidnts.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2\\Endpoints\\Books\\DeleteBookEnpoidnts.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2\\Endpoints\\Books\\DeleteBookEnpoidnts.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2\\Endpoints\\Books\\DeleteBookEnpoidnts.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACMAAABXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T19:19:54.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DeleteBookTests.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\DeleteBookTests.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2.Tests.Api\\Tests\\DeleteBookTests.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\DeleteBookTests.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2.Tests.Api\\Tests\\DeleteBookTests.cs",
+              "ViewState": "AQIAAGAAAAAAAAAAAAAYwG8AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T19:19:18.474Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -50,80 +106,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Homework_9\\WeatherApp\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Homework_9\\WeatherApp\\Properties\\launchSettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-08-07T17:08:17.481Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "GlobalUsings.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
-              "RelativeDocumentMoniker": "Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
-              "RelativeToolTip": "Homework_9\\WeatherApp.Tests.Api\\GlobalUsings.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "CreateBookTests.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\CreateBookTests.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2.Tests.Api\\Tests\\CreateBookTests.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\CreateBookTests.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2.Tests.Api\\Tests\\CreateBookTests.cs",
+              "ViewState": "AQIAALQAAAAAAAAAAAAowJsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-07T17:07:39.552Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MyHttpClient.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
-              "RelativeDocumentMoniker": "Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
-              "RelativeToolTip": "Homework_9\\WeatherApp.Tests.Api\\Clients\\MyHttpClient.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAABsAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-06T06:56:07.501Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GetWeatherTests.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
-              "RelativeDocumentMoniker": "Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
-              "RelativeToolTip": "Homework_9\\WeatherApp.Tests.Api\\GetWeatherTests.cs",
-              "ViewState": "AQIAAEwAAAAAAAAAAAAkwGAAAAALAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-06T06:43:43.256Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WeatherService.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Service\\WeatherService.cs",
-              "RelativeDocumentMoniker": "Homework_9\\WeatherApp\\Service\\WeatherService.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Service\\WeatherService.cs",
-              "RelativeToolTip": "Homework_9\\WeatherApp\\Service\\WeatherService.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAxwAwAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-06T06:43:05.366Z",
+              "WhenOpened": "2024-08-13T12:28:53.412Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Program.cs",
-              "RelativeDocumentMoniker": "Homework_9\\WeatherApp\\Program.cs",
-              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_9\\WeatherApp\\Program.cs",
-              "RelativeToolTip": "Homework_9\\WeatherApp\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAAAAAA",
+              "Title": "LibraryHttpService.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Services\\LibraryHttpService.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2.Tests.Api\\Services\\LibraryHttpService.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Services\\LibraryHttpService.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2.Tests.Api\\Services\\LibraryHttpService.cs",
+              "ViewState": "AQIAAEYAAAAAAAAAAADwv1AAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-06T06:42:07.369Z",
+              "WhenOpened": "2024-08-11T14:35:43.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UserTests.cs",
+              "DocumentMoniker": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\UserTests.cs",
+              "RelativeDocumentMoniker": "Homework_10\\LibraryV2.Tests.Api\\Tests\\UserTests.cs",
+              "ToolTip": "C:\\Users\\ganna\\source\\repos\\Homeworks\\Homework_10\\LibraryV2.Tests.Api\\Tests\\UserTests.cs",
+              "RelativeToolTip": "Homework_10\\LibraryV2.Tests.Api\\Tests\\UserTests.cs",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAYwM8AAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T14:31:09.788Z",
               "EditorCaption": ""
             }
           ]

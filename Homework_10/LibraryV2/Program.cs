@@ -18,6 +18,7 @@ var app = builder.Build();
     app.MapLogIn();
     app.MapCreateBook();
     app.MapGetBooksByTitle();
-    app.MapGetBooksByAuthor();  
+    app.MapGetBooksByAuthor(); 
+    app.MapGetAllBooks();
     app.MapDeleteBook();  
     app.Run();

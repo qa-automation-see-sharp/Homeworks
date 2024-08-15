@@ -8,6 +8,7 @@ public static class GetBookEndpoints
 {
     public const string Name = "GetBooksByTitle";
     public const string GetAllBooksByAuthor = "GetBooksByAuthor";
+    public const string GetAllBooks = "GetAllBooks";
 
     public static IEndpointRouteBuilder MapGetBooksByTitle(this IEndpointRouteBuilder app)
     {
@@ -16,8 +17,10 @@ public static class GetBookEndpoints
                 string title,
                 IBookRepository repository) =>
             {
+                Console.WriteLine($"Received request for title: {title}");
                 var result = repository.GetMany(b => b.Title == title);
-                
+                Console.WriteLine($"Found {result.Count} books with title: {title}");
+
                 return result.Count is 0 ? Results.NotFound($"The books this title: {title}, was not found.") : Results.Ok(result);
             })
             .WithName(Name)
@@ -37,12 +40,32 @@ public static class GetBookEndpoints
                 IBookRepository repository) =>
             {
                 var result = repository.GetMany(b => b.Author == author);
-                
+
                 return result.Count is 0 ? Results.NotFound($"The books by author: {author}, was not found.") : Results.Ok(result);
             })
             .WithName(GetAllBooksByAuthor)
             .Produces<List<Book>>()
             .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status401Unauthorized);
+
+        return app;
+    }
+
+    public static IEndpointRouteBuilder MapGetAllBooks(this IEndpointRouteBuilder app)
+    {
+        app
+            .MapGet(ApiEndpoints.Books.GetAll, (
+                IBookRepository repository) =>
+            {
+                Console.WriteLine("Received request for all books");
+                var result = repository.GetAll();
+                Console.WriteLine($"Found {result.Count} books");
+
+                return result.Count is 0 ? Results.NotFound("No books found.") : Results.Ok(result);
+            })
+            .WithName(GetAllBooks)
+            .Produces<List<Book>>()
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
 

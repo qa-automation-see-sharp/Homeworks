@@ -17,14 +17,24 @@ public static class DeleteBookEnpoidnts
                 IBookRepository repository,
                 IUserAuthorizationService service) =>
             {
-                if (!service.IsAuthorizedByToken(token)) return Results.Unauthorized();
-                
+                Console.WriteLine($"Received request to delete book: Title = {title}, Author = {author}, Token = {token}");
+                if (!service.IsAuthorizedByToken(token))
+                {
+                    Console.WriteLine("Unauthorized request.");
+                    return Results.Unauthorized();
+                }
+
                 var book = repository.GetBook(b => b.Title == title && b.Author == author);
-                
-                if (book is null) return Results.NotFound($"Book :{title} by {author} not found");
+
+                if (book is null)
+                {
+                    Console.WriteLine($"Book not found: Title = {title}, Author = {author}");
+                    return Results.NotFound($"Book :{title} by {author} not found");
+                }
 
                 repository.Delete(b => b.Title == title && b.Author == author);
-                
+                Console.WriteLine($"Book deleted: Title = {title}, Author = {author}");
+
                 return Results.Ok($"{title} by {author} deleted");
             })
             .WithName(Name)
