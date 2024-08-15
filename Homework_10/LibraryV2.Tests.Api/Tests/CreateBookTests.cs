@@ -20,7 +20,7 @@ public class CreateBookTests : LibraryV2TestFixture
         _libraryHttpService = new LibraryHttpService();
         _libraryHttpService.Configure("http://localhost:5111/");
 
-        Book NewBook = new Book()
+        NewBook = new Book
         {
             Title = "TestTitle",
             Author = "TestAuthor",
@@ -39,7 +39,9 @@ public class CreateBookTests : LibraryV2TestFixture
             YearOfRelease = 2000,
         };
 
-        HttpResponseMessage response = await _libraryHttpService.CreateBook(Token, NewBook);
+        var token = "";
+
+        var response = await _libraryHttpService.CreateBook(token, NewBook);
 
         var jsonStringUser = await response.Content.ReadAsStringAsync();
         var userResponse = JsonConvert.DeserializeObject<Book>(jsonStringUser);
@@ -47,9 +49,9 @@ public class CreateBookTests : LibraryV2TestFixture
         Assert.Multiple(() =>
         {
             Assert.That(response.StatusCode,Is.EqualTo(HttpStatusCode.Created));
-            Assert.That(Book.Title, Is.EqualTo(NewBook.Title));
-            Assert.That(book.Author, Is.EqualTo(NewBook.Author));
-            Assert.That(books.YearOfRelease, Is.EqualTo(NewBook.YearOfRelease));
+            Assert.That(userResponse.Title, Is.EqualTo(NewBook.Title));
+            Assert.That(userResponse.Author, Is.EqualTo(NewBook.Author));
+            Assert.That(userResponse.YearOfRelease, Is.EqualTo(NewBook.YearOfRelease));
         });
     }
 

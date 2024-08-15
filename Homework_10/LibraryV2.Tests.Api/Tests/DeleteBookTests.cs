@@ -25,9 +25,11 @@ public class DeleteBookTests : LibraryV2TestFixture
             Author = "AuthorToDelete"
         };
 
-        var bookCreated = await LibraryHttpService.CreateBook(Token, newBook);
+        var token = "";
 
-        HttpResponseMessage response = await LibraryHttpService.DeleteBook(Token, newBook.Title, newBook.Author);
+        var bookCreated = await _libraryHttpService.CreateBook(token, newBook);
+
+        HttpResponseMessage response = await _libraryHttpService.DeleteBook(token, newBook.Title, newBook.Author);
 
         var jsonString = await response.Content.ReadAsStringAsync();
 
@@ -35,8 +37,6 @@ public class DeleteBookTests : LibraryV2TestFixture
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.Equals(HttpStatusCode.OK, response.StatusCode);
-           
-            
         });
         //TODO cover with tests all endpoints from Books controller
         // Delete book

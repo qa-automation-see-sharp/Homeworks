@@ -1,10 +1,8 @@
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
-using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using static LibraryV2.ApiEndpoints;
 using System.Net;
+using LibraryV2.Tests.Api.Services;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -22,7 +20,7 @@ public class GetBooksTests : LibraryV2TestFixture
     [Test]
     public async Task GetBooksByTitle()
     {
-        HttpResponseMessage response = await LibraryHttpService.GetBooksByTitle("TestTitle");
+        HttpResponseMessage response = await _libraryHttpService.GetBooksByTitle("TestTitle");
 
         var jsonString = await response.Content.ReadAsStringAsync();
 
