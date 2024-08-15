@@ -1,3 +1,5 @@
+using System.Net;
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
 
@@ -10,6 +12,12 @@ public class DeleteBookTests : LibraryV2TestFixture
     {
     }
 
-    //TODO cover with tests all endpoints from Books controller
-    // Delete book
+    [Test]
+    public async Task DeleteBookAsync()
+    {
+        var response = await _libraryHttpService.DeleteBook(_users.First().Value, _bookDetails.First().Value,
+            _bookDetails.First().Key);
+        
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+    }
 }

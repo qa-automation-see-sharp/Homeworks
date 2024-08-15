@@ -6,7 +6,7 @@ namespace LibraryV2.Tests.Api.Fixtures;
 [TestFixture]
 public class LibraryV2TestFixture : GlobalSetUpFixture
 {
-    protected List<string> _bookTitles;
+    protected Dictionary<string, string> _bookDetails;
     
     [OneTimeSetUp]
     public async Task SetUp()
@@ -20,6 +20,7 @@ public class LibraryV2TestFixture : GlobalSetUpFixture
                 YearOfRelease = 199 + i
             };
             await _libraryHttpService.CreateBook(_users.First().Value, book);
+            _bookDetails.Add(book.Title, book.Author);
         }
     }
 

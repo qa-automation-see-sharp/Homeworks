@@ -1,3 +1,5 @@
+using System.Net;
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
 
@@ -11,7 +13,23 @@ public class GetBooksTests : LibraryV2TestFixture
     [SetUp]
     public void SetUp()
     {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
+    }
+
+    [Test, Order(1)]
+
+    public async Task GetBookByTitleAsync()
+    {
+        var response = await _libraryHttpService.GetBooksByTitle(_bookDetails.First().Key);
+        
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+    }
+
+    [Test, Order(2)]
+
+    public async Task GetBookByAuthorAsync()
+    {
+        var response = await _libraryHttpService.GetBooksByTitle(_bookDetails.First().Value);
+        
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 }
