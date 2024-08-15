@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-=======
+using LibraryV2.Tests.Api.Services;
+
 using LibraryV2.Models;
->>>>>>> 25dbe55 (Library test WIP)
 using LibraryV2.Tests.Api.Services;
 
 namespace LibraryV2.Tests.Api.Fixtures;
@@ -9,14 +8,11 @@ namespace LibraryV2.Tests.Api.Fixtures;
 [TestFixture]
 public class LibraryV2TestFixture : GlobalSetUpFixture
 {
-<<<<<<< HEAD
     protected LibraryHttpService LibraryHttpService2;
-=======
     internal readonly LibraryHttpService _libraryHttpService = new();
     internal readonly Dictionary<User, string> _users = new();
     internal readonly List<Book> _books = new();
 
->>>>>>> 25dbe55 (Library test WIP)
     [OneTimeSetUp]
     public async Task SetUp()
     {
