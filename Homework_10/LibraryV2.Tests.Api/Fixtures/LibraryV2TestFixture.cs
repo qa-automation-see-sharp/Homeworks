@@ -6,7 +6,7 @@ namespace LibraryV2.Tests.Api.Fixtures;
 [TestFixture]
 public class LibraryV2TestFixture : GlobalSetUpFixture
 {
-    protected Dictionary<string, string> _bookDetails;
+    protected Dictionary<string, string> _bookDetails = new();
     
     [OneTimeSetUp]
     public async Task SetUp()

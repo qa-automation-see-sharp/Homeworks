@@ -8,8 +8,6 @@ namespace LibraryV2.Tests.Api.Tests;
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-
     [SetUp]
     public void SetUp()
     {
@@ -28,7 +26,7 @@ public class GetBooksTests : LibraryV2TestFixture
 
     public async Task GetBookByAuthorAsync()
     {
-        var response = await _libraryHttpService.GetBooksByTitle(_bookDetails.First().Value);
+        var response = await _libraryHttpService.GetBooksByAuthor(_bookDetails.First().Value);
         
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }

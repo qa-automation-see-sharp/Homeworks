@@ -7,7 +7,7 @@ namespace LibraryV2.Tests.Api.Fixtures;
 [SetUpFixture]
 public class GlobalSetUpFixture
 {
-    protected readonly LibraryHttpService _libraryHttpService = new();
+    public readonly LibraryHttpService _libraryHttpService = new ();
     protected readonly Dictionary<User, string> _users = new();
     
     [OneTimeSetUp]
