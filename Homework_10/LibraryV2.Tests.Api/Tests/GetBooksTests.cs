@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 using System.Net;
+=======
+>>>>>>> 25dbe55074a0fcb5bdb97f6c647ef67b46fb8674
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
@@ -9,7 +12,25 @@ namespace LibraryV2.Tests.Api.Tests;
 
 public class GetBooksTests : LibraryV2TestFixture
 {
+<<<<<<< HEAD
     private readonly LibraryHttpService _httpService = new();
+=======
+    [Test]
+    public async Task GetBooksByTitle()
+    {
+        var book = _books.First();
+        List<Book> response = await _libraryHttpService.GetBooksByTitle(book.Title);
+
+        Assert.Multiple( () => 
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response[0].Title, Is.EqualTo(book.Title));
+            Assert.That(response[0].Author, Is.EqualTo(book.Author));
+            Assert.That(response[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+        });
+    }
+    private LibraryHttpService _libraryHttpService;
+>>>>>>> 25dbe55074a0fcb5bdb97f6c647ef67b46fb8674
 
     [OneTimeSetUp]
     public new async Task OneTimeSetUp()
