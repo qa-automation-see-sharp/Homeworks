@@ -91,5 +91,5 @@ public class UsersTests : LibraryV2TestFixture
         var httpResponseMessage = await _libraryHttpService.LogIn(user);
 
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-    }    
+    }
 }

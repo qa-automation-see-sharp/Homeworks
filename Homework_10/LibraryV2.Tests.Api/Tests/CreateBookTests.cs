@@ -2,7 +2,6 @@ using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
@@ -68,7 +67,7 @@ public class CreateBookTests : LibraryV2TestFixture
             YearOfRelease = 0000
         };
 
-       var httpResponseMessage = await _httpService.CreateBook("token", book);
+        var httpResponseMessage = await _httpService.CreateBook("token", book);
 
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
     }

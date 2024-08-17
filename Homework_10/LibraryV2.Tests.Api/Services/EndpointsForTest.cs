@@ -1,5 +1,3 @@
-using LibraryV2.Models;
-
 namespace LibraryV2.Tests.Api.Services;
 
 public class EndpointsForTest
