@@ -1,37 +1,75 @@
+using System.Net;
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class CreateBookTests : LibraryV2TestFixture
 {
-    private Book _book;
+    private readonly LibraryHttpService _httpService = new();
 
-    public async Task CreateBook(string title, string author, int year)
+    [OneTimeSetUp]
+    public new async Task OneTimeSetUp()
     {
-        _book = new Book()
+        var client = _httpService.Configure("http://localhost:5111/");
+        await _httpService.CreateDefaultUser();
+        await client.Authorize();
+    }
+
+    [Test]
+    public async Task CreateBook201()
+    {
+        var book = new Book
         {
-            Title = title,
-            Author = author,
-            YearOfRelease = year
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = 0000
         };
+
+        var httpResponseMessage = await _httpService.CreateBook(book);
+        var content = await httpResponseMessage.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
 
         Assert.Multiple(() =>
         {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response.Title, Is.EqualTo(_book.Title));
-            Assert.That(response.Author, Is.EqualTo(_book.Author));
-            Assert.That(response.YearOfRelease, Is.EqualTo(_book.YearOfRelease));
-
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(bookFromResponse.Title, Is.EqualTo(book.Title));
+            Assert.That(bookFromResponse.Author, Is.EqualTo(book.Author));
+            Assert.That(bookFromResponse.YearOfRelease, Is.EqualTo(book.YearOfRelease));
         });
     }
-    [SetUp]
-    public new void SetUp()
+
+    [Test]
+    public async Task CreateBook400()
     {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
+        var book = new Book
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = 0000
+        };
+
+        await _httpService.CreateBook(book);
+        var httpResponseMessage = await _httpService.CreateBook(book);
+
+        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
 
-    //TODO cover with tests all endpoints from Books controller
-    // Create book
+    [Test]
+    public async Task CreateBook401()
+    {
+        var book = new Book
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = 0000
+        };
+
+       var httpResponseMessage = await _httpService.CreateBook("token", book);
+
+        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+    }
 }
