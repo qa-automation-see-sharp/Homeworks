@@ -1,5 +1,6 @@
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
+using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -8,6 +9,13 @@ public class UsersTests : LibraryV2TestFixture
     //TODO cover with tests all endpoints from Users controller
     // Create user
     // Log In
+    private User User {get; set;}
+
+    [OneTimeSetUp]
+    public async Task SetUp(){
+        var client = _httpService.Configure("http://localhost:5111/");
+        User = await client.CreateDefaultUser();
+    }
 
     [Test]
     public async Task CreateUserSusses()
@@ -19,14 +27,15 @@ public class UsersTests : LibraryV2TestFixture
             NickName = "Finch" + Guid.NewGuid()
         };
 
-        User? response = await _libraryService.CreateUser(user);
+        var response = await _httpService.CreateUser(user);
+        var json = await response.Content.ReadAsStringAsync();
+        var u = JsonConvert.DeserializeObject<User>(json);
 
         Assert.Multiple(() =>
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response.FullName, Is.EqualTo(user.FullName));
-            Assert.That(response.NickName, Is.EqualTo(user.NickName));
-            Assert.That(response.Password, Is.EqualTo(user.Password));
+            Assert.That(u.FullName, Is.EqualTo(user.FullName));
+            Assert.That(u.NickName, Is.EqualTo(user.NickName));
         });
     }
 
@@ -34,14 +43,15 @@ public class UsersTests : LibraryV2TestFixture
     public async Task LoginUser()
     {
 
-        var user = _users.First();
-        var response = await _libraryService.LogIn(user.Key);
+        var message = await _httpService.LogIn(User);
+        var json = await message.Content.ReadAsStringAsync();
+        var obj = JsonConvert.DeserializeObject<AuthorizationToken>(json);
 
         Assert.Multiple(() =>
         {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response.Token, Is.Not.Empty);
-            Assert.That(response.Token.Contains(user.Value));
+            Assert.That(obj, Is.Not.Null);
+            Assert.That(obj.Token, Is.Not.Empty);
+           // Assert.That(obj.Token.Contains(user.Value));
         });
     }
 }

@@ -1,5 +1,5 @@
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -7,13 +7,28 @@ public class DeleteBookTests : LibraryV2TestFixture
 {
     //TODO cover with tests all endpoints from Books controller
     // Delete book
+    private Book _book {get; set;}
+    [SetUp]
+    public async Task SetUp()
+    {
+        _book = new()
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = 1980
+        };
+        var client = _httpService.Configure("http://localhost:5111/");
+        await client.CreateDefaultUser();
+        await client.Authorize();
+        await client.CreateBook(_book);
+    }
+
     [Test]
     public async Task DeleteBook()
     {
-        var token = _users.First().Value;
-        var book = _books.First();
-        string? response = await _libraryService.DeleteBook(token, book.Title, book.Author);
-
-        Assert.That(response.Equals($"{book.Title} by {book.Author} deleted"));
+        var response = await _httpService.DeleteBook(_book.Title, _book.Author);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var s = jsonString.Trim('"');
+        Assert.That(s.Equals($"{_book.Title} by {_book.Author} deleted"));
     }
 }

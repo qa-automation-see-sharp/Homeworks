@@ -1,39 +1,59 @@
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
 using LibraryV2.Models;
+using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
+    private Book _book {get; set;}
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp(){
+        _book = new()
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = 1980
+        };
+        var client = _httpService.Configure("http://localhost:5111/");
+        await client.CreateDefaultUser();
+        await client.Authorize();
+        await client.CreateBook(_book);
+    }
+
     [Test]
     public async Task GetBooksByTitle()
     {
-        var book = _books.First();
-        List<Book> response = await _libraryService.GetBooksByTitle(book.Title);
+        var response = await _httpService.GetBooksByTitle(_book.Title);
+        var listStringBooks = await response.Content.ReadAsStringAsync();
+        var json = JsonConvert.DeserializeObject<List<Book>>(listStringBooks);
+
 
         Assert.Multiple(() =>
         {
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.IsNotEmpty(json);
             Assert.That(response, Is.Not.Null);
-            Assert.That(response[0].Title, Is.EqualTo(book.Title));
-            Assert.That(response[0].Author, Is.EqualTo(book.Author));
-            Assert.That(response[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+            Assert.That(json[0].Title, Is.EqualTo(_book.Title));
+            Assert.That(json[0].Author, Is.EqualTo(_book.Author));
+            Assert.That(json[0].YearOfRelease, Is.EqualTo(_book.YearOfRelease));
         });
     }
 
     [Test]
     public async Task GetBooksByAuthor()
     {
-        var book = _books.First();
-        List<Book> response = await _libraryService.GetBooksByAuthor(book.Author);
+        var response = await _httpService.GetBooksByAuthor(_book.Author);
+        var listStringBooks = await response.Content.ReadAsStringAsync();
+        var json = JsonConvert.DeserializeObject<List<Book>>(listStringBooks);
 
         Assert.Multiple(() =>
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response[0].Title, Is.EqualTo(book.Title));
-            Assert.That(response[0].Author, Is.EqualTo(book.Author));
-            Assert.That(response[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+            Assert.That(json[0].Title, Is.EqualTo(_book.Title));
+            Assert.That(json[0].Author, Is.EqualTo(_book.Author));
+            Assert.That(json[0].YearOfRelease, Is.EqualTo(_book.YearOfRelease));
         });
     }
 }
