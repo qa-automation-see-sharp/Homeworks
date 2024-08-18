@@ -32,7 +32,8 @@ public static class LogInEndpoint
                 return Results.Ok(token); 
             })
             .WithName(Name)
-            .Produces<string>()
+            .Produces<AuthorizationToken>()
+            .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest);
 
         return app;

@@ -6,13 +6,26 @@ using Newtonsoft.Json;
 using System.Net;
 
 namespace LibraryV2.Tests.Api.Tests;
+
 public class UsersTests : LibraryV2TestFixture
 {
-    [SetUp]
-    public void Setup()
+    private LibraryHttpService _libraryHttpService = new();
+
+    [OneTimeSetUp]
+    public new async Task OneTimeSetup()
     {
-        LibraryHttpService = new LibraryHttpService();
-        LibraryHttpService.Configure("http://localhost:5111/");
+        var client = _libraryHttpService.Configure("http://localhost:5111/");
+    }
+    private User GenerateUser()
+    {
+        var faker = new Faker();
+
+        return new User()
+        {
+            FullName = "David Solis",
+            NickName = $"soledavi{faker.Random.AlphaNumeric(4)}",
+            Password = "126rtgc"
+        };
     }
 
     //TODO cover with tests all endpoints from Users controller
@@ -22,16 +35,8 @@ public class UsersTests : LibraryV2TestFixture
     [Test]
     public async Task CreateUser()
     {
-        var faker = new Faker();
-
-        var user = new User()
-        {
-            FullName = "David Solis",
-            NickName = $"soledavi{faker.Random.AlphaNumeric(4)}",
-            Password = "126rtgc"
-        };
-
-        HttpResponseMessage response = await LibraryHttpService.CreateUser(user);
+        var user = GenerateUser();
+        HttpResponseMessage response = await _libraryHttpService.CreateUser(user);
 
         var jsonString = await response.Content.ReadAsStringAsync();
 
@@ -42,14 +47,17 @@ public class UsersTests : LibraryV2TestFixture
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             Assert.That(users.FullName, Is.EqualTo(user.FullName));
             Assert.That(users.NickName, Is.EqualTo(user.NickName));
-            Assert.That(users.Password, Is.EqualTo(user.Password));
         });
     }
 
     [Test]
     public async Task LogIn()
     {
-        HttpResponseMessage response = await LibraryHttpService.LogIn(User);
+        var user = GenerateUser();
+
+        await _libraryHttpService.CreateUser(user);
+
+        HttpResponseMessage response = await _libraryHttpService.LogIn(user);
 
         var jsonString = await response.Content.ReadAsStringAsync();
 

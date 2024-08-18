@@ -7,11 +7,14 @@ namespace LibraryV2.Tests.Api.Tests;
 
 public class DeleteBookTests : LibraryV2TestFixture
 {
+    private LibraryHttpService _libraryHttpService = new();
+
     [SetUp]
-    public new void SetUp()
+    public async new Task SetUp()
     {
-        LibraryHttpService = new LibraryHttpService();
-        LibraryHttpService.Configure("http://localhost:5111/");
+        var client = _libraryHttpService.Configure("http://localhost:5111/");
+        await client.CreateDefaultUser();
+        await client.Authorize();
     }
 
     //TODO cover with tests all endpoints from Books controller
@@ -26,9 +29,9 @@ public class DeleteBookTests : LibraryV2TestFixture
             Author = "None"
         };
 
-        var bookCreated = await LibraryHttpService.CreateBook(Token, newBook);
+        var bookCreated = await _libraryHttpService.CreateBook(newBook);
 
-        HttpResponseMessage response = await LibraryHttpService.DeleteBook(Token, newBook.Title, newBook.Author);
+        HttpResponseMessage response = await _libraryHttpService.DeleteBook(newBook.Title, newBook.Author);
         
         var jsonString = await response.Content.ReadAsStringAsync();
 

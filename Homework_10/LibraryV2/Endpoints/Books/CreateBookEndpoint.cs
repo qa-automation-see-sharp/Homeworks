@@ -26,6 +26,7 @@ public static class CreateBookEndpoint
             })
             .WithName(Name)
             .Produces<Book>()
+            .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest);
 
         return app;

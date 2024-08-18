@@ -8,9 +8,9 @@ public interface IUserAuthorizationService
     public bool IsAuthorizedByToken(string authorizationToken);
     public bool IsAuthorizedByNickName(string nickName);
 
-    public string GenerateToken(string nickName, string password);
-    
-    public string? GetToken(string nickName);
+    public AuthorizationToken? GenerateToken(string nickName, string password);
+
+    public AuthorizationToken? GetToken(string nickName);
 }
 
 public class UserAuthorizationService : IUserAuthorizationService
@@ -53,13 +53,13 @@ public class UserAuthorizationService : IUserAuthorizationService
         return false;
     }
 
-    public string GenerateToken(string nickName, string password)
+    public AuthorizationToken? GenerateToken(string nickName, string password)
     {
         var user = _userRepository.GetUser(nickName);
 
-        if (user == null && user?.Password != password)
+        if (user == null || user.Password != password)
         {
-            return string.Empty;
+            return null;
         }
 
         var tmp = _tokens.FirstOrDefault(t => t.NickName == nickName);
@@ -67,20 +67,21 @@ public class UserAuthorizationService : IUserAuthorizationService
         {
             _tokens.Remove(tmp);
         }
-        
-        var token = Guid.NewGuid().ToString();
-        _tokens.Add(new AuthorizationToken
+
+        var token = new AuthorizationToken
         {
-            Token = token,
+            Token = Guid.NewGuid().ToString(),
             NickName = nickName,
             ExpirationTime = DateTime.Now.AddMinutes(15)
-        });
+        };
+
+        _tokens.Add(token);
 
         return token;
     }
 
-    public string? GetToken(string nickName)
+    public AuthorizationToken? GetToken(string nickName)
     {
-        return _tokens.FirstOrDefault(t => t.NickName == nickName)?.Token;
+        return _tokens.FirstOrDefault(t => t.NickName == nickName);
     }
 }
