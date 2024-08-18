@@ -99,4 +99,12 @@ public class LibraryHttpService
 
         return response;
     }
+
+    public async Task<HttpResponseMessage> DeleteBook(string title, string author, string token)
+    {
+        var url = EndpointsForTest.Books.Delete(title, author, token);
+        var response = await _httpClient.DeleteAsync(url);
+
+        return response;
+    }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 
@@ -30,5 +31,25 @@ public class DeleteBookTests : LibraryV2TestFixture
         var jsonString = await response.Content.ReadAsStringAsync();
         var s = jsonString.Trim('"');
         Assert.That(s.Equals($"{_book.Title} by {_book.Author} deleted"));
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Test]
+    public async Task DeleteNotFoundBook()
+    {
+        var title = "Happy";
+        var author = "Chan";
+        var response = await _httpService.DeleteBook(title, author);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var s = jsonString.Trim('"');
+        Assert.That(s.Equals($"Book :{title} by {author} not found"));
+        Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+     [Test]
+    public async Task DeleteBookUnauthorized()
+    {
+        var response = await _httpService.DeleteBook(_book.Title, _book.Author, "123");
+        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 }

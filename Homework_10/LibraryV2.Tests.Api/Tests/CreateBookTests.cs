@@ -1,3 +1,4 @@
+using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using Newtonsoft.Json;
@@ -37,6 +38,7 @@ public class CreateBookTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
+            Assert.AreEqual(HttpStatusCode.Created, obj.StatusCode);
             Assert.That(response, Is.Not.Null);
             Assert.That(bookObj.Title, Is.EqualTo(_book.Title));
             Assert.That(bookObj.Author, Is.EqualTo(_book.Author));

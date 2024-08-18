@@ -1,3 +1,4 @@
+using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using Newtonsoft.Json;
@@ -9,10 +10,11 @@ public class UsersTests : LibraryV2TestFixture
     //TODO cover with tests all endpoints from Users controller
     // Create user
     // Log In
-    private User User {get; set;}
+    private User User { get; set; }
 
     [OneTimeSetUp]
-    public async Task SetUp(){
+    public async Task SetUp()
+    {
         var client = _httpService.Configure("http://localhost:5111/");
         User = await client.CreateDefaultUser();
     }
@@ -33,6 +35,7 @@ public class UsersTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             Assert.That(response, Is.Not.Null);
             Assert.That(u.FullName, Is.EqualTo(user.FullName));
             Assert.That(u.NickName, Is.EqualTo(user.NickName));
@@ -42,16 +45,16 @@ public class UsersTests : LibraryV2TestFixture
     [Test]
     public async Task LoginUser()
     {
-
         var message = await _httpService.LogIn(User);
         var json = await message.Content.ReadAsStringAsync();
         var obj = JsonConvert.DeserializeObject<AuthorizationToken>(json);
 
         Assert.Multiple(() =>
         {
+            Assert.AreEqual(HttpStatusCode.OK, message.StatusCode);
             Assert.That(obj, Is.Not.Null);
             Assert.That(obj.Token, Is.Not.Empty);
-           // Assert.That(obj.Token.Contains(user.Value));
+            Assert.That(obj.NickName, Is.EqualTo(User.NickName));
         });
     }
 }

@@ -1,6 +1,7 @@
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Models;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -50,6 +51,7 @@ public class GetBooksTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.That(response, Is.Not.Null);
             Assert.That(json[0].Title, Is.EqualTo(_book.Title));
             Assert.That(json[0].Author, Is.EqualTo(_book.Author));
