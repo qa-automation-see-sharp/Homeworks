@@ -10,8 +10,8 @@ namespace LibraryV2.Tests.Api.Tests;
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService = new();
-    private Book NewBook;
+    private readonly LibraryHttpService _libraryHttpService = new();
+    private Book _newBook;
 
     [OneTimeSetUp]
     public async Task SetUp()
@@ -21,20 +21,20 @@ public class GetBooksTests : LibraryV2TestFixture
         await client.Authorize();
 
         var faker = new Faker();
-        NewBook = new Book()
+        _newBook = new Book
         {
             Author = "Kotaro Isaka",
             Title = $"Grasshopper {faker.Random.AlphaNumeric(4)}",
             YearOfRelease = 2004
         };
 
-        await _libraryHttpService.CreateBook(NewBook);
+        await _libraryHttpService.CreateBook(_newBook);
     }
 
     [Test]
     public async Task GetBooksByTitle()
     {
-        HttpResponseMessage response = await _libraryHttpService.GetBooksByTitle(NewBook.Title);
+        HttpResponseMessage response = await _libraryHttpService.GetBooksByTitle(_newBook.Title);
 
         var jsonString = await response.Content.ReadAsStringAsync();
 
@@ -42,9 +42,10 @@ public class GetBooksTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            // Зараз рекомендується використовувати Assert.That замість Assert.AreEqual
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(books.Count, Is.GreaterThan(0));
-            Assert.That(books[0].Title, Is.EqualTo(NewBook.Title));
+            Assert.That(books[0].Title, Is.EqualTo(_newBook.Title));
             Assert.That(books[0].Author, Is.EqualTo("Kotaro Isaka"));
             Assert.That(books[0].YearOfRelease, Is.EqualTo(2004));
         });
@@ -61,17 +62,19 @@ public class GetBooksTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            // Зараз рекомендується використовувати Assert.That замість Assert.AreEqual
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(books.Count, Is.GreaterThan(0));
-            Assert.That(books[0].Title, Is.EqualTo(NewBook.Title));
+            Assert.That(books[0].Title, Is.EqualTo(_newBook.Title));
             Assert.That(books[0].Author, Is.EqualTo("Kotaro Isaka"));
             Assert.That(books[0].YearOfRelease, Is.EqualTo(2004));
         });
     }
 
+    // А тут навпаки потрібен асінхронний метод, щоб точно видалити книгу
     [OneTimeTearDown]
-    public new void OneTimeTearDown()
+    public new async Task OneTimeTearDown()
     {
-        var response = _libraryHttpService.DeleteBook(NewBook.Title, NewBook.Author);
+        await _libraryHttpService.DeleteBook(_newBook.Title, _newBook.Author);
     }
 }

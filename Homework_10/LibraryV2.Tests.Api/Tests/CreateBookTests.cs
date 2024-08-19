@@ -9,9 +9,11 @@ namespace LibraryV2.Tests.Api.Tests;
 
 public class CreateBookTests : LibraryV2TestFixture
 {
-    internal LibraryHttpService _libraryHttpService = new();
+    //Якщо змінна існує тільки в рамках цього классу можно залишати її приватною
+    private readonly LibraryHttpService _libraryHttpService = new();
 
-    public Book NewBook { get; private set; }
+    //Якщо змінна не використовуються в класах нащадках, то можна залишити її приватною
+    private Book NewBook { get; set; }
     
     [OneTimeSetUp]
     public new async Task OneTimeSetUp()
@@ -20,15 +22,13 @@ public class CreateBookTests : LibraryV2TestFixture
         await client.CreateDefaultUser();
         await client.Authorize();
     }
-    
-    //TODO cover with tests all endpoints from Books controller
-    // Create book
 
     [Test]
     public async Task CreateBook()
     {
+        // Жирний плюс за Фейкер, ще можно використати Guid.NewGuid().ToString() для генерації унікальних значень 
         var faker = new Faker();
-        NewBook = new Book()
+        NewBook = new Book
         {
             Title = $"Pragmatic Programmer{faker.Random.AlphaNumeric(4)}",
             Author = "Andrew Hunt",
@@ -42,16 +42,18 @@ public class CreateBookTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            // Зараз рекомендується використовувати Assert.That замість Assert.AreEqual
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(books.Title, Is.EqualTo(NewBook.Title));
             Assert.That(books.Author, Is.EqualTo(NewBook.Author));
             Assert.That(books.YearOfRelease, Is.EqualTo(NewBook.YearOfRelease));
         });
     }
 
+     // А тут навпаки потрібен асінхронний метод, щоб точно видалити книгу
     [TearDown]
-    public new void TearDown()
+    public new async Task TearDown()
     {
-        var response = _libraryHttpService.DeleteBook(NewBook.Title, NewBook.Author);
+        await _libraryHttpService.DeleteBook(NewBook.Title, NewBook.Author);
     }
 }

@@ -11,26 +11,24 @@ public class UsersTests : LibraryV2TestFixture
 {
     private LibraryHttpService _libraryHttpService = new();
 
+    //Якщо у методі немає асінхронних операцій, то його можна залишити синхронним
     [OneTimeSetUp]
-    public new async Task OneTimeSetup()
+    public void OneTimeSetup()
     {
         var client = _libraryHttpService.Configure("http://localhost:5111/");
     }
+
     private User GenerateUser()
     {
         var faker = new Faker();
 
-        return new User()
+        return new User
         {
             FullName = "David Solis",
             NickName = $"soledavi{faker.Random.AlphaNumeric(4)}",
             Password = "126rtgc"
         };
     }
-
-    //TODO cover with tests all endpoints from Users controller
-    // Create user
-    // Log In
 
     [Test]
     public async Task CreateUser()
@@ -44,7 +42,8 @@ public class UsersTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            // Зараз рекомендується використовувати Assert.That замість Assert.AreEqual
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(users.FullName, Is.EqualTo(user.FullName));
             Assert.That(users.NickName, Is.EqualTo(user.NickName));
         });
@@ -63,7 +62,8 @@ public class UsersTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            // Зараз рекомендується використовувати Assert.That замість Assert.AreEqual
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(jsonString, Is.Not.Null);
         });
     }
