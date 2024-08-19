@@ -1,19 +1,63 @@
+using System.Net;
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using Newtonsoft.Json;
+using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
 
 namespace LibraryV2.Tests.Api.Tests;
 
-public class CreateBookTests : LibraryV2TestFixture
+[TestFixture]
+public sealed class CreateBookTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-    
-    [SetUp]
-    public new void SetUp()
+    // WHAT WHEN THEN
+    [Test]
+    public async Task PostBook_ShouldReturnOk()
     {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
+        // Arrange
+        var book = CreateBook();
+
+        // Act
+        var response = await LibraryHttpService.PostBook(book);
+        var bookJsonString = await response.Content.ReadAsStringAsync();
+        var createdBook = JsonConvert.DeserializeObject<Book>(bookJsonString);
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(createdBook.Title, Is.EqualTo(book.Title));
+            Assert.That(createdBook.Author, Is.EqualTo(book.Author));
+            Assert.That(createdBook.YearOfRelease, Is.EqualTo(book.YearOfRelease));
+        });
     }
-    
-    //TODO cover with tests all endpoints from Books controller
-    // Create book
+
+    [Test]
+    public async Task PostBook_AlreadyExist_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var book = CreateBook();
+
+        var response = await LibraryHttpService.PostBook(book);
+        var bookJsonString = await response.Content.ReadAsStringAsync();
+        var createdBook = JsonConvert.DeserializeObject<Book>(bookJsonString);
+
+        // Act
+        var response2 = await LibraryHttpService.PostBook(createdBook);
+
+        // Assert
+        Assert.That(response2.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+    }
+
+    [Test]
+    public async Task PostBook_ShouldReturnUnauthorized()
+    {
+        // Arrange
+        var book = CreateBook();
+
+        // Act
+        var response = await LibraryHttpService.PostBook(Guid.NewGuid().ToString(), book);
+
+        // Assert
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+    }
 }

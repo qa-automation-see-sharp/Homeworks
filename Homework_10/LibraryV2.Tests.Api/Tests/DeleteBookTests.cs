@@ -1,19 +1,42 @@
+using System.Net;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using LibraryV2.Tests.Api.TestHelpers;
 
 namespace LibraryV2.Tests.Api.Tests;
 
+[TestFixture]
 public class DeleteBookTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-
-    [SetUp]
-    public new void SetUp()
+    [Test]
+    public async Task DeleteBook_ShouldReturnOk()
     {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
-    }
+        // Arrange
+        var book = DataHelper.CreateBook();
+        await LibraryHttpService.PostBook(book);
 
-    //TODO cover with tests all endpoints from Books controller
-    // Delete book
+        // Act
+        var response = await LibraryHttpService.DeleteBook(book.Title, book.Author);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(jsonString, Is.EqualTo($"\"{book.Title} by {book.Author} deleted\""));
+        });
+    }
+    
+    [Test]
+    public async Task Delete_NotExistingBook_ShouldReturnNotFound()
+    {
+        // Arrange
+        var book = DataHelper.CreateBook();
+        await LibraryHttpService.PostBook(book);
+
+        // Act
+        var response1 = await LibraryHttpService.DeleteBook("NotExistingBook", "NotExistingAuthor");
+
+        // Assert
+        Assert.That(response1.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+    }
 }
