@@ -8,54 +8,55 @@ namespace LibraryV2.Tests.Api.Tests;
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
-    private Book _book {get; set;}
+    private Book Book { get; set; }
+
     [OneTimeSetUp]
-    public async Task OneTimeSetUp(){
-        _book = new()
+    public new async Task OneTimeSetUp()
+    {
+        Book = new()
         {
             Title = Guid.NewGuid().ToString(),
             Author = Guid.NewGuid().ToString(),
             YearOfRelease = 1980
         };
-        var client = _httpService.Configure("http://localhost:5111/");
-        await client.CreateDefaultUser();
-        await client.Authorize();
-        await client.CreateBook(_book);
+        await HttpService.CreateBook(Book);
     }
 
     [Test]
     public async Task GetBooksByTitle()
     {
-        var response = await _httpService.GetBooksByTitle(_book.Title);
+        var response = await HttpService.GetBooksByTitle(Book.Title);
         var listStringBooks = await response.Content.ReadAsStringAsync();
         var json = JsonConvert.DeserializeObject<List<Book>>(listStringBooks);
 
 
         Assert.Multiple(() =>
         {
-            Assert.True(response.IsSuccessStatusCode);
-            Assert.IsNotEmpty(json);
+            // Зараз рекомендують використовувати Assert.That, бо він дає більше інформації про помилку
+            Assert.That(response.IsSuccessStatusCode, Is.True);
+            Assert.That(json, Is.Not.Empty);
             Assert.That(response, Is.Not.Null);
-            Assert.That(json[0].Title, Is.EqualTo(_book.Title));
-            Assert.That(json[0].Author, Is.EqualTo(_book.Author));
-            Assert.That(json[0].YearOfRelease, Is.EqualTo(_book.YearOfRelease));
+            Assert.That(json[0].Title, Is.EqualTo(Book.Title));
+            Assert.That(json[0].Author, Is.EqualTo(Book.Author));
+            Assert.That(json[0].YearOfRelease, Is.EqualTo(Book.YearOfRelease));
         });
     }
 
     [Test]
     public async Task GetBooksByAuthor()
     {
-        var response = await _httpService.GetBooksByAuthor(_book.Author);
+        var response = await HttpService.GetBooksByAuthor(Book.Author);
         var listStringBooks = await response.Content.ReadAsStringAsync();
         var json = JsonConvert.DeserializeObject<List<Book>>(listStringBooks);
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            // Зараз рекомендують використовувати Assert.That, бо він дає більше інформації про помилку
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response, Is.Not.Null);
-            Assert.That(json[0].Title, Is.EqualTo(_book.Title));
-            Assert.That(json[0].Author, Is.EqualTo(_book.Author));
-            Assert.That(json[0].YearOfRelease, Is.EqualTo(_book.YearOfRelease));
+            Assert.That(json[0].Title, Is.EqualTo(Book.Title));
+            Assert.That(json[0].Author, Is.EqualTo(Book.Author));
+            Assert.That(json[0].YearOfRelease, Is.EqualTo(Book.YearOfRelease));
         });
     }
 }

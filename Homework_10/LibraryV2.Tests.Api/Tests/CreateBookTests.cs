@@ -8,14 +8,6 @@ namespace LibraryV2.Tests.Api.Tests;
 public class CreateBookTests : LibraryV2TestFixture
 {
     private Book _book;
-
-    [OneTimeSetUp]
-    public async Task OneTimeSetUp()
-    {
-        var client = _httpService.Configure("http://localhost:5111/");
-        await client.CreateDefaultUser();
-        await client.Authorize();
-    }
     
     [TestCase("Philosopher's Stone", "Joanne Rowling", 1997)]
     [TestCase("Chamber of Secrets", "Joanne Rowling", 1998)]
@@ -32,13 +24,14 @@ public class CreateBookTests : LibraryV2TestFixture
             YearOfRelease = year
         };
 
-        var obj = await _httpService.CreateBook(_book);
+        var obj = await HttpService.CreateBook(_book);
         var response = await obj.Content.ReadAsStringAsync();
         var bookObj = JsonConvert.DeserializeObject<Book>(response);
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.Created, obj.StatusCode);
+            // Зараз рекомендують використовувати Assert.That замість Assert.AreEqual
+            Assert.That(obj.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(response, Is.Not.Null);
             Assert.That(bookObj.Title, Is.EqualTo(_book.Title));
             Assert.That(bookObj.Author, Is.EqualTo(_book.Author));
@@ -49,6 +42,6 @@ public class CreateBookTests : LibraryV2TestFixture
     [TearDown]
     public new async Task DeleteBook()
     {
-        await _httpService.DeleteBook(_book.Title, _book.Author);
+        await HttpService.DeleteBook(_book.Title, _book.Author);
     }
 }
