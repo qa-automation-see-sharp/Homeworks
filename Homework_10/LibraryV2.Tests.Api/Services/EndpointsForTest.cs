@@ -16,8 +16,10 @@ public class EndpointsForTest
         private const string Base = $"{ApiBase}/books";
 
         public const string Create = $"{Base}/create/";
-        public static string GetBooksByTitle(string title) => $"{Base}/by-title/?title={title}";
-        public static string GetBooksByAuthor(string author) => $"{Base}/by-author/?author={author}";
+        
+        //Ендпоит трошки не подивився як виглядає у свагері
+        public static string GetBooksByTitle(string title) => $"{Base}/by-title/{title}";
+        public static string GetBooksByAuthor(string author) => $"{Base}/by-author/{author}";
         public static string Delete(string title, string author, string token) => $"{Base}/delete/?title={title}&author={author}&token={token}";
     }
 }

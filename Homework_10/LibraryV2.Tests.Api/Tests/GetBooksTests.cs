@@ -21,10 +21,11 @@ public class GetBooksTests : LibraryV2TestFixture
     [Test]
     public async Task GetBooksByTitle200()
     {
+        //Тут ми створюємо постійно нову книгу, щоб кожного разу тест був з новою книгою та був зеленим.
         var book = new Book
         {
-            Title = "title",
-            Author = "author",
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
             YearOfRelease = 0000
         };
 
@@ -36,8 +37,8 @@ public class GetBooksTests : LibraryV2TestFixture
         Assert.Multiple(() =>
         {
             Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(bookFromResponse[0].Title, Is.EqualTo("title"));
-            Assert.That(bookFromResponse[0].Author, Is.EqualTo("author"));
+            Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
+            Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
             Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
         });
     }
@@ -45,6 +46,7 @@ public class GetBooksTests : LibraryV2TestFixture
     [Test]
     public async Task GetBooksByTitle400()
     {
+        // А тут ми шукаємо книгу по заголовку, якого немає в базі
         var httpResponseMessage = await _httpService.GetBooksByTitle("title");
 
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
