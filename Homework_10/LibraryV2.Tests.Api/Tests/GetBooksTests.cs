@@ -2,6 +2,7 @@ using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Models;
 using Newtonsoft.Json;
 using System.Net;
+using LibraryV2.Tests.Api.TestHelpers;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -13,13 +14,8 @@ public class GetBooksTests : LibraryV2TestFixture
     [OneTimeSetUp]
     public new async Task OneTimeSetUp()
     {
-        Book = new()
-        {
-            Title = Guid.NewGuid().ToString(),
-            Author = Guid.NewGuid().ToString(),
-            YearOfRelease = 1980
-        };
-        await HttpService.CreateBook(Book);
+        Book = DataHelper.BookHelper.CreateRandomBook();
+        await HttpService.PostBook(Book);
     }
 
     [Test]
@@ -32,7 +28,6 @@ public class GetBooksTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            // Зараз рекомендують використовувати Assert.That, бо він дає більше інформації про помилку
             Assert.That(response.IsSuccessStatusCode, Is.True);
             Assert.That(json, Is.Not.Empty);
             Assert.That(response, Is.Not.Null);
@@ -51,7 +46,6 @@ public class GetBooksTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            // Зараз рекомендують використовувати Assert.That, бо він дає більше інформації про помилку
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response, Is.Not.Null);
             Assert.That(json[0].Title, Is.EqualTo(Book.Title));

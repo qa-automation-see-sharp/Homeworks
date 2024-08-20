@@ -1,6 +1,7 @@
 using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
+using LibraryV2.Tests.Api.TestHelpers;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -11,13 +12,8 @@ public class DeleteBookTests : LibraryV2TestFixture
     [SetUp]
     public new async Task SetUp()
     {
-        Book = new()
-        {
-            Title = Guid.NewGuid().ToString(),
-            Author = Guid.NewGuid().ToString(),
-            YearOfRelease = 1980
-        };
-        await HttpService.CreateBook(Book);
+        Book = DataHelper.BookHelper.CreateRandomBook();
+        await HttpService.PostBook(Book);
     }
 
     [Test]
@@ -27,7 +23,6 @@ public class DeleteBookTests : LibraryV2TestFixture
         var jsonString = await response.Content.ReadAsStringAsync();
         var s = jsonString.Trim('"');
 
-        // Якщо в тебе два асерти, то краще використовувати Assert.Multiple
         Assert.Multiple(() =>
         {
             Assert.That(s.Equals($"{Book.Title} by {Book.Author} deleted"));

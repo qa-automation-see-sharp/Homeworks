@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
+using LibraryV2.Tests.Api.TestHelpers;
 using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
@@ -17,20 +19,14 @@ public class CreateBookTests : LibraryV2TestFixture
     [TestCase("Half-Blood Prince", "Joanne Rowling", 2005)]
     public async Task CreateBook(string title, string author, int year)
     {
-        _book = new()
-        {
-            Title = title,
-            Author = author,
-            YearOfRelease = year
-        };
+        _book = DataHelper.BookHelper.CreateBook(title, author, year);
 
-        var obj = await HttpService.CreateBook(_book);
+        var obj = await HttpService.PostBook(_book);
         var response = await obj.Content.ReadAsStringAsync();
         var bookObj = JsonConvert.DeserializeObject<Book>(response);
 
         Assert.Multiple(() =>
         {
-            // Зараз рекомендують використовувати Assert.That замість Assert.AreEqual
             Assert.That(obj.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(response, Is.Not.Null);
             Assert.That(bookObj.Title, Is.EqualTo(_book.Title));
