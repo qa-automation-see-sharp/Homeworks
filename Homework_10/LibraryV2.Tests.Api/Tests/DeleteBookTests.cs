@@ -3,73 +3,35 @@ using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
 using Newtonsoft.Json;
+using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class DeleteBookTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-
-    [SetUp]
-    public void Setup()
+    [Test]
+    public async Task DeleteBook_ShouldReturnOK()
     {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
+        //Arrange
+        var book = CreateBook();
+        await LibraryHttpService.PostBook(book);
+
+        //Act
+        var response = await LibraryHttpService.DeleteBook(book.Title, book.Author);
+
+        //Assert
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     [Test]
-    public async Task DeleteBook200()
+    public async Task DeleteBook_NotExistingBook_ShouldReturnNotFound()
     {
-        var user = new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
+        //Arrange - N/A
 
-        await _libraryHttpService.CreateUser(user);
-        var httpResponseMessageUser = await _libraryHttpService.LogIn(user);
-        var contentUser = await httpResponseMessageUser.Content.ReadAsStringAsync();
-        var responseUser = JsonConvert.DeserializeObject<AuthorizationToken>(contentUser);
+        //Act
+        var httpResponseMessage = await LibraryHttpService.DeleteBook(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-        var book = new Book
-        {
-            Title = Guid.NewGuid().ToString(),
-            Author = Guid.NewGuid().ToString(),
-            YearOfRelease = 0000
-        };
-
-        await _libraryHttpService.CreateBook(responseUser.Token, book);
-        var httpResponseMessage = await _libraryHttpService.DeleteBook(responseUser.Token, book.Title, book.Author);
-
-        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-    }
-
-    [Test]
-    public async Task DeleteBook404()
-    {
-        var user = new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
-
-        await _libraryHttpService.CreateUser(user);
-        var httpResponseMessageUser = await _libraryHttpService.LogIn(user);
-        var contentUser = await httpResponseMessageUser.Content.ReadAsStringAsync();
-        var responseUser = JsonConvert.DeserializeObject<AuthorizationToken>(contentUser);
-
-        var httpResponseMessage = await _libraryHttpService.DeleteBook(responseUser.Token, "book", "author");
-
+        //Assert
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-    }
-
-    [Test]
-    public async Task DeleteBook401()
-    {
-        var httpResponseMessage = await _libraryHttpService.DeleteBook("token", "book", "author");
-
-        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
     }
 }

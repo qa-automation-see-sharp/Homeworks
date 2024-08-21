@@ -3,40 +3,30 @@ using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
 using Newtonsoft.Json;
+using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
+
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class GetBooksTests : LibraryV2TestFixture
 {
-    private readonly LibraryHttpService _httpService = new();
-
-    [OneTimeSetUp]
-    public new async Task OneTimeSetUp()
-    {
-        var client = _httpService.Configure("http://localhost:5111/");
-        await _httpService.CreateDefaultUser();
-        await client.Authorize();
-    }
 
     [Test]
-    public async Task GetBooksByTitle200()
+    public async Task GetBooksByTitle_ShouldReturnOK()
     {
-        //Тут ми створюємо постійно нову книгу, щоб кожного разу тест був з новою книгою та був зеленим.
-        var book = new Book
-        {
-            Title = Guid.NewGuid().ToString(),
-            Author = Guid.NewGuid().ToString(),
-            YearOfRelease = 0000
-        };
+        //Arrange
+        var book = CreateBook();
+        await LibraryHttpService.PostBook(book);
 
-        await _httpService.CreateBook(book);
-        var httpResponseMessage = await _httpService.GetBooksByTitle(book.Title);
-        var content = await httpResponseMessage.Content.ReadAsStringAsync();
-        var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(content);
+        //Act
+        var response = await LibraryHttpService.GetBooksByTitle(book.Title);
+        var bookJsonString = await response.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(bookJsonString);
 
+        //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
             Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
             Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
@@ -44,32 +34,34 @@ public class GetBooksTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task GetBooksByTitle400()
+    public async Task GetBooksByTitle_BookDoesNotExist_ShouldReturnNotFound()
     {
-        // А тут ми шукаємо книгу по заголовку, якого немає в базі
-        var httpResponseMessage = await _httpService.GetBooksByTitle("title");
+        //Arrange
+        var title = Guid.NewGuid().ToString() + "additional characters";
 
-        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        //Act
+        var response = await LibraryHttpService.GetBooksByTitle(title);
+
+        //Assert
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 
     [Test]
-    public async Task GetBooksByAuthor200()
+    public async Task GetBooksByAuthor_ShouldReturnOK()
     {
-        var book = new Book
-        {
-            Title = Guid.NewGuid().ToString(),
-            Author = Guid.NewGuid().ToString(),
-            YearOfRelease = 0000
-        };
+        //Arrange
+        var book = CreateBook();
+        await LibraryHttpService.PostBook(book);
 
-        await _httpService.CreateBook(book);
-        var httpResponseMessage = await _httpService.GetBooksByAuthor(book.Author);
-        var content = await httpResponseMessage.Content.ReadAsStringAsync();
-        var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(content);
+        //Act
+        var response = await LibraryHttpService.GetBooksByAuthor(book.Author);
+        var bookJsonString = await response.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(bookJsonString);
 
+        //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
             Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
             Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
@@ -77,10 +69,15 @@ public class GetBooksTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task GetBooksByAuthor400()
+    public async Task GetBooksByAuthor_BookDoesNotExist_ShouldReturnNotFound()
     {
-        var httpResponseMessage = await _httpService.GetBooksByAuthor("author");
+        //Arrange
+        var author = Guid.NewGuid().ToString() + "additional characters";
 
-        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        //Act
+        var response = await LibraryHttpService.GetBooksByAuthor(author);
+
+        //Assert
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 }

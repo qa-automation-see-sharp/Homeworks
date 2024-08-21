@@ -3,31 +3,20 @@ using LibraryV2.Tests.Api.Services;
 using LibraryV2.Models;
 using Newtonsoft.Json;
 using System.Net;
+using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class UsersTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-
-    [SetUp]
-    public void Setup()
-    {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
-    }
-
     [Test]
-    public async Task CreateUser201()
+    public async Task CreateUser_ShouldReturnCreated()
     {
-        var user = new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
+        //Arrange
+        var user = CreateUser();
 
-        var httpResponseMessage = await _libraryHttpService.CreateUser(user);
+        //Act
+        var httpResponseMessage = await LibraryHttpService.CreateUser(user);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var response = JsonConvert.DeserializeObject<User>(content);
 
@@ -40,36 +29,33 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task CreateUser400()
+    public async Task CreateUser_AlreadyExists_ShouldReturnBadRequest()
     {
-        var user = new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
+        //Arrange
+        var user = CreateUser();
+        await LibraryHttpService.CreateUser(user);
 
-        await _libraryHttpService.CreateUser(user);
-        var httpResponseMessage = await _libraryHttpService.CreateUser(user);
+        //Act
+        var httpResponseMessage = await LibraryHttpService.CreateUser(user);
 
+        //Assert
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
 
     [Test]
-    public async Task Login200()
+    public async Task Login_ShouldReturnOK()
     {
-        var user = new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
+        
+        //Arrange
+        var user = CreateUser();
+        await LibraryHttpService.CreateUser(user);
 
-        await _libraryHttpService.CreateUser(user);
-        var httpResponseMessage = await _libraryHttpService.LogIn(user);
+        //Act
+        var httpResponseMessage = await LibraryHttpService.LogIn(user);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var response = JsonConvert.DeserializeObject<AuthorizationToken>(content);
 
+        //Assert
         Assert.Multiple(() =>
         {
             Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -79,17 +65,15 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task Login400()
+    public async Task Login_UserDoesNotExist_ShouldReturnBadRequest()
     {
-        var user = new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
+        //Arrange
+        var user = CreateUser();
 
-        var httpResponseMessage = await _libraryHttpService.LogIn(user);
+        //Act
+        var httpResponseMessage = await LibraryHttpService.LogIn(user);
 
+        //Assert
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
 }
