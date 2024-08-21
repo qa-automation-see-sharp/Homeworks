@@ -1,6 +1,9 @@
+using System;
+using System.Net;
 using System.Text;
 using Bogus;
 using LibraryV2.Models;
+using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -39,6 +42,9 @@ public class LibraryHttpService
         var json = JsonConvert.SerializeObject(DefaultUser);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine("Created defaults user: "+jsonString);
 
         return this;
     }
@@ -49,6 +55,9 @@ public class LibraryHttpService
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
         AuthorizationToken = JsonConvert.DeserializeObject<AuthorizationToken>(content);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine("Authorized with: " + jsonString);
 
         return this;
     }
@@ -59,7 +68,8 @@ public class LibraryHttpService
         var json = JsonConvert.SerializeObject(user);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -68,7 +78,8 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
         var response = await _httpClient.GetAsync(url);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -80,7 +91,8 @@ public class LibraryHttpService
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -90,7 +102,8 @@ public class LibraryHttpService
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -100,7 +113,8 @@ public class LibraryHttpService
         var url = EndpointsForTest.Books.GetBooksByTitle(title);
         var uri = new Uri(_httpClient.BaseAddress, url);
         var response = await _httpClient.GetAsync(uri);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -110,7 +124,8 @@ public class LibraryHttpService
         var url = EndpointsForTest.Books.GetBooksByAuthor(author);
         var uri = new Uri(_httpClient.BaseAddress, url);
         var response = await _httpClient.GetAsync(uri);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -119,7 +134,8 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.Delete(title, author, token);
         var response = await _httpClient.DeleteAsync(url);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
     }
@@ -127,8 +143,16 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.Delete(title, author, AuthorizationToken.Token);
         var response = await _httpClient.DeleteAsync(url);
-        response.EnsureSuccessStatusCode();
+        var jsonString = await response.Content.ReadAsStringAsync();
+        WriteLog(response.RequestMessage.Method.ToString(), _httpClient.BaseAddress, url, response.StatusCode, jsonString);
 
         return response;
+    }
+
+    public void WriteLog(string method, Uri baseAdress, string url, HttpStatusCode statusCode, string content)
+    {
+        Console.WriteLine(method + " request to: " + baseAdress + url);
+        Console.WriteLine("Response status code: " + statusCode);
+        Console.WriteLine("Content: " + content);
     }
 }

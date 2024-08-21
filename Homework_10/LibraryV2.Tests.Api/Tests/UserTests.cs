@@ -11,7 +11,6 @@ public class UsersTests : LibraryV2TestFixture
 {
     private LibraryHttpService _libraryHttpService = new();
 
-    //Якщо у методі немає асінхронних операцій, то його можна залишити синхронним
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
@@ -31,7 +30,7 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task CreateUser()
+    public async Task CreateUser_WhenDataIsValid_ReturnCreated()
     {
         var user = GenerateUser();
         HttpResponseMessage response = await _libraryHttpService.CreateUser(user);
@@ -50,7 +49,7 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task LogIn()
+    public async Task LogIn_WhenUserExists_ReturnOk()
     {
         var user = GenerateUser();
 

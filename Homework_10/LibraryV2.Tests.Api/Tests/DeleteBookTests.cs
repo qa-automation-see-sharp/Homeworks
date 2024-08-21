@@ -7,7 +7,6 @@ namespace LibraryV2.Tests.Api.Tests;
 
 public class DeleteBookTests : LibraryV2TestFixture
 {
-    // Якщо створюєщь цей обʼєкт один раз у цьому класі, то можна залишити його приватним та рід онлі
     private readonly LibraryHttpService _libraryHttpService = new();
 
     [SetUp]
@@ -19,7 +18,7 @@ public class DeleteBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task DeleteBook()
+    public async Task DeleteBook_WhenBookExists_ReturnOk()
     {
         var newBook = new Book()
         {
