@@ -2,14 +2,20 @@ using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
+using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class CreateBookTests : LibraryV2TestFixture
 {
-    [SetUp]
-    public new void SetUp()
+    private readonly LibraryHttpService _httpService = new();
+    
+    [OneTimeSetUp]
+    public async Task OneTimeSetUpAsync()
     {
+        var client = _httpService.Configure("http://localhost:5111/");
+        await client.CreateDefaultUser();
+        await client.Authorize();
     }
 
     [Test]
@@ -17,13 +23,22 @@ public class CreateBookTests : LibraryV2TestFixture
     {
         var book = new Book
         {
-            Author = "Taylor Jenkins Rid",
-            Title = "Evelin Hugo",
+            Author = Guid.NewGuid().ToString(),
+            Title = Guid.NewGuid().ToString(),
             YearOfRelease = 2023
         };
 
-        var response = await _libraryHttpService.CreateBook(_users.First().Value, book);
+        var httpResponseMessage = await _httpService.CreateBook(book);
+        var content = await httpResponseMessage.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
         
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+        Assert.Multiple(() =>
+        {
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Created)); 
+            Assert.That(bookFromResponse.Title, Is.EqualTo(book.Title));
+            Assert.That(bookFromResponse.Author, Is.EqualTo(book.Author));
+            Assert.That(bookFromResponse.YearOfRelease, Is.EqualTo(book.YearOfRelease));
+        });
+        
     }
 }

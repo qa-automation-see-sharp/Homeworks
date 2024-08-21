@@ -7,21 +7,50 @@ namespace LibraryV2.Tests.Api.Services;
 public class LibraryHttpService
 {
     private readonly HttpClient _httpClient;
+    
+    private User? DefaultUser { get; set; }
+    public AuthorizationToken? AuthToken { get; set; }
 
     public LibraryHttpService()
     {
         _httpClient = new HttpClient();
     }
 
-    public void Configure(string baseUrl)
+    public LibraryHttpService Configure(string baseUrl)
     {
         _httpClient.BaseAddress = new Uri(baseUrl);
+        return this;
     }
-    
 
+    public async Task<LibraryHttpService> CreateDefaultUser()
+    {
+        DefaultUser = new User
+        {
+            NickName = Guid.NewGuid().ToString(),
+            Password = Guid.NewGuid().ToString(),
+            FullName = Guid.NewGuid().ToString()
+        };
+        
+        var url = EndpointsForTest.Users.Register;
+        var json = JsonConvert.SerializeObject(DefaultUser);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(url, content);
+        
+        return this;
+    }
+    public async Task<LibraryHttpService> Authorize()
+    {
+        var url = EndpointsForTest.Users.Login + $"?nickname={DefaultUser.NickName}&password={DefaultUser.Password}";
+        var response = await _httpClient.GetAsync(url);
+        var content = await response.Content.ReadAsStringAsync();
+        AuthToken = JsonConvert.DeserializeObject<AuthorizationToken>(content);
+
+        return this;
+    }
+ 
     public async Task<HttpResponseMessage> CreateUser(User user)
     {
-        var url = ApiEndpoints.Users.Register;
+        var url = EndpointsForTest.Users.Register;
         var json = JsonConvert.SerializeObject(user);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
@@ -31,16 +60,24 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> LogIn(User user)
     {
-        var url = ApiEndpoints.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
+        var url = EndpointsForTest.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
         var response = await _httpClient.GetAsync(url);
 
         return response;
     }
     
-
     public async Task<HttpResponseMessage> CreateBook(string token, Book book)
     {
-        var url = ApiEndpoints.Books.Create + $"?token={token}";
+        var url = EndpointsForTest.Books.Create + $"?token={token}";
+        var json = JsonConvert.SerializeObject(book);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(url, content);
+
+        return response;
+    }
+    public async Task<HttpResponseMessage> CreateBook(Book book)
+    {
+        var url = EndpointsForTest.Books.Create + $"?token={AuthToken.Token}";
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
@@ -50,7 +87,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
-        var url = ApiEndpoints.Books.GetBooksByTitle + $"?title={title}";
+        var url = EndpointsForTest.Books.GetBooksByTitle + $"?title={title}";
         var response = await _httpClient.GetAsync(url);
 
         return response;
@@ -58,15 +95,16 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
-        var url = ApiEndpoints.Books.GetBooksByAuthor + $"?author={author}";
-        var response = await _httpClient.GetAsync(url);
+        var url = EndpointsForTest.Books.GetBooksByAuthor(author);
+        var uri = new Uri(_httpClient.BaseAddress, url);
+        var response = await _httpClient.GetAsync(uri);
 
         return response;
     }
     
     public async Task<HttpResponseMessage> DeleteBook(string token, string title, string author)
     {
-        var url = ApiEndpoints.Books.Delete + $"?title={title}&author={author}&token={token}";
+        var url = EndpointsForTest.Books.Delete(title, author, token);
         var response = await _httpClient.DeleteAsync(url);
 
         return response;
