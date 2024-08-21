@@ -113,7 +113,7 @@ public class ListsLinq : StartUpFixture
         };
             
         // Query
-        string result = movies.FirstOrDefault(x=>x.Duration >=150).Title;;
+        string result = movies.FirstOrDefault(x=>x.Duration >=150).Title;
             
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));

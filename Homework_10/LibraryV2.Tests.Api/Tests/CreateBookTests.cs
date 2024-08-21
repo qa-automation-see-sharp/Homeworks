@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
@@ -10,7 +9,7 @@ namespace LibraryV2.Tests.Api.Tests;
 public class CreateBookTests : LibraryV2TestFixture
 {
     private Book _book;
-    
+
     [TestCase("Philosopher's Stone", "Joanne Rowling", 1997)]
     [TestCase("Chamber of Secrets", "Joanne Rowling", 1998)]
     [TestCase("Prisoner of Azkaban", "Joanne Rowling", 1999)]
@@ -19,7 +18,7 @@ public class CreateBookTests : LibraryV2TestFixture
     [TestCase("Half-Blood Prince", "Joanne Rowling", 2005)]
     public async Task CreateBook(string title, string author, int year)
     {
-        _book = DataHelper.BookHelper.CreateBook(title, author, year);
+        _book = DataHelper.BookHelper.BookWithTitleAuthorYear(title, author, year);
 
         var obj = await HttpService.PostBook(_book);
         var response = await obj.Content.ReadAsStringAsync();
@@ -35,9 +34,28 @@ public class CreateBookTests : LibraryV2TestFixture
         });
     }
 
+    [Test]
+    public new async Task CreateExistedBook()
+    {
+        _book = DataHelper.BookHelper.RandomBook();
+        
+        await HttpService.PostBook(_book);
+        var obj = await HttpService.PostBook(_book);
+        var response = await obj.Content.ReadAsStringAsync();
+        var s = response.Trim('"'); 
+
+        Assert.Multiple(() =>
+       {
+           Assert.That(obj.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+           Assert.That(response, Is.Not.Null);
+           Assert.That(s.Equals(DataHelper.ErrorMessage.ExistBook(_book)));
+       });
+    }
+
     [TearDown]
     public new async Task DeleteBook()
     {
+        TestContext.WriteLine("Tear down:");
         await HttpService.DeleteBook(_book.Title, _book.Author);
     }
 }

@@ -15,6 +15,17 @@ public class LibraryV2TestFixture : GlobalSetUpFixture
         await HttpService.Authorize();
     }
 
+    [SetUp]
+    public void SetUpBeforeTest(){
+        Console.WriteLine("Test starts: " + TestContext.CurrentContext.Test.Name);
+    }
+
+    [TearDown]
+    public void TearDouwnAfterTest(){
+        Console.WriteLine("Test finished: " + TestContext.CurrentContext.Result.Outcome.Status);
+        Console.WriteLine("====================================");
+    }
+
     [OneTimeTearDown]
     public void TearDown()
     {

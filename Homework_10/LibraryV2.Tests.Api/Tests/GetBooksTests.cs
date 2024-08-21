@@ -3,6 +3,7 @@ using LibraryV2.Models;
 using Newtonsoft.Json;
 using System.Net;
 using LibraryV2.Tests.Api.TestHelpers;
+using Microsoft.AspNetCore.Http;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -14,7 +15,7 @@ public class GetBooksTests : LibraryV2TestFixture
     [OneTimeSetUp]
     public new async Task OneTimeSetUp()
     {
-        Book = DataHelper.BookHelper.CreateRandomBook();
+        Book = DataHelper.BookHelper.RandomBook();
         await HttpService.PostBook(Book);
     }
 
@@ -34,6 +35,21 @@ public class GetBooksTests : LibraryV2TestFixture
             Assert.That(json[0].Title, Is.EqualTo(Book.Title));
             Assert.That(json[0].Author, Is.EqualTo(Book.Author));
             Assert.That(json[0].YearOfRelease, Is.EqualTo(Book.YearOfRelease));
+        });
+    }
+
+    [Test]
+    public async Task BookNotFoundByTitle(){
+
+        var book = DataHelper.BookHelper.BookWithTitleAuthorYear("Not Found", "Not Found Author", 1990);
+        var response = await HttpService.GetBooksByTitle(book.Title);
+        var message = await response.Content.ReadAsStringAsync();
+        var s = message.Trim('"');
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Assert.That(s.Equals(DataHelper.ErrorMessage.NotFoundBook(book)));
         });
     }
 

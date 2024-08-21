@@ -1,7 +1,9 @@
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.TestHelpers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LibraryV2.Tests.Api.Services;
 
@@ -14,7 +16,7 @@ public class LibraryHttpService
     public LibraryHttpService()
     {
         _httpClient = new HttpClient();
-       
+
     }
 
     public LibraryHttpService Configure(string baseUrl)
@@ -23,7 +25,8 @@ public class LibraryHttpService
         return this;
     }
 
-    public async Task<User>CreateDefaultUser(){
+    public async Task<User> CreateDefaultUser()
+    {
         DefaultUser = DataHelper.UserHelper.CreateRandomUser();
 
         var url = EndpointsForTest.Users.Register;
@@ -31,10 +34,7 @@ public class LibraryHttpService
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
 
-        Console.WriteLine("Create Default User:");
-        Console.WriteLine($"POST request to: \n{url}");
-        Console.WriteLine($"Content: \n{json}");
-        Console.WriteLine($"Response status codeis : \n{response.StatusCode}");
+        ConsoleHelper.Info(HttpMethod.Post, "Create Default User", url, json, response);
 
         return DefaultUser;
     }
@@ -46,7 +46,7 @@ public class LibraryHttpService
         var content = await response.Content.ReadAsStringAsync();
         Token = JsonConvert.DeserializeObject<AuthorizationToken>(content);
 
-        ConsoleHelper.GetInfo("Authorize", url, content, response);
+        ConsoleHelper.Info(HttpMethod.Get, "Authorize", url, content, response);
 
         return this;
     }
@@ -60,33 +60,33 @@ public class LibraryHttpService
         var response = await _httpClient.PostAsync(url, content);
         var jsonString = await response.Content.ReadAsStringAsync();
 
-        ConsoleHelper.PostInfo("Create user", url, jsonString, response);
+        ConsoleHelper.Info(HttpMethod.Post, "Create user", url, jsonString, response);
 
         return response;
     }
-    
+
     public async Task<HttpResponseMessage> LogIn(User user)
     {
         var url = EndpointsForTest.Users.Login(user.NickName, user.Password);
         var response = await _httpClient.GetAsync(url);
         var jsonString = await response.Content.ReadAsStringAsync();
 
-        ConsoleHelper.GetInfo("Login", url, jsonString, response);
+        ConsoleHelper.Info(HttpMethod.Get, "Login", url, jsonString, response);
 
         return response;
     }
 
-     public async Task<HttpResponseMessage> LogIn(string nickName, string password)
+    public async Task<HttpResponseMessage> LogIn(string nickName, string password)
     {
         var url = EndpointsForTest.Users.Login(nickName, password);
         var response = await _httpClient.GetAsync(url);
         var jsonString = await response.Content.ReadAsStringAsync();
 
-        ConsoleHelper.GetInfo("Login", url, jsonString, response);
-        
+        ConsoleHelper.Info(HttpMethod.Get, "Login", url, jsonString, response);
+
         return response;
     }
-    
+
 
     public async Task<HttpResponseMessage> PostBook(Book book)
     {
@@ -96,27 +96,29 @@ public class LibraryHttpService
         var response = await _httpClient.PostAsync(url, content);
         var jsonString = await response.Content.ReadAsStringAsync();
 
-        ConsoleHelper.PostInfo("Create book", url, jsonString, response);
-        // Console.WriteLine("Create Book:");
-        // Console.WriteLine($"POST request to: {url}");
-        // Console.WriteLine($"Content: {jsonString}");
-        // Console.WriteLine($"Response status code is : {response.StatusCode}");
+        ConsoleHelper.Info(HttpMethod.Post, "Create book", url, jsonString, response);
 
         return response;
     }
-    
+
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
         var url = EndpointsForTest.Books.GetBooksByTitle(title);
         var response = await _httpClient.GetAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        ConsoleHelper.Info(HttpMethod.Get, "Get book by title", url, jsonString, response);
 
         return response;
     }
-    
+
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
         var url = EndpointsForTest.Books.GetBooksByAuthor(author);
         var response = await _httpClient.GetAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        ConsoleHelper.Info(HttpMethod.Get, "Get book by author", url, jsonString, response);
 
         return response;
     }
@@ -125,6 +127,9 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.Delete(title, author, Token.Token);
         var response = await _httpClient.DeleteAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        ConsoleHelper.Info(HttpMethod.Delete, "Delete book", url, jsonString, response);
 
         return response;
     }
@@ -133,7 +138,40 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.Delete(title, author, token);
         var response = await _httpClient.DeleteAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        ConsoleHelper.Info(HttpMethod.Delete, "Delete book", url, jsonString, response);
 
         return response;
+    }
+
+    //TODO:debug
+    public async Task DeleteListBooks(List<Book> booksList, string author)
+    {
+        var count = booksList.Select(x=>x.Author.Equals(author)).ToList().Count;
+        string url;
+        string jsonString;
+        HttpResponseMessage? responseMessage;
+
+        if (count == 1)
+        {
+            url = EndpointsForTest.Books.Delete(booksList[0].Title, booksList[0].Author, Token.Token);
+            responseMessage = await _httpClient.DeleteAsync(url);
+            responseMessage.EnsureSuccessStatusCode();
+            jsonString = await responseMessage.Content.ReadAsStringAsync();
+            ConsoleHelper.Info(HttpMethod.Delete, "Delete book", url, jsonString, responseMessage);
+        }
+        if (count > 1)
+        {
+            foreach (var book in booksList)
+            {
+                url = EndpointsForTest.Books.Delete(book.Title, book.Author, Token.Token);
+                responseMessage = await _httpClient.DeleteAsync(url);
+                responseMessage.EnsureSuccessStatusCode();
+                jsonString = await responseMessage.Content.ReadAsStringAsync();
+                ConsoleHelper.Info(HttpMethod.Delete, "Delete book", url, jsonString, responseMessage);
+                booksList.Remove(book);
+            }
+        }
     }
 }

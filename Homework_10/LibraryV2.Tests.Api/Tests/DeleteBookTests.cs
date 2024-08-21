@@ -12,7 +12,7 @@ public class DeleteBookTests : LibraryV2TestFixture
     [SetUp]
     public new async Task SetUp()
     {
-        Book = DataHelper.BookHelper.CreateRandomBook();
+        Book = DataHelper.BookHelper.RandomBook();
         await HttpService.PostBook(Book);
     }
 

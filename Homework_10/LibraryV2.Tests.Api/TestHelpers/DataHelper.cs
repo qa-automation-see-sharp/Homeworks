@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using LibraryV2.Models;
 
 namespace LibraryV2.Tests.Api.TestHelpers
@@ -7,7 +6,7 @@ namespace LibraryV2.Tests.Api.TestHelpers
     {
         public static class BookHelper
         {
-            public static Book CreateRandomBook()
+            public static Book RandomBook()
             {
                 return new()
                 {
@@ -17,7 +16,7 @@ namespace LibraryV2.Tests.Api.TestHelpers
                 };
             }
 
-            public static Book CreateBook(string title, string author, int yearOfRealease)
+            public static Book BookWithTitleAuthorYear(string title, string author, int yearOfRealease)
             {
                 return new()
                 {
@@ -49,12 +48,13 @@ namespace LibraryV2.Tests.Api.TestHelpers
                     Password = password
                 };
             }
+        }
 
-            private static void GeneratorPassword(){
-                string CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:'\",./?`~";
-                int defaultLenght = 14;
-                //RandomNumberGenerator rng = new RandomNumberGenerator.;
-            }
+        public static class ErrorMessage{
+            public static string InvalidLogin = "Invalid nickname or password";
+            public static string ExistUser(string nickName) => $"User with nickname {nickName} already exists";
+            public static string ExistBook(Book book) => $"{book.Title} by {book.Author}, {book.YearOfRelease} already exists";
+            public static string NotFoundBook(Book book) => $"The books this title: {book.Title}, was not found.";
         }
     }
 }

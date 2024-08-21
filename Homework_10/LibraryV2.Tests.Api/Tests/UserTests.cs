@@ -19,9 +19,7 @@ public class UsersTests : LibraryV2TestFixture
     [Test]
     public async Task CreateUserSusses()
     {
-        User user =
-            //DataHelper.UserHelper.CreateUser("Robert Finch", "Finch", "Qwerty");
-            DataHelper.UserHelper.CreateRandomUser();
+        User user = DataHelper.UserHelper.CreateRandomUser();
 
         var response = await HttpService.CreateUser(user);
         var json = await response.Content.ReadAsStringAsync();
@@ -47,7 +45,7 @@ public class UsersTests : LibraryV2TestFixture
 
         Assert.Multiple(() =>
         {
-            Assert.That(s.Equals($"User with nickname {user.NickName} already exists"));
+            Assert.That(s.Equals(DataHelper.ErrorMessage.ExistUser(user.NickName)));
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         });
     }
@@ -78,7 +76,7 @@ public class UsersTests : LibraryV2TestFixture
         Assert.Multiple(() =>
         {
             Assert.That(message.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(s.Equals("Invalid nickname or password"));
+            Assert.That(s.Equals(DataHelper.ErrorMessage.InvalidLogin));
         });
     }
 }
