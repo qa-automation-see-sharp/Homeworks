@@ -6,6 +6,7 @@ namespace WeatherApp.Tests.Api;
 public class Tests
 {
     private MyHttpClient _client;
+
     [SetUp]
     public void Setup()
     {
@@ -16,22 +17,12 @@ public class Tests
     [Test]
     public async Task GetWeatherForLondon()
     {
-        // Get weather for London, GB
-        // use method GetWeather from MyHttpClient
-<<<<<<< HEAD
-        WeatherInfo? response = await _client.GetWeather("London", "GB");
-        
-        
-=======
-        //WeatherInfo? response = null;
-
         var cityLondon = "London";
         var CountryCodeGB = "GB";
         var myHttpClient = new MyHttpClient();
         WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
 
 
->>>>>>> 7390969 (HT 9)
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -50,8 +41,7 @@ public class Tests
         var CountryCodeGB = "GB";
         var myHttpClient = new MyHttpClient();
         WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
-
-
+        
         //Asserts should pass
         Assert.Multiple(() =>
         {

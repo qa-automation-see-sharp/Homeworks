@@ -43,8 +43,8 @@ x64/
 *.log
 *.svclog
 *.scc
-*.vs
-*.idea
+*.vs/
+*.idea/
 
 # Visual C++ cache files
 ipch/
