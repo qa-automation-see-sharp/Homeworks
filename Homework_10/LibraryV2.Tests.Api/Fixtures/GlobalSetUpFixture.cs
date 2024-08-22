@@ -15,6 +15,9 @@ public class GlobalSetUpFixture
     {
         _libraryHttpService.Configure("http://localhost:5111/");
         
+        await _libraryHttpService.CreateDefaultUser();
+        await _libraryHttpService.Authorize();
+        
         for (var i = 0; i < 3; i++)
         {
             var user = new User

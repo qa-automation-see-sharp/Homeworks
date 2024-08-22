@@ -47,6 +47,11 @@ public class LibraryHttpService
 
         return this;
     }
+
+    public string? GetDefaultUserToken()
+    {
+        return AuthToken?.Token;
+    }
  
     public async Task<HttpResponseMessage> CreateUser(User user)
     {
@@ -113,14 +118,6 @@ public class LibraryHttpService
     public async Task<HttpResponseMessage> DeleteBook(string token, string title, string author)
     {
         var url = EndpointsForTest.Books.Delete(title, author, token);
-        var response = await _httpClient.DeleteAsync(url);
-
-        return response;
-    }
-    
-    public async Task<HttpResponseMessage> DeleteBook(Book token, Book title, Book author)
-    {
-        var url = EndpointsForTest.Books.Delete(title, author, AuthToken.Token);
         var response = await _httpClient.DeleteAsync(url);
 
         return response;
