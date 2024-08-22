@@ -1,52 +1,50 @@
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using LibraryV2.Tests.Api.TestHelper;
 using Newtonsoft.Json;
-using System.Net;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class UsersTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-    private User user;
-    private string _token;
-
-    [SetUp]
-    public void Setup()
-    {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
-    }
     [Test]
-
-    public async Task CreateUsers() 
+    public async Task CreateUser_ShouldReturnOk()
     {
-        var user = new User()
-        {
-            FullName = "Test User",
-            NickName = "Test Nickname",
-            Password = "password"
-        };
+        // Arrange
+        var user = DataHelper.CreateUser();
 
-        HttpResponseMessage response = await _libraryHttpService.CreateUser(user);
-
+        // Act
+        var response = await LibraryHttpService.CreateUser(user);
         var jsonString = await response.Content.ReadAsStringAsync();
+        var createdUser = JsonConvert.DeserializeObject<User>(jsonString);
 
-        var userResponse = JsonConvert.DeserializeObject<User>(jsonString);
-
+        // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(response, Is.Not.Null);
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Assert.That(userResponse.FullName, Is.EqualTo(user.FullName));
-            
+            Assert.That(createdUser.NickName, Is.EqualTo(user.NickName));
+            Assert.That(createdUser.FullName, Is.EqualTo(user.FullName));
+            Assert.That(createdUser.Password, Is.EqualTo(null));
         });
     }
 
-    //TODO cover with tests all endpoints from Users controller
-    // Create user
-    // Log In
+    [Test]
+    public async Task CreateUser_ThatAlreadyExists_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var user = DataHelper.CreateUser();
+        var response1 = await LibraryHttpService.CreateUser(user);
+
+        // Act
+        var response2 = await LibraryHttpService.CreateUser(user);
+        var jsonString = await response2.Content.ReadAsStringAsync();
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(response2.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(jsonString, Is.EqualTo($"\"User with nickname {user.NickName} already exists\""));
+        });
+    }
 }

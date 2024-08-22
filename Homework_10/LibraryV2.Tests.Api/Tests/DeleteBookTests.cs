@@ -1,44 +1,43 @@
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
-using LibraryV2.Models;
 using System.Net;
+using LibraryV2.Tests.Api.Fixtures;
+using LibraryV2.Tests.Api.TestHelper;
+
 
 namespace LibraryV2.Tests.Api.Tests;
 
+[TestFixture]
 public class DeleteBookTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-
-    [SetUp]
-    public new void SetUp()
+    [Test]
+    public async Task DeleteBook_ShouldReturnOk()
     {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
+        // Arrange
+        var book = DataHelper.CreateBook();
+        await LibraryHttpService.PostBook(book);
+
+        // Act
+        var response = await LibraryHttpService.DeleteBook(book.Title, book.Author);
+        var jsonString = await response.Content.ReadAsStringAsync();
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(jsonString, Is.EqualTo($"\"{book.Title} by {book.Author} deleted\""));
+        });
     }
 
     [Test]
-    public async Task DeleteBook()
+    public async Task Delete_NotExistingBook_ShouldReturnNotFound()
     {
-        var newBook = new Book()
-        {
-            Title = "TitleToDelete",
-            Author = "AuthorToDelete"
-        };
+        // Arrange
+        var book = DataHelper.CreateBook();
+        await LibraryHttpService.PostBook(book);
 
-        var token = "";
+        // Act
+        var response1 = await LibraryHttpService.DeleteBook("NotExistingBook", "NotExistingAuthor");
 
-        var bookCreated = await _libraryHttpService.CreateBook(token, newBook);
-
-        HttpResponseMessage response = await _libraryHttpService.DeleteBook(token, newBook.Title, newBook.Author);
-
-        var jsonString = await response.Content.ReadAsStringAsync();
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-            Assert.Equals(HttpStatusCode.OK, response.StatusCode);
-        });
-        //TODO cover with tests all endpoints from Books controller
-        // Delete book
+        // Assert
+        Assert.That(response1.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 }

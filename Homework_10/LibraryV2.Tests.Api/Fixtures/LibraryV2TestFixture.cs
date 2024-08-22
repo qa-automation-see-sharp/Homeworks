@@ -5,10 +5,15 @@ namespace LibraryV2.Tests.Api.Fixtures;
 [TestFixture]
 public class LibraryV2TestFixture : GlobalSetUpFixture
 {
-    protected LibraryHttpService LibraryHttpService2;
+    protected LibraryHttpService LibraryHttpService;
+
     [OneTimeSetUp]
-    public void SetUp()
+    public async Task OneTimeSetUp()
     {
+        LibraryHttpService = new LibraryHttpService();
+        LibraryHttpService.Configure("http://localhost:5111/");
+        await LibraryHttpService.CreateDefaultUser();
+        await LibraryHttpService.AuthorizeLikeDefaultUser();
     }
 
     [OneTimeTearDown]
