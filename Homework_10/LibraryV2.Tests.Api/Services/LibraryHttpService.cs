@@ -93,6 +93,14 @@ public class LibraryHttpService
         return response;
     }
     
+    public async Task<HttpResponseMessage> GetBooksByTitle(Book title)
+    {
+        var url = EndpointsForTest.Books.GetBooksByTitle + $"?title={AuthToken.Token}";
+        var response = await _httpClient.GetAsync(url);
+
+        return response;
+    }
+    
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
         var url = EndpointsForTest.Books.GetBooksByAuthor(author);
@@ -105,6 +113,14 @@ public class LibraryHttpService
     public async Task<HttpResponseMessage> DeleteBook(string token, string title, string author)
     {
         var url = EndpointsForTest.Books.Delete(title, author, token);
+        var response = await _httpClient.DeleteAsync(url);
+
+        return response;
+    }
+    
+    public async Task<HttpResponseMessage> DeleteBook(Book token, Book title, Book author)
+    {
+        var url = EndpointsForTest.Books.Delete(title, author, AuthToken.Token);
         var response = await _httpClient.DeleteAsync(url);
 
         return response;

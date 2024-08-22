@@ -8,28 +8,31 @@ namespace LibraryV2.Tests.Api.Tests;
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
+    private readonly LibraryHttpService _httpService = new();
 
-    [SetUp]
-    public void SetUp()
+    [OneTimeSetUp]
+    public async Task OneTimeSetUpAsync()
     {
+        var client = _httpService.Configure("http://localhost:5111/");
+        await client.CreateDefaultUser();
+        await client.Authorize();
     }
 
     [Test, Order(1)]
 
     public async Task GetBookByTitleAsync()
     {
-        var response = await _libraryHttpService.GetBooksByTitle(_bookDetails.First().Key);
+        var httpResponseMessage = await _httpService.GetBooksByTitle(_bookDetails.First().Key);
         
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     [Test, Order(2)]
 
     public async Task GetBookByAuthorAsync()
     {
-        var response = await _libraryHttpService.GetBooksByAuthor(_bookDetails.First().Value);
+        var httpResponseMessage = await _httpService.GetBooksByAuthor(_bookDetails.First().Value);
         
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 }

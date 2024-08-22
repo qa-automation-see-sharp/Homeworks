@@ -7,17 +7,22 @@ namespace LibraryV2.Tests.Api.Tests;
 
 public class DeleteBookTests : LibraryV2TestFixture
 {
-    [SetUp]
-    public new void SetUp()
+    private readonly LibraryHttpService _httpService = new();
+
+    [OneTimeSetUp]
+    public async Task OneTimeSetUpAsync()
     {
+        var client = _httpService.Configure("http://localhost:5111/");
+        await client.CreateDefaultUser();
+        await client.Authorize();
     }
 
     [Test]
     public async Task DeleteBookAsync()
     {
-        var response = await _libraryHttpService.DeleteBook(_users.First().Value, _bookDetails.First().Value,
+        var httpResponseMessage = await _libraryHttpService.DeleteBook(_users.First().Value, _bookDetails.First().Value,
             _bookDetails.First().Key);
         
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 }
