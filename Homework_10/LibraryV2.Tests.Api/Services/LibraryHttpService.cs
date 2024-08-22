@@ -92,15 +92,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
-        var url = EndpointsForTest.Books.GetBooksByTitle + $"?title={title}";
-        var response = await _httpClient.GetAsync(url);
-
-        return response;
-    }
-    
-    public async Task<HttpResponseMessage> GetBooksByTitle(Book title)
-    {
-        var url = EndpointsForTest.Books.GetBooksByTitle + $"?title={AuthToken.Token}";
+        var url = EndpointsForTest.Books.GetBooksByTitle + title;
         var response = await _httpClient.GetAsync(url);
 
         return response;
@@ -109,8 +101,7 @@ public class LibraryHttpService
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
         var url = EndpointsForTest.Books.GetBooksByAuthor(author);
-        var uri = new Uri(_httpClient.BaseAddress, url);
-        var response = await _httpClient.GetAsync(uri);
+        var response = await _httpClient.GetAsync(url);
 
         return response;
     }

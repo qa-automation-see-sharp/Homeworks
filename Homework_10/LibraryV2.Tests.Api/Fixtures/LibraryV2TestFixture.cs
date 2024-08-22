@@ -19,7 +19,7 @@ public class LibraryV2TestFixture : GlobalSetUpFixture
                 Author = "Author" + i,
                 YearOfRelease = 199 + i
             };
-            await _libraryHttpService.CreateBook(_libraryHttpService.GetDefaultUserToken(), book);
+            var result = await _libraryHttpService.CreateBook(_libraryHttpService.GetDefaultUserToken(), book);
             _bookDetails.Add(book.Title, book.Author);
         }
     }

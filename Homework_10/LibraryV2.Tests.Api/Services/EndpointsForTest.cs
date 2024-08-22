@@ -17,7 +17,7 @@ public class EndpointsForTest
 
         public const string Create = $"{Base}/create";
         public const string GetBooksByTitle = $"{Base}/by-title/";
-        public static string GetBooksByAuthor(string author) => $"{Base}/by-author/?author={author}";
+        public static string GetBooksByAuthor(string author) => $"{Base}/by-author/{author}";
         public static string Delete(string title, string author, string token) => 
             $"{Base}/delete/?title={title}&author={author}&token={token}";
     }

@@ -12,16 +12,13 @@ public class DeleteBookTests : LibraryV2TestFixture
     [OneTimeSetUp]
     public async Task OneTimeSetUpAsync()
     {
-        var client = _httpService.Configure("http://localhost:5111/");
-        await client.CreateDefaultUser();
-        await client.Authorize();
     }
 
     [Test]
     public async Task DeleteBookAsync()
     {
-        var httpResponseMessage = await _libraryHttpService.DeleteBook(_users.First().Value, _bookDetails.First().Value,
-            _bookDetails.First().Key);
+        var httpResponseMessage = await _libraryHttpService.DeleteBook(_libraryHttpService.GetDefaultUserToken(), _bookDetails.First().Key,
+            _bookDetails.First().Value);
         
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
