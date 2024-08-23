@@ -1,11 +1,7 @@
+using System.Net;
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
-using LibraryV2.Models;
-using System.Net;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Identity.Data;
-using LibraryV2.Services;
-using System.Runtime.CompilerServices;
 
 namespace LibraryV2.Tests.Api.Tests;
 
@@ -43,14 +39,13 @@ public class CreateBookTests : LibraryV2TestFixture
         //create new user
         var createTestUserResponse = await _libraryHttpService.CreateUser(_testUser);
         TestContext.WriteLine($"Create User Status Code: {createTestUserResponse.StatusCode}");
-
     }
 
-    //TODO cover with tests all endpoints from Books controller
 
+    // Instead of this comment name test properly
     // CREATE BOOK WITHOUT AUTHORIZATION
     [Test]
-    public async Task CreateBookNoAuth()
+    public async Task CreateBook_WithNoAuthorizedUser_ReturnsUnauthorized()
     {
         //create new instance of Book
         var book = new Book
@@ -70,11 +65,10 @@ public class CreateBookTests : LibraryV2TestFixture
         TestContext.WriteLine($"Token: {_token}");
     }
 
+    // Instead of this comment name test properly
     //CREATE NEW BOOK WITH AUTHORIZATION 
     [Test]
-    
-    public async Task CreateNewBook ()
-
+    public async Task CreateNewBook_ReturnCreated()
     {
         //login user and get token
         var loginUserResponse = await _libraryHttpService.LogIn(_testUser);
@@ -96,23 +90,22 @@ public class CreateBookTests : LibraryV2TestFixture
         TestContext.WriteLine(bookCreateNewResponse.StatusCode);
 
         //Asserts
-        Assert.AreEqual(HttpStatusCode.Created, bookCreateNewResponse.StatusCode);
+        Assert.That(bookCreateNewResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         Assert.NotNull(bookCreateNewResponse);
-        Assert.AreNotEqual(book.Title, _testBook.Title);
+        Assert.That(_testBook.Title, Is.Not.EqualTo(book.Title));
         TestContext.WriteLine($"New book title: ==> {book.Title} <== exist book title: ==> {_testBook.Title} <==");
-        Assert.AreNotEqual(book.Author, _testBook.Author);
+        Assert.That(_testBook.Author, Is.Not.EqualTo(book.Author));
         TestContext.WriteLine($"New book author: ==> {book.Author} <== exist book author: ==> {_testBook.Title} <==");
     }
 
+    // Instead of this comment name test properly
     //CREATE NEW BOOK WITH DUPLICATE TITLE
     [Test]
-
-    public async Task CreateDupBook()
-
+    public async Task CreateBook_WithSameName_ReturnsBadRequest()
     {
         //login user and get token
         var loginUserResponse = await _libraryHttpService.LogIn(_testUser);
-        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"');//remove quotes from token
+        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"'); //remove quotes from token
 
         //send request to create new book
         var postTestBook = await _libraryHttpService.CreateBook(_token, _testBook);
@@ -142,9 +135,7 @@ public class CreateBookTests : LibraryV2TestFixture
     [TestCase("The Book New", "The Author", 2084)]
     [TestCase("The Book", "The Author New", 1763)]
     [TestCase("The Book New", "The Author New", 1234)]
-
-    public async Task CreateBook (string title, string author, int yearOfRelease)
-
+    public async Task CreateBook(string title, string author, int yearOfRelease)
     {
         //create new instance of Book
         var book = new Book
@@ -157,8 +148,8 @@ public class CreateBookTests : LibraryV2TestFixture
         //login user and get token
         var loginUserResponse = await _libraryHttpService.LogIn(_testUser);
         TestContext.WriteLine($"Login Response: {loginUserResponse.StatusCode}");
-        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"');//remove quotes from token
-        
+        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"'); //remove quotes from token
+
         //send request to create test book
         var postTestBook = await _libraryHttpService.CreateBook(_token, _testBook);
 
@@ -166,6 +157,8 @@ public class CreateBookTests : LibraryV2TestFixture
         var bookCreateNewResponse = await _libraryHttpService.CreateBook(_token, book);
         TestContext.WriteLine($"Create Book Response: {bookCreateNewResponse.StatusCode}");
 
+        // Test don't suppose to have if statement this is a bad practice.
+        // Better to have separate test for each case.
         if (title == "The Book" && author == "The Author")
         {
             Assert.AreEqual(HttpStatusCode.BadRequest, bookCreateNewResponse.StatusCode);
@@ -174,7 +167,8 @@ public class CreateBookTests : LibraryV2TestFixture
             TestContext.WriteLine($"Created new book response status: {answerContent}");
             TestContext.WriteLine($"Expected title: {title} \nactual title: {book.Title}");
             TestContext.WriteLine($"Expected author: {author} \nactual author: {book.Author}");
-            TestContext.WriteLine($"Expected year of release: {yearOfRelease} \nactual year of release: {book.YearOfRelease}");
+            TestContext.WriteLine(
+                $"Expected year of release: {yearOfRelease} \nactual year of release: {book.YearOfRelease}");
         }
         else
         {
@@ -184,5 +178,4 @@ public class CreateBookTests : LibraryV2TestFixture
             TestContext.WriteLine($"{answerContent}");
         }
     }
-
 }

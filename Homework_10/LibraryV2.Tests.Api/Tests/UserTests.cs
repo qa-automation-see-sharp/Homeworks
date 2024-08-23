@@ -1,22 +1,17 @@
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
-using LibraryV2.Models;
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Identity.Data;
-using LibraryV2.Services;
-using System.Runtime.CompilerServices;
-
+using LibraryV2.Models;
+using LibraryV2.Tests.Api.Fixtures;
+using LibraryV2.Tests.Api.Services;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class UsersTests : LibraryV2TestFixture
 {
-    
     private LibraryHttpService _libraryHttpService;
     private User _testUser;
+    private readonly string _time = DateTime.Now.ToString("yyyyMMddHHmmss");
     private string _token;
-    private string _time = DateTime.Now.ToString("yyyyMMddHHmmss");
 
     [SetUp]
     public async Task Setup()
@@ -24,7 +19,7 @@ public class UsersTests : LibraryV2TestFixture
         _libraryHttpService = new LibraryHttpService();
         _libraryHttpService.Configure("http://localhost:5111/");
 
-        User _testUser = new User
+        var _testUser = new User
         {
             FullName = "Papadzilla J. Martinson",
             NickName = "Some1",
@@ -48,7 +43,7 @@ public class UsersTests : LibraryV2TestFixture
         var user = new User
         {
             FullName = "Papadzilla",
-            NickName = "Some2" + _time,//unique nickname for each test
+            NickName = "Some2" + _time, //unique nickname for each test
             Password = "Password"
         };
 
@@ -77,7 +72,7 @@ public class UsersTests : LibraryV2TestFixture
         var existedUser = new User
         {
             FullName = "NewName",
-            NickName = "Some1",//existing nickname
+            NickName = "Some1", //existing nickname
             Password = "Password"
         };
 
@@ -101,7 +96,7 @@ public class UsersTests : LibraryV2TestFixture
         var blankUser = new User
         {
             FullName = "NewName",
-            NickName = "",//empty nickname
+            NickName = "", //empty nickname
             Password = "Password"
         };
 
@@ -125,7 +120,7 @@ public class UsersTests : LibraryV2TestFixture
         var spacedUser = new User
         {
             FullName = "NewName",
-            NickName = "   ",//3 (three) spaces
+            NickName = "   ", //3 (three) spaces
             Password = "Password"
         };
 
@@ -149,8 +144,8 @@ public class UsersTests : LibraryV2TestFixture
         var blankPassword = new User
         {
             FullName = "NewName",
-            NickName = "test" + _time,//unique nickname for each test
-            Password = ""//empty password
+            NickName = "test" + _time, //unique nickname for each test
+            Password = "" //empty password
         };
 
         //send request to create new user with blank password
@@ -163,7 +158,6 @@ public class UsersTests : LibraryV2TestFixture
         var createdUser2 = await blankResponse.Content.ReadAsStringAsync();
         TestContext.WriteLine($"Response Content: {createdUser2}");
         Assert.NotNull(createdUser2);
-
     }
 
     //===> CREATE USER WITH BLANK FULLNAME
@@ -173,8 +167,8 @@ public class UsersTests : LibraryV2TestFixture
         //create new user with blank fullName:
         var blankFullName = new User
         {
-            FullName = "",//empty fullName
-            NickName = "test" + _time,//unique nickname for each test
+            FullName = "", //empty fullName
+            NickName = "test" + _time, //unique nickname for each test
             Password = "Password"
         };
 
@@ -191,10 +185,9 @@ public class UsersTests : LibraryV2TestFixture
 
     //===>LOG IN
     [Test]
-
     [TestCase("Some1", "Password")]
     [TestCase("Some1", "Wrong")]
-    [TestCase("Wrong","Password")]
+    [TestCase("Wrong", "Password")]
     [TestCase("Wrong", "Wrong")]
     public async Task LogIn(string nickName, string password)
     {

@@ -1,24 +1,14 @@
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
-using LibraryV2.Models;
-using LibraryV2.Endpoints.Books;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Identity.Data;
+using LibraryV2.Models;
+using LibraryV2.Tests.Api.Fixtures;
+using LibraryV2.Tests.Api.Services;
+
 namespace LibraryV2.Tests.Api.Tests;
 
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
-    //create new private variables
-    private LibraryHttpService _libraryHttpService;
-    private string _token;
-    private Book _testBooks;
-    private List<List<Book>> _library;
-    private User _testUser;
-    Random year = new Random();
-
     [SetUp]
     public async Task SetUp()
     {
@@ -44,23 +34,23 @@ public class GetBooksTests : LibraryV2TestFixture
         //create library
         _library = new List<List<Book>>
         {
-            new List<Book>
+            new()
             {
-                new Book  {Title = "The Book 1", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 2", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 3", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) }
+                new Book() { Title = "The Book 1", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 2", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 3", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) }
             },
-            new List<Book>
+            new()
             {
-                new Book  {Title = "The Book 1", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 2", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 3", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) }
+                new Book() { Title = "The Book 1", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 2", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 3", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) }
             },
-            new List<Book>
+            new()
             {
-                new Book  {Title = "The Book 1", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 2", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 3", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) }
+                new() { Title = "The Book 1", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
+                new() { Title = "The Book 2", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
+                new() { Title = "The Book 3", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) }
             }
         };
 
@@ -68,13 +58,19 @@ public class GetBooksTests : LibraryV2TestFixture
         //post books to library
 
         foreach (var books in _library)
+        foreach (var book in books)
         {
-            foreach (var book in books)
-            {
-                var response = await _libraryHttpService.CreateBook(_token, book);
-            }
+            var response = await _libraryHttpService.CreateBook(_token, book);
         }
     }
+
+    //create new private variables
+    private LibraryHttpService _libraryHttpService;
+    private string _token;
+    private Book _testBooks;
+    private List<List<Book>> _library;
+    private User _testUser;
+    private readonly Random year = new();
 
     //PRINT ALL BOOK BY TITLES
     [Test]
@@ -83,7 +79,7 @@ public class GetBooksTests : LibraryV2TestFixture
     public async Task GetBookByTitle(string bookTitle)
     {
         //create test case
-        string newtitle = bookTitle;
+        var newtitle = bookTitle;
 
         //send request to get books by title
         var response = await _libraryHttpService.GetBooksByTitle(newtitle);
@@ -106,12 +102,8 @@ public class GetBooksTests : LibraryV2TestFixture
 
             //print books by title
             foreach (var book in books)
-            {
                 if (book.Title == newtitle)
-                {
                     TestContext.WriteLine($"Book Title: {book.Title}");
-                }
-            }
         }
     }
 
@@ -122,7 +114,7 @@ public class GetBooksTests : LibraryV2TestFixture
     public async Task GetBooksByAuthor(string authorName)
     {
         //create test case
-        string author = authorName;
+        var author = authorName;
 
         //send request to get books by author
         var response = await _libraryHttpService.GetBooksByAuthor(author);
@@ -145,12 +137,8 @@ public class GetBooksTests : LibraryV2TestFixture
 
             //print books by author
             foreach (var book in books)
-            {
                 if (book.Author == author)
-                {
                     TestContext.WriteLine($"Book Author: {book.Author}");
-                }
-            }
         }
     }
 
@@ -170,10 +158,7 @@ public class GetBooksTests : LibraryV2TestFixture
 
         //print all books
         foreach (var book in books)
-        {
-            TestContext.WriteLine($"Book Title: {book.Title}, Author: {book.Author}, Year of Release: {book.YearOfRelease}");
-        }
+            TestContext.WriteLine(
+                $"Book Title: {book.Title}, Author: {book.Author}, Year of Release: {book.YearOfRelease}");
     }
-   
 }
-

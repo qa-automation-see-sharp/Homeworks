@@ -1,26 +1,13 @@
+using System.Net;
+using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
-using LibraryV2.Models;
-using LibraryV2.Endpoints.Books;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Identity.Data;
-using System.Security.Cryptography.X509Certificates;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 [TestFixture]
 public class DeleteBookTests : LibraryV2TestFixture
 {
-    //create new private variables
-    private LibraryHttpService _libraryHttpService;
-    private string _token;
-    private Book _testBooks;
-    private List<List<Book>> _library;
-    private User _testUser;
-    Random year = new Random();
-
     [SetUp]
     public async Task SetUp()
     {
@@ -46,43 +33,49 @@ public class DeleteBookTests : LibraryV2TestFixture
         //create library
         _library = new List<List<Book>>
         {
-            new List<Book>
+            new()
             {
-                new Book  {Title = "The Book 1", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 2", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 3", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) }
+                new Book() { Title = "The Book 1", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 2", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 3", Author = "The Author 1", YearOfRelease = year.Next(0001, 2024) }
             },
-            new List<Book>
+            new()
             {
-                new Book  {Title = "The Book 1", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 2", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 3", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) }
+                new Book() { Title = "The Book 1", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 2", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) },
+                new Book() { Title = "The Book 3", Author = "The Author 2", YearOfRelease = year.Next(0001, 2024) }
             },
-            new List<Book>
+            new()
             {
-                new Book  {Title = "The Book 1", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 2", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
-                new Book  {Title = "The Book 3", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) }
+                new() { Title = "The Book 1", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
+                new() { Title = "The Book 2", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) },
+                new() { Title = "The Book 3", Author = "The Author 3", YearOfRelease = year.Next(0001, 2024) }
             }
         };
 
         //post books to library
 
         foreach (var books in _library)
+        foreach (var book in books)
         {
-            foreach (var book in books)
-            {
-                var response = await _libraryHttpService.CreateBook(_token, book);
-            }
+            var response = await _libraryHttpService.CreateBook(_token, book);
         }
     }
+
+    //create new private variables
+    private LibraryHttpService _libraryHttpService;
+    private string _token;
+    private Book _testBooks;
+    private List<List<Book>> _library;
+    private User _testUser;
+    private readonly Random year = new();
 
 
     //TODO cover with tests all endpoints from Books controller
     //DELETE BOOK
     [Test]
-    [TestCase("0000","The Book 1", "The Author 1")]
-    [TestCase("0000","The Book 2", "The Author 7")]
+    [TestCase("0000", "The Book 1", "The Author 1")]
+    [TestCase("0000", "The Book 2", "The Author 7")]
     public async Task deleteBook(string tokenParam, string titleParam, string authorParam)
     {
         var book = new Book
@@ -159,11 +152,12 @@ public class DeleteBookTests : LibraryV2TestFixture
     [Test]
     public async Task deleteBookByTitle()
     {
-        string titleToDel = "The Book 1";
-        string authorToDel = "The Author 1";
+        var titleToDel = "The Book 1";
+        var authorToDel = "The Author 1";
 
 
-        var createTest = await _libraryHttpService.CreateBook(_token, new Book { Title = titleToDel, Author = authorToDel, YearOfRelease = 2021 });
+        var createTest = await _libraryHttpService.CreateBook(_token,
+            new Book { Title = titleToDel, Author = authorToDel, YearOfRelease = 2021 });
         TestContext.WriteLine($"Create Book Status Code: {createTest.StatusCode}");
 
         var someTest = await _libraryHttpService.GetAllBooks();
@@ -173,7 +167,5 @@ public class DeleteBookTests : LibraryV2TestFixture
         TestContext.WriteLine($"Delete Book Status Code: {deleteBookResponse.StatusCode}");
         var jsonRespond = await deleteBookResponse.Content.ReadAsStringAsync();
         TestContext.WriteLine($"Delete Book Response: {jsonRespond}");
-        
     }
-
 }

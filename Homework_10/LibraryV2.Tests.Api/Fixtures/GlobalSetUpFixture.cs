@@ -8,7 +8,7 @@ public class GlobalSetUpFixture
     {
         Console.WriteLine("Here is the one-time setup");
     }
-    
+
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {

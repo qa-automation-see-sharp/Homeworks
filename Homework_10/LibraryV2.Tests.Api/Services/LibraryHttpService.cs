@@ -1,8 +1,6 @@
-using System.Net.Http.Headers;
 using System.Text;
 using LibraryV2.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace LibraryV2.Tests.Api.Services;
 
@@ -19,7 +17,7 @@ public class LibraryHttpService
     {
         _httpClient.BaseAddress = new Uri(baseUrl);
     }
-    
+
 
     public async Task<HttpResponseMessage> CreateUser(User user)
     {
@@ -30,7 +28,7 @@ public class LibraryHttpService
 
         return response;
     }
-    
+
     public async Task<HttpResponseMessage> LogIn(User user)
     {
         var url = ApiEndpoints.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
@@ -38,7 +36,7 @@ public class LibraryHttpService
 
         return response;
     }
-    
+
 
     public async Task<HttpResponseMessage> CreateBook(string token, Book book)
     {
@@ -49,7 +47,7 @@ public class LibraryHttpService
 
         return response;
     }
-    
+
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
         var url = ApiEndpoints.Books.GetBooksByTitle.Replace("{title}", title);
@@ -57,7 +55,7 @@ public class LibraryHttpService
 
         return response;
     }
-    
+
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
         var url = ApiEndpoints.Books.GetBooksByAuthor.Replace("{author}", author);
@@ -74,8 +72,8 @@ public class LibraryHttpService
 
         return response;
     }
-    
-    
+
+
     public async Task<HttpResponseMessage> DeleteBook(string token, string title, string author)
     {
         var url = ApiEndpoints.Books.Delete + $"?title={title}&author={author}&token={token}";
@@ -83,6 +81,4 @@ public class LibraryHttpService
 
         return response;
     }
-
-    
 }
