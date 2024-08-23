@@ -17,7 +17,7 @@ public class GetBooksTests : LibraryV2TestFixture
 
     public async Task GetBookByTitleAsync()
     {
-        var response = await _libraryHttpService.GetBooksByTitle(_bookDetails.First().Key);
+        var response = await LibraryHttpService.GetBooksByTitle(_bookDetails.First().Key);
         
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
@@ -26,7 +26,7 @@ public class GetBooksTests : LibraryV2TestFixture
 
     public async Task GetBookByAuthorAsync()
     {
-        var response = await _libraryHttpService.GetBooksByAuthor(_bookDetails.First().Value);
+        var response = await LibraryHttpService.GetBooksByAuthor(_bookDetails.First().Value);
         
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }

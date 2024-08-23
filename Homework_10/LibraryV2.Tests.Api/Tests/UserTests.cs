@@ -12,34 +12,33 @@ public class UsersTests : LibraryV2TestFixture
     {
     }
 
-    [Test, Order(1)]
+    [Test]
     public async Task RegisterUserAsync()
     {
         var user = new User
         {
-            FullName = "Jeff Bezos",
-            NickName = "Boss",
-            Password = "123456"
+            FullName = Guid.NewGuid().ToString(),
+            NickName = Guid.NewGuid().ToString(),
+            Password = Guid.NewGuid().ToString(),
         };
         
-        var response = await _libraryHttpService.CreateUser(user);
+        var response = await LibraryHttpService.CreateUser(user);
         
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
     }
 
-    [Test, Order(2)]
+    [Test]
     public async Task RegisterExistingAsync()
     {
-        var response = await _libraryHttpService.CreateUser(_users.First().Key);
+        var response = await LibraryHttpService.CreateUser(Users.First().Key);
         
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
 
-    [Test, Order(3)]
-
+    [Test]
     public async Task LogInAsync()
     {
-        var response = await _libraryHttpService.LogIn(_users.First().Key);
+        var response = await LibraryHttpService.LogIn(Users.First().Key);
         var token = await response.Content.ReadAsStringAsync();
         
         Assert.Multiple(() =>

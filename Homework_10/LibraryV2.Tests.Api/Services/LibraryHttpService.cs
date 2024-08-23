@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Services;
 
+//TODO fix endpoints as we've done it on the last lesson, I've created a new class TestApiEndpoints for this  
 public class LibraryHttpService
 {
     private readonly HttpClient _httpClient;
@@ -21,7 +22,7 @@ public class LibraryHttpService
 
     public async Task<HttpResponseMessage> CreateUser(User user)
     {
-        var url = ApiEndpoints.Users.Register;
+        var url = TestApiEndpoints.Users.Register;
         var json = JsonConvert.SerializeObject(user);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
@@ -31,7 +32,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> LogIn(User user)
     {
-        var url = ApiEndpoints.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
+        var url = TestApiEndpoints.Users.Login(user.NickName, user.Password);
         var response = await _httpClient.GetAsync(url);
 
         return response;
@@ -40,7 +41,7 @@ public class LibraryHttpService
 
     public async Task<HttpResponseMessage> CreateBook(string token, Book book)
     {
-        var url = ApiEndpoints.Books.Create + $"?token={token}";
+        var url = TestApiEndpoints.Books.Create(token);
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
@@ -50,7 +51,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
-        var url = ApiEndpoints.Books.GetBooksByTitle + $"?title={title}";
+        var url = TestApiEndpoints.Books.GetBooksByTitle(title);
         var response = await _httpClient.GetAsync(url);
 
         return response;
@@ -58,7 +59,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
-        var url = ApiEndpoints.Books.GetBooksByAuthor + $"?author={author}";
+        var url = TestApiEndpoints.Books.GetBooksByAuthor(author);
         var response = await _httpClient.GetAsync(url);
 
         return response;
@@ -66,7 +67,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> DeleteBook(string token, string title, string author)
     {
-        var url = ApiEndpoints.Books.Delete + $"?title={title}&author={author}&token={token}";
+        var url = TestApiEndpoints.Books.Delete(title, author, token);
         var response = await _httpClient.DeleteAsync(url);
 
         return response;
