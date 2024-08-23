@@ -24,9 +24,9 @@ public class DictionariesLinq : StartUpFixture
             { 4, new Teacher { Id = 4, Name = "Ms. Davis", Age = 29, Subject = "English", Experience = 7 }},
             { 5, new Teacher { Id = 5, Name = "Mr. Wilson", Age = 45, Subject = "Math", Experience = 20 }}
         };
-            
+
         // Query
-        var result = new List<string>();
+        var result = teachers.Values.Where(x => x.Subject == "Math" && x.Experience > 10).OrderByDescending(x => x.Id).Select(x => x.Name).ToList();
       
             
         // Assert your query
@@ -53,10 +53,10 @@ public class DictionariesLinq : StartUpFixture
             { 4, new Course { Id = 4, Title = "Literature", Instructor = "Ms. Davis", Credits = 2, Students = new List<string> { "Frank" }}},
             { 5, new Course { Id = 5, Title = "Calculus", Instructor = "Mr. Wilson", Credits = 3, Students = new List<string> { "Alice", "George" }}}
         };
-            
+
         // Query
-        var result = new Dictionary<int,Course>();
-            
+        var result = courses.Values.Where(x => x.Credits > 3 && x.Students.Count >= 1).OrderByDescending(x => x.Id).ToList();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -84,7 +84,7 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-         var result = new List<string>();
+         var result = books.Where(x => x.Value.Pages > 200).OrderByDescending(x => x.Value.Pages).Select(x => x.Value.Title).ToList();
             
         // Assert your query
         Assert.Multiple(() =>
@@ -114,7 +114,7 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = string.Empty;
+        var result = movies.First(x => x.Value.Duration > 150).Value.Title;
             
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
@@ -137,7 +137,7 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = false;
+        var result = employees.Any(x => x.Value.Department.Equals("IT") && x.Value.Salary > 60000);
             
         // Assert your query
         Assert.That(result, Is.True);
