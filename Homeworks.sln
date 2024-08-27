@@ -1,26 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_1", "Homework_1", "{FB557D72-31F7-4136-A819-E6FA11C148EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCalculator", "Homework_1\SimpleCalculator\SimpleCalculator.csproj", "{EB3EB09F-9527-4782-B348-222DFAA674BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCalculator", "Homework_1\SimpleCalculator\SimpleCalculator.csproj", "{EB3EB09F-9527-4782-B348-222DFAA674BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotSoSimpleCalculator", "Homework_1\NotSoSimpleCalculator\NotSoSimpleCalculator.csproj", "{6549A973-904F-4DA4-91B8-46E22726661F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotSoSimpleCalculator", "Homework_1\NotSoSimpleCalculator\NotSoSimpleCalculator.csproj", "{6549A973-904F-4DA4-91B8-46E22726661F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterCalculator", "Homework_1\BetterCalculator\BetterCalculator.csproj", "{897DAF34-CAE1-4C15-9097-47F648075AD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterCalculator", "Homework_1\BetterCalculator\BetterCalculator.csproj", "{897DAF34-CAE1-4C15-9097-47F648075AD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_2", "Homework_2", "{6CA39877-95A7-4587-B94D-61AC99A4493A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM", "Homework_2\ATM\ATM.csproj", "{795D86A4-036C-4655-A4C2-1351CDBE6D9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATM", "Homework_2\ATM\ATM.csproj", "{795D86A4-036C-4655-A4C2-1351CDBE6D9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_3", "Homework_3", "{3C653DA4-077F-4A12-9A2E-6F6C3FDB78E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Homework_3\Library\Library.csproj", "{DF956C73-A894-4AD3-A3FF-19342395698B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Homework_3\Library\Library.csproj", "{DF956C73-A894-4AD3-A3FF-19342395698B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_4", "Homework_4", "{27103497-8D9C-474C-8426-364DA68EFFA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_5", "Homework_5", "{1C6D6B10-B69D-431B-A074-2FA5E0F1F664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementSystem", "Homework_4\StudentManagementSystem\StudentManagementSystem.csproj", "{5A98B23B-6E67-4CE3-B3F1-7AA122F95D24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManagementSystem", "Homework_4\StudentManagementSystem\StudentManagementSystem.csproj", "{5A98B23B-6E67-4CE3-B3F1-7AA122F95D24}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_6", "Homework_6", "{B23A1007-F7D3-4231-9A77-5F7BEE287A2E}"
 EndProject
@@ -28,19 +31,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_7", "Homework_7", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_8", "Homework_8", "{6B2D4261-0877-420F-8A8E-4D1F3A210179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQHomework", "Homework_8\LINQHomework\LINQHomework.csproj", "{204A67BC-2EA1-4827-BF31-738753E97064}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LINQHomework", "Homework_8\LINQHomework\LINQHomework.csproj", "{204A67BC-2EA1-4827-BF31-738753E97064}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_9", "Homework_9", "{2738FEBC-96F3-46ED-AC49-A690915670BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Homework_10", "Homework_10", "{22ECF554-68F9-4FB3-B90C-317015DF33CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApp.Tests.Api", "Homework_9\WeatherApp.Tests.Api\WeatherApp.Tests.Api.csproj", "{D5C3EFBE-395C-4080-B8CB-AEE432FEB0BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApp.Tests.Api", "Homework_9\WeatherApp.Tests.Api\WeatherApp.Tests.Api.csproj", "{D5C3EFBE-395C-4080-B8CB-AEE432FEB0BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApp", "Homework_9\WeatherApp\WeatherApp.csproj", "{05BE8DC7-EF00-4941-B8F0-758847A6E884}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApp", "Homework_9\WeatherApp\WeatherApp.csproj", "{05BE8DC7-EF00-4941-B8F0-758847A6E884}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryV2.Tests.Api", "Homework_10\LibraryV2.Tests.Api\LibraryV2.Tests.Api.csproj", "{9DA99F24-8390-4C97-9D74-2FBE151DCA3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryV2.Tests.Api", "Homework_10\LibraryV2.Tests.Api\LibraryV2.Tests.Api.csproj", "{9DA99F24-8390-4C97-9D74-2FBE151DCA3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryV2", "Homework_10\LibraryV2\LibraryV2.csproj", "{FE159276-E943-4D86-86C5-CB46D5792201}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryV2", "Homework_10\LibraryV2\LibraryV2.csproj", "{FE159276-E943-4D86-86C5-CB46D5792201}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectForTests", "TestProjectForTests\TestProjectForTests.csproj", "{08252C66-8CB1-43AA-9D40-8CB98A3DE157}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +97,13 @@ Global
 		{FE159276-E943-4D86-86C5-CB46D5792201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE159276-E943-4D86-86C5-CB46D5792201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE159276-E943-4D86-86C5-CB46D5792201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08252C66-8CB1-43AA-9D40-8CB98A3DE157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08252C66-8CB1-43AA-9D40-8CB98A3DE157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08252C66-8CB1-43AA-9D40-8CB98A3DE157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08252C66-8CB1-43AA-9D40-8CB98A3DE157}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB3EB09F-9527-4782-B348-222DFAA674BB} = {FB557D72-31F7-4136-A819-E6FA11C148EB}
@@ -105,5 +117,9 @@ Global
 		{05BE8DC7-EF00-4941-B8F0-758847A6E884} = {2738FEBC-96F3-46ED-AC49-A690915670BE}
 		{9DA99F24-8390-4C97-9D74-2FBE151DCA3B} = {22ECF554-68F9-4FB3-B90C-317015DF33CA}
 		{FE159276-E943-4D86-86C5-CB46D5792201} = {22ECF554-68F9-4FB3-B90C-317015DF33CA}
+		{08252C66-8CB1-43AA-9D40-8CB98A3DE157} = {22ECF554-68F9-4FB3-B90C-317015DF33CA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9BEDC72-C4F4-4A5B-A5C7-89426CFE037E}
 	EndGlobalSection
 EndGlobal

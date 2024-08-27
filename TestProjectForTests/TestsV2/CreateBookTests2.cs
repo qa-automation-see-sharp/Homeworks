@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using Newtonsoft.Json;
