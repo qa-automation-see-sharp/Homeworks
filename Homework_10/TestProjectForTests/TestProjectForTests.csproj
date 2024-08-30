@@ -16,14 +16,13 @@
     <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Homework_10\LibraryV2.Tests.Api\LibraryV2.Tests.Api.csproj" />
-    <ProjectReference Include="..\Homework_10\LibraryV2\LibraryV2.csproj" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryV2\LibraryV2.csproj" />
   </ItemGroup>
 
 </Project>

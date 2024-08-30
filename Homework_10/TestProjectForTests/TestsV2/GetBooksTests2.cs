@@ -1,11 +1,10 @@
 ﻿using System.Net;
 using LibraryV2.Models;
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
-using LibraryV2.Tests.Api.TestHelper;
 using Newtonsoft.Json;
+using TestProjectForTests.Fixtures;
+using TestProjectForTests.TestHelper;
 
-namespace LibraryV2.Tests.Api.Tests;
+namespace TestProjectForTests.TestsV2;
 
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture

@@ -1,6 +1,6 @@
-using LibraryV2.Tests.Api.Services;
+using TestProjectForTests.Services;
 
-namespace LibraryV2.Tests.Api.Fixtures;
+namespace TestProjectForTests.Fixtures;
 
 [TestFixture]
 public class LibraryV2TestFixture : GlobalSetUpFixture

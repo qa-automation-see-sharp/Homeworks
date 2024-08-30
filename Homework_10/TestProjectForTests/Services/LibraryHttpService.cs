@@ -1,9 +1,9 @@
 using System.Text;
 using LibraryV2.Models;
-using LibraryV2.Tests.Api.TestHelper;
 using Newtonsoft.Json;
+using TestProjectForTests.TestHelper;
 
-namespace LibraryV2.Tests.Api.Services;
+namespace TestProjectForTests.Services;
 
 public class LibraryHttpService
 {

@@ -1,6 +1,6 @@
 ﻿using LibraryV2.Models;
 
-namespace LibraryV2.Tests.Api.TestHelper;
+namespace TestProjectForTests.TestHelper;
 
 public static class DataHelper
 {

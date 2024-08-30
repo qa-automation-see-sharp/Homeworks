@@ -1,4 +1,4 @@
-namespace LibraryV2.Tests.Api.Fixtures;
+namespace TestProjectForTests.Fixtures;
 
 [SetUpFixture]
 public class GlobalSetUpFixture
