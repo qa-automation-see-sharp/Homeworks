@@ -37,10 +37,8 @@ public class Tests
     {
         // Get weather for Paris, GB
         // use method GetWeather from MyHttpClient
-        var cityLondon = "Paris";
-        var CountryCodeGB = "GB";
-        var myHttpClient = new MyHttpClient();
-        WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
+        WeatherInfo? response = null;
+        
         
         //Asserts should pass
         Assert.Multiple(() =>
@@ -56,11 +54,9 @@ public class Tests
     {
         // Get weather for Odesa, UA
         // use method GetWeather from MyHttpClient
-        var cityLondon = "Odesa";
-        var CountryCodeGB = "UA";
-        var myHttpClient = new MyHttpClient();
-        WeatherInfo? response = await _client.GetWeather(cityLondon, CountryCodeGB);
-
+        WeatherInfo? response = null;
+        
+        
         //Asserts should pass
         Assert.Multiple(() =>
         {
@@ -75,11 +71,9 @@ public class Tests
     {
         // Get weather for Odessa, US
         // use method GetWeather from MyHttpClient
-        var client = new MyHttpClient();
-        client.ConfigureClient("http://localhost:5119/");
-        WeatherInfo? response = await client.GetWeather("Odessa", "US");
-
-
+        WeatherInfo? response = null;
+        
+        
         //Asserts should pass
         Assert.Multiple(() =>
         {

@@ -60,16 +60,13 @@ public class DictionariesLinq : StartUpFixture
             
         // Query
         var result = new Dictionary<int,Course>();
-        result = courses.Values
-        .Where(c => c.Credits > 3 && c.Students.Count > 0)
-        .ToDictionary(c => c.Id, c => c);
-
+            
         // Assert your query
         Assert.Multiple(() =>
         {
             Assert.That(result, Has.Count.EqualTo(2));
-            Assert.That(result[0].Title, Is.EqualTo("Physics"));
-            Assert.That(result[1].Title, Is.EqualTo("World History"));
+            Assert.That(result[0], Is.EqualTo("Physics"));
+            Assert.That(result[1], Is.EqualTo("World History"));
         });
     }
 
@@ -89,15 +86,10 @@ public class DictionariesLinq : StartUpFixture
             { 4, new Book { Id = 4, Title = "Moby-Dick", Author = "Herman Melville", Pages = 585 }},
             { 5, new Book { Id = 5, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", Pages = 180 }}
         };
-            
+
         // Query
          var result = new List<string>();
-        result = books.Values
-        .Where(b => b.Pages > 200)
-        .OrderByDescending(b => b.Pages)
-        .Select(b => b.Title)
-        .ToList();
-
+            
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -127,11 +119,7 @@ public class DictionariesLinq : StartUpFixture
             
         // Query
         var result = string.Empty;
-        result = movies.Values
-        .Where(m => m.Duration > 150)
-        .Select(m => m.Title)
-        .First();
-
+            
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
     }
@@ -154,9 +142,7 @@ public class DictionariesLinq : StartUpFixture
             
         // Query
         var result = false;
-        result = employees.Any(e => e.Value.Department == "IT" && e.Value.Salary > 60000);
-
-
+            
         // Assert your query
         Assert.That(result, Is.True);
     }

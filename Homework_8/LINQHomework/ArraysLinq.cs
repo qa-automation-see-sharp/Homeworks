@@ -1,5 +1,9 @@
 using System.Reflection;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using LINQHomework.Models;
+
 
 namespace LINQHomework;
 
@@ -58,12 +62,8 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query: 
-        var newSortedArray = products
-        .Where(p => p.Categories.Contains("Computers"))
-        .OrderBy(p => p.Price)
-        .Select(p => p.Name)
-        .ToArray();
-
+        var newSortedArray = products.ToArray();
+        
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -91,12 +91,8 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query
-        var newSortedArray = employees
-        .Where(e => e.Skills.Contains("Programming"))
-        .OrderByDescending(e => e.Salary)
-        .Select(e => e.Name)
-        .ToArray();
-
+        string[] newSortedArray = ["name", "name"];
+        
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -123,12 +119,8 @@ public class ArraysLinq : StartUpFixture
         };
 
         // Finish query
-        var newSortedArray = orders
-        .Where(o => o.Items.Contains("Laptop"))
-        .OrderBy(o => o.TotalAmount)
-        .Select(o => o.CustomerName)
-        .ToArray();
-
+        string[] newSortedArray = null;
+        
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -154,15 +146,10 @@ public class ArraysLinq : StartUpFixture
             new Book { Id = 4, Title = "Entity Framework", Author = "Patricia Johnson", Price = 60, Reviews = new List<Review> { new Review { Reviewer = "David", Rating = 4.7 } }},
             new Book { Id = 5, Title = "Design Patterns", Author = "Robert C. Martin", Price = 70, Reviews = new List<Review> { new Review { Reviewer = "Eve", Rating = 4.9 } }}
         };
-        
+
         // Finish query:
         (string Title, string Author)[] newSortedArray = null;
-        newSortedArray = books
-        .Where(b => b.Reviews.Average(r => r.Rating) > 4.5)
-        .OrderByDescending(b => b.Price)
-        .Select(b => (b.Title, b.Author))
-        .ToArray();
-
+        
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -172,10 +159,10 @@ public class ArraysLinq : StartUpFixture
             Assert.That(newSortedArray[0].Author, Is.EqualTo("Robert C. Martin"));
             
             Assert.That(newSortedArray[1].Title, Is.EqualTo("Entity Framework"));
-            Assert.That(newSortedArray[0].Author, Is.EqualTo("Patricia Johnson"));
+            Assert.That(newSortedArray[1].Author, Is.EqualTo("Patricia Johnson"));
             
             Assert.That(newSortedArray[2].Title, Is.EqualTo("LINQ in Action"));
-            Assert.That(newSortedArray[0].Author, Is.EqualTo("James Brown"));
+            Assert.That(newSortedArray[2].Author, Is.EqualTo("James Brown"));
         });
     }
 }
