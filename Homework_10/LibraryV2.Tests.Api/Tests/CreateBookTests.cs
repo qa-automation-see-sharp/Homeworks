@@ -1,25 +1,32 @@
+using System;
 using System.Net;
+using System.Text;
 using LibraryV2.Models;
+using LibraryV2.Services;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 [TestFixture]
 public class CreateBookTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
+    private readonly LibraryHttpService _libraryHttpService = new();
+
+    private Book _testBook;
     private string _token;
     private string _time = DateTime.Now.ToString("yyyyMMddHHmmss");
-    private Book _testBook;
-    private User _testUser;
 
     [OneTimeSetUp]
     public async Task SetUp()
     {
-        //create new instance of LibraryHttpService
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
+        var client = _libraryHttpService.Configure("http://localhost:5111/");
+        await client.CreateTestUser();
+        await client.LogInTestUser();
 
         //create new instance of Book and User
         _testBook = new Book
@@ -29,21 +36,11 @@ public class CreateBookTests : LibraryV2TestFixture
             YearOfRelease = 2021
         };
 
-        _testUser = new User
-        {
-            FullName = "123",
-            NickName = "qwerty",
-            Password = "asdf"
-        };
-
-        //create new user
-        var createTestUserResponse = await _libraryHttpService.CreateUser(_testUser);
-        TestContext.WriteLine($"Create User Status Code: {createTestUserResponse.StatusCode}");
+        HttpResponseMessage response = await _libraryHttpService.CreateBook(_testBook);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var bookResponse = JsonConvert.DeserializeObject<Book>(jsonString);
     }
 
-
-    // Instead of this comment name test properly
-    // CREATE BOOK WITHOUT AUTHORIZATION
     [Test]
     public async Task CreateBook_WithNoAuthorizedUser_ReturnsUnauthorized()
     {
@@ -59,25 +56,17 @@ public class CreateBookTests : LibraryV2TestFixture
         var response = await _libraryHttpService.CreateBook(_token, book);
 
         // Asserts
-        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-        Assert.NotNull(response);
-        TestContext.WriteLine($"Created Book Status Code: {response.StatusCode}");
-        TestContext.WriteLine($"Token: {_token}");
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.NotNull(response);
+            _logger.LogInformation("Token used for creating book: {Token}", _token);
+        });
     }
 
-    // Instead of this comment name test properly
-    //CREATE NEW BOOK WITH AUTHORIZATION 
     [Test]
     public async Task CreateNewBook_ReturnCreated()
     {
-        //login user and get token
-        var loginUserResponse = await _libraryHttpService.LogIn(_testUser);
-        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"'); //remove quotes from token
-
-        //send request to create new book
-        var postTestBook = await _libraryHttpService.CreateBook(_token, _testBook);
-
-        //create instance book with new title and new author
         var book = new Book
         {
             Title = "Title" + _time,
@@ -85,97 +74,57 @@ public class CreateBookTests : LibraryV2TestFixture
             YearOfRelease = new Random().Next(1800, 2024)
         };
 
-        //send request to create new book
-        var bookCreateNewResponse = await _libraryHttpService.CreateBook(_token, book);
-        TestContext.WriteLine(bookCreateNewResponse.StatusCode);
+        HttpResponseMessage response = await _libraryHttpService.CreateBook(book);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var bookResponse = JsonConvert.DeserializeObject<Book>(jsonString);
+        
 
         //Asserts
-        Assert.That(bookCreateNewResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-        Assert.NotNull(bookCreateNewResponse);
-        Assert.That(_testBook.Title, Is.Not.EqualTo(book.Title));
-        TestContext.WriteLine($"New book title: ==> {book.Title} <== exist book title: ==> {_testBook.Title} <==");
-        Assert.That(_testBook.Author, Is.Not.EqualTo(book.Author));
-        TestContext.WriteLine($"New book author: ==> {book.Author} <== exist book author: ==> {_testBook.Title} <==");
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.NotNull(response);
+            Assert.AreEqual(book.Title, bookResponse.Title);
+            Assert.AreEqual(book.Author, bookResponse.Author);
+            Assert.AreEqual(book.YearOfRelease, bookResponse.YearOfRelease);
+        });
+
+        await _libraryHttpService.DeleteBook(book.Title, book.Author);
     }
 
-    // Instead of this comment name test properly
-    //CREATE NEW BOOK WITH DUPLICATE TITLE
     [Test]
     public async Task CreateBook_WithSameName_ReturnsBadRequest()
     {
-        //login user and get token
-        var loginUserResponse = await _libraryHttpService.LogIn(_testUser);
-        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"'); //remove quotes from token
-
-        //send request to create new book
-        var postTestBook = await _libraryHttpService.CreateBook(_token, _testBook);
+        
 
         //create instance book with the same title and author
         var book = new Book
         {
-            Title = "The Book",
+           Title = "The Book",
             Author = "The Author",
             YearOfRelease = 2021
         };
 
         //send request to create new book
-        var bookCreateNewResponse = await _libraryHttpService.CreateBook(_token, book);
-        TestContext.WriteLine(bookCreateNewResponse.StatusCode);
+        HttpResponseMessage response = await _libraryHttpService.CreateBook(book);
+        var jsonString = await response.Content.ReadAsStringAsync();
 
-        //asserts
-        Assert.AreEqual(HttpStatusCode.BadRequest, bookCreateNewResponse.StatusCode);
-        Assert.NotNull(bookCreateNewResponse);
-        Assert.AreEqual(book.Title, _testBook.Title);
-        TestContext.WriteLine($"New book title: ==> {book.Title} <== exist book title: ==> {_testBook.Title} <==");
-        Assert.AreEqual(book.Author, _testBook.Author);
-        TestContext.WriteLine($"New book author: ==> {book.Author} <== exist book author: ==> {_testBook.Title} <==");
+        //Asserts
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.NotNull(response);
+        });
     }
-
-    [TestCase("The Book", "The Author", 2021)]
-    [TestCase("The Book New", "The Author", 2084)]
-    [TestCase("The Book", "The Author New", 1763)]
-    [TestCase("The Book New", "The Author New", 1234)]
-    public async Task CreateBook(string title, string author, int yearOfRelease)
+    [OneTimeTearDown]
+    public async Task TearDown()
     {
-        //create new instance of Book
-        var book = new Book
+        if (_testBook != null)
         {
-            Title = title,
-            Author = author,
-            YearOfRelease = yearOfRelease
-        };
-
-        //login user and get token
-        var loginUserResponse = await _libraryHttpService.LogIn(_testUser);
-        TestContext.WriteLine($"Login Response: {loginUserResponse.StatusCode}");
-        _token = (await loginUserResponse.Content.ReadAsStringAsync()).Trim('"'); //remove quotes from token
-
-        //send request to create test book
-        var postTestBook = await _libraryHttpService.CreateBook(_token, _testBook);
-
-        //send request to create new book
-        var bookCreateNewResponse = await _libraryHttpService.CreateBook(_token, book);
-        TestContext.WriteLine($"Create Book Response: {bookCreateNewResponse.StatusCode}");
-
-        // Test don't suppose to have if statement this is a bad practice.
-        // Better to have separate test for each case.
-        if (title == "The Book" && author == "The Author")
-        {
-            Assert.AreEqual(HttpStatusCode.BadRequest, bookCreateNewResponse.StatusCode);
-            Assert.NotNull(bookCreateNewResponse);
-            var answerContent = await bookCreateNewResponse.Content.ReadAsStringAsync();
-            TestContext.WriteLine($"Created new book response status: {answerContent}");
-            TestContext.WriteLine($"Expected title: {title} \nactual title: {book.Title}");
-            TestContext.WriteLine($"Expected author: {author} \nactual author: {book.Author}");
-            TestContext.WriteLine(
-                $"Expected year of release: {yearOfRelease} \nactual year of release: {book.YearOfRelease}");
+            await _libraryHttpService.DeleteBook(_testBook.Title, _testBook.Author);
         }
-        else
-        {
-            Assert.AreEqual(HttpStatusCode.Created, bookCreateNewResponse.StatusCode);
-            Assert.NotNull(bookCreateNewResponse);
-            var answerContent = await bookCreateNewResponse.Content.ReadAsStringAsync();
-            TestContext.WriteLine($"{answerContent}");
-        }
+
+        _testBook = null;
     }
+    
 }

@@ -29,10 +29,10 @@ public class ArraysLinq : StartUpFixture
 
         // Query
         var newSortedArray = students
-        .Where(s => s.Subjects.Contains("Math"))
-        .OrderByDescending(s => s.Grade)
-        .Select(s => s.Name)
-        .ToArray();
+            .Where(s => s.Subjects.Contains("Math"))
+            .OrderByDescending(s => s.Grade)
+            .Select(s => s.Name)
+            .ToArray();
 
         // Assert your query
         Assert.Multiple(() =>
@@ -62,8 +62,12 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query: 
-        var newSortedArray = products.ToArray();
-        
+        var newSortedArray = products
+            .Where(p => p.Categories.Contains("Computers"))
+            .OrderBy(p => p.Price)
+            .Select(p => p.Name)
+            .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -91,8 +95,12 @@ public class ArraysLinq : StartUpFixture
         };
         
         // Query
-        string[] newSortedArray = ["name", "name"];
-        
+        var newSortedArray = employees
+            .Where(e => e.Skills.Contains("Programming"))
+            .OrderByDescending(e => e.Salary)
+            .Select(e => e.Name)
+            .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -119,8 +127,12 @@ public class ArraysLinq : StartUpFixture
         };
 
         // Finish query
-        string[] newSortedArray = null;
-        
+        var newSortedArray = orders
+            .Where(o => o.Items.Contains("Laptop"))
+            .OrderBy(o => o.TotalAmount)
+            .Select(o => o.CustomerName)
+            .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -149,7 +161,12 @@ public class ArraysLinq : StartUpFixture
 
         // Finish query:
         (string Title, string Author)[] newSortedArray = null;
-        
+        newSortedArray = books
+            .Where(b => b.Reviews.Average(r => r.Rating) > 4.5)
+            .OrderByDescending(b => b.Price)
+            .Select(b => (b.Title, b.Author))
+            .ToArray();
+
         // Assert your query
         Assert.Multiple(() =>
         {

@@ -18,25 +18,41 @@ public class UserAuthorizationService : IUserAuthorizationService
     private readonly IUserRepository _userRepository;
     private readonly List<AuthorizationToken> _tokens = new();
 
-    public UserAuthorizationService(IUserRepository userRepository)
+    private readonly ILogger<UserAuthorizationService> _logger;
+
+    public UserAuthorizationService(IUserRepository userRepository, ILogger<UserAuthorizationService> logger)
     {
         _userRepository = userRepository;
+        _logger = logger;
+        //_tokens.FirstOrDefault().ExpirationTime = DateTime.Now.AddMinutes(15);
     }
 
     public bool IsAuthorizedByToken(string authorizationToken)
     {
+        _logger.LogInformation("Authorizing token: {Token}", authorizationToken);
+
         var token = _tokens.FirstOrDefault(t => t.Token == authorizationToken);
 
         if (token is not null)
         {
             if (token.ExpirationTime > DateTime.Now)
             {
+                _logger.LogInformation("Token is valid: {Token}", authorizationToken);
                 return true;
             }
+            else
+            {
+                _logger.LogWarning("Token expired: {Token}", authorizationToken);
+            }
+        }
+        else
+        {
+            _logger.LogWarning("Token not found: {Token}", authorizationToken);
         }
 
         return false;
     }
+
 
     public bool IsAuthorizedByNickName(string nickName)
     {
@@ -55,10 +71,13 @@ public class UserAuthorizationService : IUserAuthorizationService
 
     public AuthorizationToken? GenerateToken(string nickName, string password)
     {
+        _logger.LogInformation("Generating token for user: {NickName}", nickName);
+
         var user = _userRepository.GetUser(nickName);
 
         if (user == null || user.Password != password)
         {
+            _logger.LogWarning("Invalid credentials for user: {NickName}", nickName);
             return null;
         }
 
@@ -77,11 +96,15 @@ public class UserAuthorizationService : IUserAuthorizationService
 
         _tokens.Add(token);
 
+        _logger.LogInformation("Token generated for user: {NickName}, Token: {Token}", nickName, token.Token);
+        _logger.LogInformation("Current tokens: {Tokens}", string.Join(", ", _tokens.Select(t => t.Token)));
+
         return token;
     }
 
     public AuthorizationToken? GetToken(string nickName)
     {
         return _tokens.FirstOrDefault(t => t.NickName == nickName);
+        _logger.LogInformation("Token for user: {NickName} is: {Token}", nickName, _tokens.FirstOrDefault(t => t.NickName == nickName));
     }
 }

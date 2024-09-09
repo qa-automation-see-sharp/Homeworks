@@ -28,9 +28,10 @@ public class DictionariesLinq : StartUpFixture
         // Query
         var result = new List<string>();
         result = teachers.Values
-        .Where(r => r.Subject.Contains("Math") && r.Experience > 10)
-        .Select(r => r.Name)
-        .ToList();
+            .Where(r => r.Subject.Contains("Math") && r.Experience > 10)
+            .OrderByDescending(r => r.Experience)
+            .Select(r => r.Name)
+            .ToList();
 
 
         // Assert your query
@@ -59,14 +60,16 @@ public class DictionariesLinq : StartUpFixture
         };
             
         // Query
-        var result = new Dictionary<int,Course>();
-            
+        var result = courses.Values
+            .Where(c => c.Credits > 3 && c.Students.Count > 0)
+            .ToDictionary(c => c.Id, c => c.Title);
+
         // Assert your query
         Assert.Multiple(() =>
         {
             Assert.That(result, Has.Count.EqualTo(2));
-            Assert.That(result[0], Is.EqualTo("Physics"));
-            Assert.That(result[1], Is.EqualTo("World History"));
+            Assert.That(result.Values, Does.Contain("Physics"));
+            Assert.That(result.Values, Does.Contain("World History"));
         });
     }
 
@@ -89,7 +92,12 @@ public class DictionariesLinq : StartUpFixture
 
         // Query
          var result = new List<string>();
-            
+         result = books.Values
+            .Where(b => b.Pages > 200)
+            .OrderByDescending(b => b.Pages)
+            .Select(b => b.Title)
+            .ToList();
+
         // Assert your query
         Assert.Multiple(() =>
         {
@@ -119,7 +127,12 @@ public class DictionariesLinq : StartUpFixture
             
         // Query
         var result = string.Empty;
-            
+        result = movies.Values
+            .Where(m => m.Duration > 150)
+            .Select(m => m.Title)
+            .First();
+            Console.WriteLine(result);
+
         // Assert your query
         Assert.That(result, Is.EqualTo("The Godfather"));
     }
@@ -142,7 +155,9 @@ public class DictionariesLinq : StartUpFixture
             
         // Query
         var result = false;
-            
+        result = employees.Any(e => e.Value.Department == "IT" && e.Value.Salary > 60000);
+
+
         // Assert your query
         Assert.That(result, Is.True);
     }

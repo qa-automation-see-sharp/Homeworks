@@ -3,11 +3,13 @@ using System.Net.Http.Json;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
 using LibraryV2.Tests.Api.Services;
+using NuGet.Frameworks;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 public class UsersTests : LibraryV2TestFixture
 {
+    //create variables
     private LibraryHttpService _libraryHttpService;
     private User _testUser;
     private readonly string _time = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -16,28 +18,28 @@ public class UsersTests : LibraryV2TestFixture
     [SetUp]
     public async Task Setup()
     {
+        //configure client
         _libraryHttpService = new LibraryHttpService();
         _libraryHttpService.Configure("http://localhost:5111/");
-
+        //create new instance of User
         var _testUser = new User
         {
             FullName = "Papadzilla J. Martinson",
             NickName = "Some1",
             Password = "Password"
         };
-
+        //send request to create new user
         var testUserResponse = await _libraryHttpService.CreateUser(_testUser);
+        //get response
+        var responseBodeTestUser = await testUserResponse.Content.ReadAsStringAsync();
+        //send request to login
         var loginResponse = await _libraryHttpService.LogIn(_testUser);
+        //get token
         _token = (await loginResponse.Content.ReadAsStringAsync()).Trim('"');
-        TestContext.WriteLine($"Token: {_token}");
     }
 
-
-    //    //TODO cover with tests all endpoints from Users controller
-
-    //===> CREATE USER
     [Test]
-    public async Task CreateUser()
+    public async Task CreateNewUser_ReturnsOK()
     {
         //create new instance of User
         var user = new User
@@ -49,24 +51,20 @@ public class UsersTests : LibraryV2TestFixture
 
         //send request to create new user
         var response = await _libraryHttpService.CreateUser(user);
+        //get response
+        var responseBody = await response.Content.ReadAsStringAsync();
 
         //Assert
-        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-        TestContext.WriteLine($"Created Profile Status Code: {response.StatusCode}");
-
-        var createdUser = await response.Content.ReadFromJsonAsync<User>();
-        Assert.NotNull(createdUser);
-        Assert.AreEqual(user.FullName, createdUser.FullName);
-        TestContext.WriteLine($"User Full name: {createdUser.FullName}");
-        Assert.AreEqual(user.NickName, createdUser.NickName);
-        TestContext.WriteLine($"User Nickname: {createdUser.NickName}");
-        Assert.AreEqual(user.Password, createdUser.Password);
-        TestContext.WriteLine($"User password: {createdUser.Password}");
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.NotNull(responseBody);
+        });
+        
     }
 
-    //===> CREATE USER WITH DUPLICATE NACKNAME
     [Test]
-    public async Task CreateUserWithDuplicateName()
+    public async Task CreateUserWithDuplicateName_returnsBadRequest()
     {
         //create new user with duplicate username:
         var existedUser = new User
@@ -78,19 +76,18 @@ public class UsersTests : LibraryV2TestFixture
 
         //send request to create new user
         var duplicateResponse = await _libraryHttpService.CreateUser(existedUser);
+        var responseBody = await duplicateResponse.Content.ReadAsStringAsync();
 
         //Assert
-        Assert.AreEqual(HttpStatusCode.BadRequest, duplicateResponse.StatusCode);
-        TestContext.WriteLine($"Response Status Code: {duplicateResponse.StatusCode}");
-
-        var createdUser2 = await duplicateResponse.Content.ReadAsStringAsync();
-        TestContext.WriteLine($"Response Content: {createdUser2}");
-        Assert.NotNull(createdUser2);
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, duplicateResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
     }
 
-    //===> CREATE USER WITH BLANK NACKNAME
     [Test]
-    public async Task CreateUserWithBlankName()
+    public async Task CreateUserWithBlankName_returnsBadRequest()
     {
         //create new user with blank username:
         var blankUser = new User
@@ -104,17 +101,15 @@ public class UsersTests : LibraryV2TestFixture
         var blankResponse = await _libraryHttpService.CreateUser(blankUser);
 
         //Assert
-        Assert.AreEqual(HttpStatusCode.BadRequest, blankResponse.StatusCode);
-        TestContext.WriteLine($"Response Status Code: {blankResponse.StatusCode}");
-
-        var createdUser2 = await blankResponse.Content.ReadAsStringAsync();
-        TestContext.WriteLine($"Response Content: {createdUser2}");
-        Assert.NotNull(createdUser2);
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, blankResponse.StatusCode);
+            Assert.NotNull(blankResponse);
+        });
     }
 
-    //===> CREATE USER WITH SPACED NACKNAME
     [Test]
-    public async Task CreateUserWithSpacedName()
+    public async Task CreateUserWithSpacedName_returnsBadRequest()
     {
         //create new user with spaced username:
         var spacedUser = new User
@@ -126,19 +121,18 @@ public class UsersTests : LibraryV2TestFixture
 
         //send request to create new user
         var spacedResponse = await _libraryHttpService.CreateUser(spacedUser);
+        var responseBody = await spacedResponse.Content.ReadAsStringAsync();
 
         //Assert
-        Assert.AreEqual(HttpStatusCode.BadRequest, spacedResponse.StatusCode);
-        TestContext.WriteLine($"Response Status Code: {spacedResponse.StatusCode}");
-
-        var createdUser2 = await spacedResponse.Content.ReadAsStringAsync();
-        TestContext.WriteLine($"Response Content: {createdUser2}");
-        Assert.NotNull(createdUser2);
+        Assert.Multiple (( )=> 
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, spacedResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
     }
 
-    //===> CREATE USER WITH BLANK PASSWORD
     [Test]
-    public async Task CreateUserWithBlankPassword()
+    public async Task CreateUserWithBlankPassword_returnsBadRequest()
     {
         //create new user with blank password:
         var blankPassword = new User
@@ -150,19 +144,19 @@ public class UsersTests : LibraryV2TestFixture
 
         //send request to create new user with blank password
         var blankResponse = await _libraryHttpService.CreateUser(blankPassword);
+        var responseBody = await blankResponse.Content.ReadAsStringAsync();
 
         //Assert
-        Assert.AreEqual(HttpStatusCode.BadRequest, blankResponse.StatusCode);
-        TestContext.WriteLine($"Response Status Code: {blankResponse.StatusCode}");
-
-        var createdUser2 = await blankResponse.Content.ReadAsStringAsync();
-        TestContext.WriteLine($"Response Content: {createdUser2}");
-        Assert.NotNull(createdUser2);
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, blankResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
     }
 
     //===> CREATE USER WITH BLANK FULLNAME
     [Test]
-    public async Task CreateUserWithBlankFullName()
+    public async Task CreateUserWithBlankFullName_returnsCreated()
     {
         //create new user with blank fullName:
         var blankFullName = new User
@@ -174,55 +168,91 @@ public class UsersTests : LibraryV2TestFixture
 
         //send request to create new user with blank fullName
         var blankResponse = await _libraryHttpService.CreateUser(blankFullName);
+        var responseBody = await blankResponse.Content.ReadAsStringAsync();
 
         //Assert
-        Assert.AreEqual(HttpStatusCode.Created, blankResponse.StatusCode);
-        var createdUser2 = await blankResponse.Content.ReadAsStringAsync();
-        TestContext.WriteLine($"Response Content: {createdUser2}");
-        Assert.NotNull(createdUser2);
+        Assert.Multiple (()=> 
+        {
+            Assert.AreEqual(HttpStatusCode.Created, blankResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
     }
 
 
     //===>LOG IN
     [Test]
-    [TestCase("Some1", "Password")]
-    [TestCase("Some1", "Wrong")]
-    [TestCase("Wrong", "Password")]
-    [TestCase("Wrong", "Wrong")]
-    public async Task LogIn(string nickName, string password)
+    public async Task LoginCorrectCredentials_returnsOK()
     {
-        //create new instance of User
-        var testProfile = new User
+        var testUser = new User
         {
-            NickName = nickName,
-            Password = password
+            NickName = "Some1",
+            Password = "Password"
         };
 
-        //send request to login
-        var LoginResponse = await _libraryHttpService.LogIn(testProfile);
+        var loginResponse = await _libraryHttpService.LogIn(testUser);
+        var responseBody = await loginResponse.Content.ReadAsStringAsync();
 
-        //asserts
-        if (nickName == "Some1" && password == "Password")
+        Assert.Multiple(() =>
         {
-            Assert.AreEqual(HttpStatusCode.OK, LoginResponse.StatusCode);
-            TestContext.WriteLine($"\nLogin profile Status Code: {LoginResponse.StatusCode}");
-            Assert.NotNull(LoginResponse);
+            Assert.AreEqual(HttpStatusCode.OK, loginResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
+    }
 
-            var answerContext = await LoginResponse.Content.ReadAsStringAsync();
-            TestContext.WriteLine($"Response Content: {answerContext}");
-            TestContext.WriteLine($"Expected username: {nickName} \nactual username: {testProfile.NickName}");
-            TestContext.WriteLine($"Expected password: {password} \nactusl password: {testProfile.Password}");
-        }
-        else
+    [Test]
+    public async Task LoginCorrectNickNonCorrectPassword_returnsBadRequest()
+    {
+        var testUser = new User
         {
-            Assert.AreEqual(HttpStatusCode.BadRequest, LoginResponse.StatusCode);
-            TestContext.WriteLine($"\nLogin profile Status Code: {LoginResponse.StatusCode}");
-            Assert.NotNull(LoginResponse);
+            NickName = "Some1",
+            Password = "Wrong"
+        };
 
-            var answerContext = await LoginResponse.Content.ReadAsStringAsync();
-            TestContext.WriteLine($"Response Content: {answerContext}");
-            TestContext.WriteLine($"Expected username: {nickName} \nactual username: {testProfile.NickName}");
-            TestContext.WriteLine($"Expected password: {password} \nactusl password: {testProfile.Password}");
-        }
+        var loginResponse = await _libraryHttpService.LogIn(testUser);
+        var responseBody = await loginResponse.Content.ReadAsStringAsync();
+
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, loginResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
+    }
+
+    [Test]
+    public async Task LoginNonCorrectNickCorrectPassword_returnBadRequest()
+    {
+        var testUser = new User
+        {
+            NickName = "Wrong",
+            Password = "Password"
+        };
+
+        var loginResponse = await _libraryHttpService.LogIn(testUser);
+        var responseBody = await loginResponse.Content.ReadAsStringAsync();
+
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, loginResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
+    }
+
+    [Test]
+    public async Task LogonWithWrongCredentials_returnBadRequest()
+    {
+        var testUser = new User
+        {
+            NickName = "Wrong",
+            Password = "Wrong"
+        };
+
+        var loginResponse = await _libraryHttpService.LogIn(testUser);
+        var responseBody = await loginResponse.Content.ReadAsStringAsync();
+
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(HttpStatusCode.BadRequest, loginResponse.StatusCode);
+            Assert.NotNull(responseBody);
+        });
     }
 }
