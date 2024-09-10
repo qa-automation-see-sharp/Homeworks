@@ -60,7 +60,9 @@ public class CreateBookTests : LibraryV2TestFixture
         {
             Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
             Assert.NotNull(response);
-            _logger.LogInformation("Token used for creating book: {Token}", _token);
+            
+            // TODO should this logging method be here?
+            Logger.LogInformation("Token used for creating book: {Token}", _token);
         });
     }
 

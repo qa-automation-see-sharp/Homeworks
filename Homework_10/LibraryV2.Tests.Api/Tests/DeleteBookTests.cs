@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Tests;
 
+//TODO For method names use PascalCase  (deleteBook_IfExist_ReturnOK -> Delete_ExistingBook_ReturnOK) 
 [TestFixture]
 public class DeleteBookTests : LibraryV2TestFixture
 {
@@ -129,7 +130,7 @@ public class DeleteBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task deleteBookByTitle_AuthorNotExist_ReturnNotFound()
+    public async Task DeleteBookByTitle_AuthorNotExist_ReturnNotFound()
     {
         //get first book from library
         var firstBookTitle = _library.SelectMany(list => list).FirstOrDefault()?.Title;
@@ -147,7 +148,7 @@ public class DeleteBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task deleteBookByAuthor_TitleNotExist_ReturnNotFound()
+    public async Task DeleteBookByAuthor_TitleNotExist_ReturnNotFound()
     {
         //get first book from library
         var firstBookAuthor = _library.SelectMany(list => list).FirstOrDefault()?.Author;
@@ -165,7 +166,7 @@ public class DeleteBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task deleteAllBookByTitle()
+    public async Task DeleteAllBookByTitle()
     {
         //get all books from library
         HttpResponseMessage response = await _libraryHttpService.GetAllBooks();
@@ -202,7 +203,7 @@ public class DeleteBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task deleteAllBookByAuthor()
+    public async Task DeleteAllBookByAuthor()
     {
        //get all books from library
         HttpResponseMessage response = await _libraryHttpService.GetAllBooks();

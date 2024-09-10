@@ -19,7 +19,7 @@ public class GetBooksTests : LibraryV2TestFixture
     Random year = new Random();
 
     [OneTimeSetUp]
-    public async Task SetUp()
+    public new async Task SetUp()
     {
         var client = _libraryHttpService.Configure("http://localhost:5111/");
         await client.CreateTestUser();
