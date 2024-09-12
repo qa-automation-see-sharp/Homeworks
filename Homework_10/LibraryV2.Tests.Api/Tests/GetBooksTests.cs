@@ -18,7 +18,7 @@ public class GetBooksTests : LibraryV2TestFixture
     [Test, Order(1)]
     [Description("This test checks if the book is found by its title sucessfully")]
 
-    public async Task GetBookByTitleAsync_WhenBookIsFound_ReturnOK()
+    public async Task GetBookByTitleAsync_ReturnOK()
     {
         var httpResponseMessage = await _libraryHttpService.GetBooksByTitle(_bookDetails.First().Key);
         
@@ -28,7 +28,7 @@ public class GetBooksTests : LibraryV2TestFixture
     [Test, Order(2)]
     [Description("This test checks if the book is found by its author sucessfully")]
 
-    public async Task GetBookByAuthorAsync_WhenBookIsFound_ReturnOK()
+    public async Task GetBookByAuthorAsync_ReturnOK()
     {
         var httpResponseMessage = await _libraryHttpService.GetBooksByAuthor(_bookDetails.First().Value);
         
