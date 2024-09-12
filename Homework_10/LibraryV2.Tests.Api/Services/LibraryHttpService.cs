@@ -35,8 +35,11 @@ public class LibraryHttpService
         var json = JsonConvert.SerializeObject(DefaultUser);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
+        var jsonString = await response.Content.ReadAsStringAsync();
         
-        return this;
+         Console.WriteLine($"Created default user:\n{jsonString}");
+        
+         return this;
     }
     public async Task<LibraryHttpService> Authorize()
     {
@@ -45,6 +48,7 @@ public class LibraryHttpService
         var content = await response.Content.ReadAsStringAsync();
         AuthToken = JsonConvert.DeserializeObject<AuthorizationToken>(content);
 
+        Console.WriteLine($"Authorized with user:\n{content}");
         return this;
     }
 
@@ -59,6 +63,9 @@ public class LibraryHttpService
         var json = JsonConvert.SerializeObject(user);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"Created user:\n{jsonString}");
 
         return response;
     }
@@ -67,25 +74,38 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
         var response = await _httpClient.GetAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"Logged in with:\n{jsonString}");
 
         return response;
     }
     
-    public async Task<HttpResponseMessage> CreateBook(string token, Book book)
+    public async Task<HttpResponseMessage> PostBook(string token, Book book)
     {
         var url = EndpointsForTest.Books.Create + $"?token={token}";
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"POST request to:\n{_httpClient.BaseAddress}{url}");
+        Console.WriteLine($"Response Status Code is: {response.StatusCode}"); 
+        Console.WriteLine($"Body: {jsonString}");  
 
         return response;
     }
-    public async Task<HttpResponseMessage> CreateBook(Book book)
+    public async Task<HttpResponseMessage> PostBook(Book book)
     {
         var url = EndpointsForTest.Books.Create + $"?token={AuthToken.Token}";
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"POST request to:\n{_httpClient.BaseAddress}{url}");
+        Console.WriteLine($"Response Status Code is: {response.StatusCode}"); 
+        Console.WriteLine($"Body: {jsonString}");  
 
         return response;
     }
@@ -94,6 +114,11 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.GetBooksByTitle + title;
         var response = await _httpClient.GetAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"GET request to:\n{_httpClient.BaseAddress}{url}");
+        Console.WriteLine($"Response Status Code is: {response.StatusCode}"); 
+        Console.WriteLine($"Content: {jsonString}");  
 
         return response;
     }
@@ -102,6 +127,11 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.GetBooksByAuthor(author);
         var response = await _httpClient.GetAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"GET request to:\n{_httpClient.BaseAddress}{url}");
+        Console.WriteLine($"Response Status Code is: {response.StatusCode}"); 
+        Console.WriteLine($"Content: {jsonString}");  
 
         return response;
     }
@@ -110,6 +140,11 @@ public class LibraryHttpService
     {
         var url = EndpointsForTest.Books.Delete(title, author, token);
         var response = await _httpClient.DeleteAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine($"Delete request to:\n{_httpClient.BaseAddress}{url}");
+        Console.WriteLine($"Response Status Code is: {response.StatusCode}"); 
+        Console.WriteLine($"Content: {jsonString}");  
 
         return response;
     }

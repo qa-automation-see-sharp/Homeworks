@@ -27,7 +27,7 @@ public class CreateBookTests : LibraryV2TestFixture
         var book = DataHelper.CreateBook();
 
         //Act
-        var httpResponseMessage = await _httpService.CreateBook(book);
+        var httpResponseMessage = await _httpService.PostBook(book);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
 
@@ -47,12 +47,12 @@ public class CreateBookTests : LibraryV2TestFixture
             //Arrange
             var book = DataHelper.CreateBook();
             
-            var httpResponseMessage = await _httpService.CreateBook(book);
+            var httpResponseMessage = await _httpService.PostBook(book);
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
             var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
             
             //Act
-            var httpResponseMessage2 = await _httpService.CreateBook(bookFromResponse);
+            var httpResponseMessage2 = await _httpService.PostBook(bookFromResponse);
             
             //Assert
             Assert.Multiple(() =>

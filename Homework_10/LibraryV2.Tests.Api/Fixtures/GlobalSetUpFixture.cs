@@ -37,6 +37,5 @@ public class GlobalSetUpFixture
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
-        Console.WriteLine("Here is the one-time tear down");
     }
 }
