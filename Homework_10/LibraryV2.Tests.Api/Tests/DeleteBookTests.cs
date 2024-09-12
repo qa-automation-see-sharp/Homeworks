@@ -15,7 +15,8 @@ public class DeleteBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task DeleteBookAsync()
+    [Description("This test checks if the book is deleted sucessfully")]
+    public async Task DeleteBookAsync_WhenBookIsDeleted_ReturnOK()
     {
         var httpResponseMessage = await _libraryHttpService.DeleteBook(_libraryHttpService.GetDefaultUserToken(), _bookDetails.First().Key,
             _bookDetails.First().Value);

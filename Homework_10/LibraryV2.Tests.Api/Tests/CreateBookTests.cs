@@ -19,7 +19,8 @@ public class CreateBookTests : LibraryV2TestFixture
     }
 
     [Test]
-    public async Task CreateBookAsync()
+    [Description("This test checks if the book is created sucessfully")]
+    public async Task CreateBookAsync_WhenBookIsCreated_ReturnOK()
     {
         var book = new Book
         {

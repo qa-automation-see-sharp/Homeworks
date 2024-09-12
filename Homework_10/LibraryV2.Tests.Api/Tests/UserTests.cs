@@ -13,7 +13,8 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test, Order(1)]
-    public async Task RegisterUserAsync()
+    [Description("This test checks the registration process of the user")]
+    public async Task RegisterUserAsync_WhenUserIsRegistered_ReturnCreated()
     {
         var user = new User
         {
@@ -28,7 +29,8 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test, Order(2)]
-    public async Task RegisterExistingAsync()
+    [Description("This test checks if the user already exists in the system")]
+    public async Task RegisterExistingAsync_WhenUserExists_ReturnBadRequest()
     {
         var response = await _libraryHttpService.CreateUser(_users.First().Key);
         
@@ -36,8 +38,9 @@ public class UsersTests : LibraryV2TestFixture
     }
 
     [Test, Order(3)]
+    [Description("This test checks the login process of the user")]
 
-    public async Task LogInAsync()
+    public async Task LogInAsync_WhenUserIsIn_ReturnOK()
     {
         var response = await _libraryHttpService.LogIn(_users.First().Key);
         var token = await response.Content.ReadAsStringAsync();
