@@ -23,35 +23,42 @@ public class CreateBookTests : LibraryV2TestFixture
     [Test]
     public async Task CreateBook()
     {
-        var usertocreate = new User
-        {
-            FullName = "OksanaPavliuchyk",
-            Password = "password2",
-            NickName = "OksanaPavliuchyk"
-        };
-        HttpResponseMessage responce1 = await _libraryHttpService.CreateUser(usertocreate);
-        HttpResponseMessage responce = await _libraryHttpService.LogIn(usertocreate);
-        var jsonString = await responce.Content.ReadAsStringAsync();
-        var userToAssert = JsonConvert.DeserializeObject<User>(jsonString);
-        JObject json = JObject.Parse(jsonString);
-        string token = json["token"].ToString();
-        Console.WriteLine(token);
-
-        var booktocreate = new Book
-        {
-            Title = "Bukvar",
-            Author = "Narod",
-            YearOfRelease = new Random().Next(1850, 2024)
-        };
-        HttpResponseMessage responce2 = await _libraryHttpService.CreateBook(token, booktocreate);
-        var jsonString2 = await responce2.Content.ReadAsStringAsync();
+        var usertocreate = GenerateTestUser();
+        HttpResponseMessage responceCreateUser = await _libraryHttpService.CreateUser(usertocreate);
+        HttpResponseMessage responceLoginUser = await _libraryHttpService.LogIn(usertocreate);
+        var jsonString = await responceLoginUser.Content.ReadAsStringAsync();
+        var userToAssert = JsonConvert.DeserializeObject<AuthorizationToken>(jsonString);
+        
+        
+        var booktocreate = GenerateTestBook();
+        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(userToAssert.Token, booktocreate);
+        var jsonString2 = await responceCreateBook.Content.ReadAsStringAsync();
         var bookToAssert = JsonConvert.DeserializeObject<Book>(jsonString2);
 
         Assert.Multiple(() =>
         {
-            Assert.That(responce2.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(responceCreateBook.StatusCode, Is.EqualTo(HttpStatusCode.Created));
             Assert.That(bookToAssert.Title, Is.EqualTo(booktocreate.Title));
             Assert.That(bookToAssert.Author, Is.EqualTo(booktocreate.Author));
         });
     }
+    private User GenerateTestUser()
+    {
+        return new User
+        {
+            FullName = Guid.NewGuid().ToString(),
+            Password = Guid.NewGuid().ToString(),
+            NickName = Guid.NewGuid().ToString()
+        };
+    }
+    private Book GenerateTestBook()
+    {
+        return new Book
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = new Random().Next(1850, 2024)
+        };
+    }
+
 }

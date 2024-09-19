@@ -50,7 +50,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
-        var url = ApiEndpoints.Books.GetBooksByTitle + $"?title={title}";
+        var url = $"/api/books/by-title/{title}";
         var response = await _httpClient.GetAsync(url);
 
         return response;
@@ -58,7 +58,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByAuthor(string author)
     {
-        var url = ApiEndpoints.Books.GetBooksByAuthor + $"?author={author}";
+        var url = $"/api/books/by-author/{author}";
         var response = await _httpClient.GetAsync(url);
 
         return response;

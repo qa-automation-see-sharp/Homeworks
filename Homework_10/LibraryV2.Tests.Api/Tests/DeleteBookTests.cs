@@ -24,33 +24,39 @@ public class DeleteBookTests : LibraryV2TestFixture
 
     public async Task DeleteBook()
     {
-        var usertocreate = new User
-        {
-            FullName = "OlgaPavliuchyk",
-            Password = "password3",
-            NickName = "OlgaPavliuchyk"
-        };
-        HttpResponseMessage responce1 = await _libraryHttpService.CreateUser(usertocreate);
-        HttpResponseMessage responce = await _libraryHttpService.LogIn(usertocreate);
-        var jsonString = await responce.Content.ReadAsStringAsync();
-        var userToAssert = JsonConvert.DeserializeObject<User>(jsonString);
-        JObject json = JObject.Parse(jsonString);
-        string token = json["token"].ToString();
+        var usertocreate = GenerateTestUser();
+        HttpResponseMessage responceCreateUser = await _libraryHttpService.CreateUser(usertocreate);
+        HttpResponseMessage responceLoginUser = await _libraryHttpService.LogIn(usertocreate);
+        var jsonString = await responceLoginUser.Content.ReadAsStringAsync();
+        var userToAssert = JsonConvert.DeserializeObject<AuthorizationToken>(jsonString);
 
-        var booktocreate = new Book
-        {
-            Title = "TiniPredkiv",
-            Author = "MykhailoKotsyubynskyi",
-            YearOfRelease = new Random().Next(1850, 2024)
-        };
-        HttpResponseMessage responce2 = await _libraryHttpService.CreateBook(token, booktocreate);
-        HttpResponseMessage responce4 = await _libraryHttpService.DeleteBook(token, booktocreate.Title, booktocreate.Author);
+        var booktocreate = GenerateTestBook();
+        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(userToAssert.Token, booktocreate);
+        HttpResponseMessage responceDeleteBook = await _libraryHttpService.DeleteBook(userToAssert.Token, booktocreate.Title, booktocreate.Author);
         
 
         Assert.Multiple(() =>
         {
-            Assert.That(responce4.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responceDeleteBook.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             
         });
+    }
+    private User GenerateTestUser()
+    {
+        return new User
+        {
+            FullName = Guid.NewGuid().ToString(),
+            Password = Guid.NewGuid().ToString(),
+            NickName = Guid.NewGuid().ToString()
+        };
+    }
+    private Book GenerateTestBook()
+    {
+        return new Book
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = new Random().Next(1850, 2024)
+        };
     }
 }

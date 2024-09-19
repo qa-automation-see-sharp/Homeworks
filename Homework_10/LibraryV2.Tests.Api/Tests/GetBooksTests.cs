@@ -22,35 +22,21 @@ public class GetBooksTests : LibraryV2TestFixture
 
     public async Task GetBookbyTitle()
     {
-        var usertocreate = new User
-        {
-            FullName = "SergiiPavliuchyk",
-            Password = "password4",
-            NickName = "SergiiPavliuchyk"
-        };
+        var usertocreate = GenerateTestUser();
         HttpResponseMessage responcecreateuser = await _libraryHttpService.CreateUser(usertocreate);
         HttpResponseMessage responceloginuser = await _libraryHttpService.LogIn(usertocreate);
         var jsonStringLogin = await responceloginuser.Content.ReadAsStringAsync();
-        var userToAssert = JsonConvert.DeserializeObject<User>(jsonStringLogin);
-        JObject json = JObject.Parse(jsonStringLogin);
-        string token = json["token"].ToString();
+        var userToAssert = JsonConvert.DeserializeObject<AuthorizationToken>(jsonStringLogin);
 
-        var booktocreate = new Book
-        {
-            Title = "Kobzar",
-            Author = "Shevchenko",
-            YearOfRelease = new Random().Next(1850, 2024)
-        };
-        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(token, booktocreate);
+        var booktocreate = GenerateTestBook();
+        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(userToAssert.Token, booktocreate);
         HttpResponseMessage responceGetBook = await _libraryHttpService.GetBooksByTitle(booktocreate.Title);
         var jsonStringGetBook = await responceGetBook.Content.ReadAsStringAsync();
-        var bookToAssert = JsonConvert.DeserializeObject<Book>(jsonStringGetBook);
+        var bookToAssert = JsonConvert.DeserializeObject<List<Book>>(jsonStringGetBook);
 
         Assert.Multiple(() =>
         {
-            Assert.That(responceGetBook.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
-            
+            Assert.That(responceGetBook.StatusCode, Is.EqualTo(HttpStatusCode.OK)); 
         }
        );
     }
@@ -58,35 +44,40 @@ public class GetBooksTests : LibraryV2TestFixture
 
     public async Task GetBookbyAuthor()
     {
-        var usertocreate = new User
-        {
-            FullName = "NinaPavliuchyk",
-            Password = "password5",
-            NickName = "NinaPavliuchyk"
-        };
-        HttpResponseMessage responce1 = await _libraryHttpService.CreateUser(usertocreate);
-        HttpResponseMessage responce = await _libraryHttpService.LogIn(usertocreate);
-        var jsonString = await responce.Content.ReadAsStringAsync();
-        var userToAssert = JsonConvert.DeserializeObject<User>(jsonString);
-        JObject json = JObject.Parse(jsonString);
-        string token = json["token"].ToString();
+        var usertocreate = GenerateTestUser();
+        HttpResponseMessage responceCreateUser = await _libraryHttpService.CreateUser(usertocreate);
+        HttpResponseMessage responceLoginUser = await _libraryHttpService.LogIn(usertocreate);
+        var jsonStringLogin = await responceLoginUser.Content.ReadAsStringAsync();
+        var userToAssert = JsonConvert.DeserializeObject<AuthorizationToken>(jsonStringLogin);
 
-        var booktocreate = new Book
-        {
-            Title = "Biblia",
-            Author = "God",
-            YearOfRelease = new Random().Next(1850, 2024)
-        };
-        HttpResponseMessage responce2 = await _libraryHttpService.CreateBook(token, booktocreate);
+        var booktocreate = GenerateTestBook();
+        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(userToAssert.Token, booktocreate);
         HttpResponseMessage responceGetBook = await _libraryHttpService.GetBooksByAuthor(booktocreate.Author);
         var jsonStringGetBook = await responceGetBook.Content.ReadAsStringAsync();
-        var bookToAssert = JsonConvert.DeserializeObject<Book>(jsonStringGetBook);
+        var bookToAssert = JsonConvert.DeserializeObject<List<Book>>(jsonStringGetBook);
 
         Assert.Multiple(() =>
         {
             Assert.That(responceGetBook.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            
         }
        );
+    }
+    private User GenerateTestUser()
+    {
+        return new User
+        {
+            FullName = Guid.NewGuid().ToString(),
+            Password = Guid.NewGuid().ToString(),
+            NickName = Guid.NewGuid().ToString()
+        };
+    }
+    private Book GenerateTestBook()
+    {
+        return new Book
+        {
+            Title = Guid.NewGuid().ToString(),
+            Author = Guid.NewGuid().ToString(),
+            YearOfRelease = new Random().Next(1850, 2024)
+        };
     }
 }
