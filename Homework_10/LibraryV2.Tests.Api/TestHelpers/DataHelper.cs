@@ -23,4 +23,14 @@ public static class DataHelper
             YearOfRelease = new Random().Next(1300, 2024)
         };
     }
+
+    public static User CreateUser()
+    {
+        return new User
+        {
+            NickName = Guid.NewGuid().ToString(),
+            Password = Guid.NewGuid().ToString(),
+            FullName = Guid.NewGuid().ToString()
+        };
+    }
 }
