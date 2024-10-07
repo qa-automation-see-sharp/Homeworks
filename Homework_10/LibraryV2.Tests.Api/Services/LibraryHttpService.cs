@@ -1,5 +1,7 @@
+using System.Net;
 using System.Text;
 using LibraryV2.Models;
+using LibraryV2.Tests.Api.TestHelpers;
 using Newtonsoft.Json;
 
 namespace LibraryV2.Tests.Api.Services;
@@ -7,9 +9,11 @@ namespace LibraryV2.Tests.Api.Services;
 public class LibraryHttpService
 {
     private readonly HttpClient _httpClient;
+    public User DefaultUser { get; private set; }
     
-    private User? DefaultUser { get; set; }
-    public AuthorizationToken? AuthToken { get; set; }
+    public readonly Dictionary<User, string> TestUsers = new();
+    
+    public AuthorizationToken? DefaultUserAuthToken { get; set; }
 
     public LibraryHttpService()
     {
@@ -22,14 +26,9 @@ public class LibraryHttpService
         return this;
     }
 
-    public async Task<LibraryHttpService> CreateDefaultUser()
+    public async Task CreateDefaultUser()
     {
-        DefaultUser = new User
-        {
-            NickName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            FullName = Guid.NewGuid().ToString()
-        };
+        DefaultUser = DataHelper.CreateUser();
         
         var url = EndpointsForTest.Users.Register;
         var json = JsonConvert.SerializeObject(DefaultUser);
@@ -37,24 +36,21 @@ public class LibraryHttpService
         var response = await _httpClient.PostAsync(url, content);
         var jsonString = await response.Content.ReadAsStringAsync();
         
-         Console.WriteLine($"Created default user:\n{jsonString}");
-        
-         return this;
+        Console.WriteLine($"Created default user:\n{jsonString}");
     }
-    public async Task<LibraryHttpService> Authorize()
+    public async Task<HttpResponseMessage> LogIn(User user, bool saveTokenAsDefault)
     {
-        var url = EndpointsForTest.Users.Login + $"?nickname={DefaultUser.NickName}&password={DefaultUser.Password}";
+        var url = EndpointsForTest.Users.Login(user.NickName, user.Password);
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
-        AuthToken = JsonConvert.DeserializeObject<AuthorizationToken>(content);
+        
+        if (saveTokenAsDefault)
+        {
+            DefaultUserAuthToken = JsonConvert.DeserializeObject<AuthorizationToken>(content);
+        }
 
         Console.WriteLine($"Authorized with user:\n{content}");
-        return this;
-    }
-
-    public string? GetDefaultUserToken()
-    {
-        return AuthToken?.Token;
+        return response;
     }
  
     public async Task<HttpResponseMessage> CreateUser(User user)
@@ -65,12 +61,18 @@ public class LibraryHttpService
         var response = await _httpClient.PostAsync(url, content);
         var jsonString = await response.Content.ReadAsStringAsync();
         
+        if(response.StatusCode == HttpStatusCode.Created)
+        {
+            TestUsers.Add(user, string.Empty);
+        }
+        
+        
         Console.WriteLine($"Created user:\n{jsonString}");
 
         return response;
     }
     
-    public async Task<HttpResponseMessage> LogIn(User user)
+    /*public async Task<HttpResponseMessage> LogIn(User user)
     {
         var url = EndpointsForTest.Users.Login + $"?nickname={user.NickName}&password={user.Password}";
         var response = await _httpClient.GetAsync(url);
@@ -79,25 +81,11 @@ public class LibraryHttpService
         Console.WriteLine($"Logged in with:\n{jsonString}");
 
         return response;
-    }
+    }*/
     
     public async Task<HttpResponseMessage> PostBook(string token, Book book)
     {
-        var url = EndpointsForTest.Books.Create + $"?token={token}";
-        var json = JsonConvert.SerializeObject(book);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync(url, content);
-        var jsonString = await response.Content.ReadAsStringAsync();
-        
-        Console.WriteLine($"POST request to:\n{_httpClient.BaseAddress}{url}");
-        Console.WriteLine($"Response Status Code is: {response.StatusCode}"); 
-        Console.WriteLine($"Body: {jsonString}");  
-
-        return response;
-    }
-    public async Task<HttpResponseMessage> PostBook(Book book)
-    {
-        var url = EndpointsForTest.Books.Create + $"?token={AuthToken.Token}";
+        var url = EndpointsForTest.Books.Create(token);
         var json = JsonConvert.SerializeObject(book);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content);
@@ -112,7 +100,7 @@ public class LibraryHttpService
     
     public async Task<HttpResponseMessage> GetBooksByTitle(string title)
     {
-        var url = EndpointsForTest.Books.GetBooksByTitle + title;
+        var url = EndpointsForTest.Books.GetBooksByTitle(title);
         var response = await _httpClient.GetAsync(url);
         var jsonString = await response.Content.ReadAsStringAsync();
         

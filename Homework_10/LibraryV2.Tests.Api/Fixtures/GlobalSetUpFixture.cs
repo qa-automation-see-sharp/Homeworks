@@ -8,7 +8,6 @@ namespace LibraryV2.Tests.Api.Fixtures;
 public class GlobalSetUpFixture
 {
     protected readonly LibraryHttpService _libraryHttpService = new();
-    protected readonly Dictionary<User, string> _users = new();
     
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
@@ -16,9 +15,8 @@ public class GlobalSetUpFixture
         _libraryHttpService.Configure("http://localhost:5111/");
         
         await _libraryHttpService.CreateDefaultUser();
-        await _libraryHttpService.Authorize();
         
-        for (var i = 0; i < 3; i++)
+        /*for (var i = 0; i < 3; i++)
         {
             var user = new User
             {
@@ -31,7 +29,7 @@ public class GlobalSetUpFixture
             var token = await httpResponseMessage.Content.ReadAsStringAsync();
             token = token.Trim('"');
             _users.Add(user, token);
-        }
+        }*/
     }
     
     [OneTimeTearDown]

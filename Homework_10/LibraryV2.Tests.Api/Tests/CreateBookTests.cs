@@ -1,7 +1,6 @@
 using System.Net;
 using LibraryV2.Models;
 using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
 using LibraryV2.Tests.Api.TestHelpers;
 using Newtonsoft.Json;
 
@@ -9,25 +8,22 @@ namespace LibraryV2.Tests.Api.Tests;
 
 public class CreateBookTests : LibraryV2TestFixture
 {
-    private readonly LibraryHttpService _httpService = new();
-    
     [OneTimeSetUp]
     public async Task OneTimeSetUpAsync()
     {
-        var client = _httpService.Configure("http://localhost:5111/");
-        await client.CreateDefaultUser();
-        await client.Authorize();
+        await _libraryHttpService.LogIn(_libraryHttpService.DefaultUser, true);
     }
 
     [Test]
-    [Description("This test checks if the book is created sucessfully")]
+    [Description("This test checks if the book is created successfully")]
     public async Task CreateBookAsync_ReturnOK()
     {
         //Arrange
         var book = DataHelper.CreateBook();
 
         //Act
-        var httpResponseMessage = await _httpService.PostBook(book);
+        var httpResponseMessage = 
+            await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
 
@@ -47,12 +43,14 @@ public class CreateBookTests : LibraryV2TestFixture
             //Arrange
             var book = DataHelper.CreateBook();
             
-            var httpResponseMessage = await _httpService.PostBook(book);
+            var httpResponseMessage = 
+                await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
             var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
             
             //Act
-            var httpResponseMessage2 = await _httpService.PostBook(bookFromResponse);
+            var httpResponseMessage2 = 
+                await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, bookFromResponse);
             
             //Assert
             Assert.Multiple(() =>
