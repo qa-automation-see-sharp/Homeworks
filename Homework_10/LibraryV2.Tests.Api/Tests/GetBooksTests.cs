@@ -4,80 +4,80 @@ using Newtonsoft.Json;
 using LibraryV2.Models;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
 
 namespace LibraryV2.Tests.Api.Tests;
 
 [TestFixture]
 public class GetBooksTests : LibraryV2TestFixture
 {
-    private LibraryHttpService _libraryHttpService;
-
-    [SetUp]
-    public void SetUp()
-    {
-        _libraryHttpService = new LibraryHttpService();
-        _libraryHttpService.Configure("http://localhost:5111/");
-    }
     [Test]
-
-    public async Task GetBookbyTitle()
+    public async Task GetBooksByTitle_ShouldReturnOK()
     {
-        var usertocreate = GenerateTestUser();
-        HttpResponseMessage responcecreateuser = await _libraryHttpService.CreateUser(usertocreate);
-        HttpResponseMessage responceloginuser = await _libraryHttpService.LogIn(usertocreate);
-        var jsonStringLogin = await responceloginuser.Content.ReadAsStringAsync();
-        var userToAssert = JsonConvert.DeserializeObject<AuthorizationToken>(jsonStringLogin);
+        //Arrange
+        var book = CreateBook();
+        await LibraryHttpService.PostBook(book);
 
-        var booktocreate = GenerateTestBook();
-        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(userToAssert.Token, booktocreate);
-        HttpResponseMessage responceGetBook = await _libraryHttpService.GetBooksByTitle(booktocreate.Title);
-        var jsonStringGetBook = await responceGetBook.Content.ReadAsStringAsync();
-        var bookToAssert = JsonConvert.DeserializeObject<List<Book>>(jsonStringGetBook);
+        //Act
+        var response = await LibraryHttpService.GetBooksByTitle(book.Title);
+        var bookJsonString = await response.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(bookJsonString);
 
+        //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(responceGetBook.StatusCode, Is.EqualTo(HttpStatusCode.OK)); 
-        }
-       );
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
+            Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
+            Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+        });
     }
+
     [Test]
-
-    public async Task GetBookbyAuthor()
+    public async Task GetBooksByTitle_BookDoesNotExist_ShouldReturnNotFound()
     {
-        var usertocreate = GenerateTestUser();
-        HttpResponseMessage responceCreateUser = await _libraryHttpService.CreateUser(usertocreate);
-        HttpResponseMessage responceLoginUser = await _libraryHttpService.LogIn(usertocreate);
-        var jsonStringLogin = await responceLoginUser.Content.ReadAsStringAsync();
-        var userToAssert = JsonConvert.DeserializeObject<AuthorizationToken>(jsonStringLogin);
+        //Arrange
+        var title = Guid.NewGuid().ToString() + "additional characters";
 
-        var booktocreate = GenerateTestBook();
-        HttpResponseMessage responceCreateBook = await _libraryHttpService.CreateBook(userToAssert.Token, booktocreate);
-        HttpResponseMessage responceGetBook = await _libraryHttpService.GetBooksByAuthor(booktocreate.Author);
-        var jsonStringGetBook = await responceGetBook.Content.ReadAsStringAsync();
-        var bookToAssert = JsonConvert.DeserializeObject<List<Book>>(jsonStringGetBook);
+        //Act
+        var response = await LibraryHttpService.GetBooksByTitle(title);
 
+        //Assert
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+    }
+
+    [Test]
+    public async Task GetBooksByAuthor_ShouldReturnOK()
+    {
+        //Arrange
+        var book = CreateBook();
+        await LibraryHttpService.PostBook(book);
+
+        //Act
+        var response = await LibraryHttpService.GetBooksByAuthor(book.Author);
+        var bookJsonString = await response.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(bookJsonString);
+
+        //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(responceGetBook.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        }
-       );
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
+            Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
+            Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+        });
     }
-    private User GenerateTestUser()
+
+    [Test]
+    public async Task GetBooksByAuthor_BookDoesNotExist_ShouldReturnNotFound()
     {
-        return new User
-        {
-            FullName = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString(),
-            NickName = Guid.NewGuid().ToString()
-        };
-    }
-    private Book GenerateTestBook()
-    {
-        return new Book
-        {
-            Title = Guid.NewGuid().ToString(),
-            Author = Guid.NewGuid().ToString(),
-            YearOfRelease = new Random().Next(1850, 2024)
-        };
+        //Arrange
+        var author = Guid.NewGuid().ToString() + "additional characters";
+
+        //Act
+        var response = await LibraryHttpService.GetBooksByAuthor(author);
+
+        //Assert
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 }
